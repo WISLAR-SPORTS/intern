@@ -135,6 +135,7 @@ MIDDLEWARE = [
    # "accounts.middleware.ConsentMiddleware",
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     "whitenoise.middleware.WhiteNoiseMiddleware",
    
     
 ]
