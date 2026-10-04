@@ -1,0 +1,2172 @@
+{% extends "admin/base_site.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="company-dashboard">
+
+    <!-- =====================================================
+         BACKGROUND DECORATION
+         ===================================================== -->
+
+    <div class="dashboard-glow glow-blue"></div>
+    <div class="dashboard-glow glow-purple"></div>
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="dashboard-header">
+
+        <div class="header-content">
+
+            <div class="header-icon">
+                <i data-lucide="building-2"></i>
+            </div>
+
+            <div>
+
+                <div class="eyebrow">
+                    COMPANY OVERVIEW
+                </div>
+
+                <h1>
+                    {% if company %}
+                        Welcome, {{ company.name }}
+                    {% else %}
+                        Company Dashboard
+                    {% endif %}
+                </h1>
+
+                <p>
+                    Track your internships, applications and recruitment activity.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="header-actions">
+
+          <a href="{% url 'admin:internships_internship_changelist' %}"
+   class="dashboard-action secondary-action">
+
+    <i data-lucide="briefcase"></i>
+    <span>Internships</span>
+
+</a>
+
+
+         <a href="{% url 'admin:internships_internship_add' %}" class="dashboard-action primary-action">
+    <i data-lucide="plus"></i>
+    <span>Post Internship</span>
+</a>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN KPI CARDS
+         ===================================================== -->
+
+    <section class="stats-grid main-stats">
+
+
+        <!-- TOTAL INTERNSHIPS -->
+
+        <a href="/internships/" class="stat-card blue-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    <i data-lucide="briefcase-business"></i>
+                </div>
+
+                <span class="stat-menu">
+                    <i data-lucide="arrow-up-right"></i>
+                </span>
+
+            </div>
+
+            <div class="stat-content">
+
+                <span class="stat-label">
+                    Total Internships
+                </span>
+
+                <strong>
+                    {{ total_internships }}
+                </strong>
+
+                <span class="stat-description">
+                    All internships posted
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- ACTIVE INTERNSHIPS -->
+
+        <a href="/internships/" class="stat-card green-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    <i data-lucide="radio"></i>
+                </div>
+
+                <span class="stat-menu">
+                    <i data-lucide="arrow-up-right"></i>
+                </span>
+
+            </div>
+
+            <div class="stat-content">
+
+                <span class="stat-label">
+                    Active Internships
+                </span>
+
+                <strong>
+                    {{ active_internships }}
+                </strong>
+
+                <span class="stat-description">
+                    Currently accepting applications
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- APPLICATIONS -->
+
+        <a href="#" class="stat-card purple-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    <i data-lucide="file-text"></i>
+                </div>
+
+                <span class="stat-menu">
+                    <i data-lucide="arrow-up-right"></i>
+                </span>
+
+            </div>
+
+            <div class="stat-content">
+
+                <span class="stat-label">
+                    Total Applications
+                </span>
+
+                <strong>
+                    {{ total_applications }}
+                </strong>
+
+                <span class="stat-description">
+                    Applications received
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- ACCEPTED -->
+
+        <a href="#" class="stat-card orange-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    <i data-lucide="user-check"></i>
+                </div>
+
+                <span class="stat-menu">
+                    <i data-lucide="arrow-up-right"></i>
+                </span>
+
+            </div>
+
+            <div class="stat-content">
+
+                <span class="stat-label">
+                    Accepted
+                </span>
+
+                <strong>
+                    {{ accepted_applications }}
+                </strong>
+
+                <span class="stat-description">
+                    Successful applications
+                </span>
+
+            </div>
+
+        </a>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         APPLICATION OVERVIEW
+         ===================================================== -->
+
+    <section class="analytics-grid">
+
+
+        <!-- APPLICATION SUMMARY -->
+
+        <div class="dashboard-panel application-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="panel-eyebrow">
+                        APPLICATIONS
+                    </span>
+
+                    <h2>
+                        Application Overview
+                    </h2>
+
+                </div>
+
+                <div class="panel-icon">
+                    <i data-lucide="bar-chart-3"></i>
+                </div>
+
+            </div>
+
+
+            <div class="application-summary">
+
+
+                <!-- PENDING -->
+
+                <div class="application-stat">
+
+                    <div class="application-stat-top">
+
+                        <div class="mini-icon yellow">
+                            <i data-lucide="clock-3"></i>
+                        </div>
+
+                        <span class="application-number">
+                            {{ pending_applications }}
+                        </span>
+
+                    </div>
+
+                    <span>
+                        Pending
+                    </span>
+
+                    <div class="progress">
+                        <div
+                            class="progress-bar yellow-progress"
+                            style="width: 65%;">
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <!-- SHORTLISTED -->
+
+                <div class="application-stat">
+
+                    <div class="application-stat-top">
+
+                        <div class="mini-icon blue">
+                            <i data-lucide="star"></i>
+                        </div>
+
+                        <span class="application-number">
+                            {{ shortlisted_applications }}
+                        </span>
+
+                    </div>
+
+                    <span>
+                        Shortlisted
+                    </span>
+
+                    <div class="progress">
+                        <div
+                            class="progress-bar blue-progress"
+                            style="width: 50%;">
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <!-- ACCEPTED -->
+
+                <div class="application-stat">
+
+                    <div class="application-stat-top">
+
+                        <div class="mini-icon green">
+                            <i data-lucide="circle-check"></i>
+                        </div>
+
+                        <span class="application-number">
+                            {{ accepted_applications }}
+                        </span>
+
+                    </div>
+
+                    <span>
+                        Accepted
+                    </span>
+
+                    <div class="progress">
+                        <div
+                            class="progress-bar green-progress"
+                            style="width: 35%;">
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <!-- REJECTED -->
+
+                <div class="application-stat">
+
+                    <div class="application-stat-top">
+
+                        <div class="mini-icon red">
+                            <i data-lucide="circle-x"></i>
+                        </div>
+
+                        <span class="application-number">
+                            {{ rejected_applications }}
+                        </span>
+
+                    </div>
+
+                    <span>
+                        Rejected
+                    </span>
+
+                    <div class="progress">
+                        <div
+                            class="progress-bar red-progress"
+                            style="width: 25%;">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- INTERNSHIP SUMMARY -->
+
+        <div class="dashboard-panel internship-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="panel-eyebrow">
+                        INTERNSHIPS
+                    </span>
+
+                    <h2>
+                        Internship Status
+                    </h2>
+
+                </div>
+
+                <div class="panel-icon">
+                    <i data-lucide="briefcase"></i>
+                </div>
+
+            </div>
+
+
+            <div class="internship-overview">
+
+
+                <div class="large-number">
+
+                    <strong>
+                        {{ active_internships }}
+                    </strong>
+
+                    <span>
+                        Active positions
+                    </span>
+
+                </div>
+
+
+                <div class="internship-progress">
+
+                    <div class="progress-header">
+
+                        <span>
+                            Active
+                        </span>
+
+                        <strong>
+                            {{ active_internships }}
+                        </strong>
+
+                    </div>
+
+                    <div class="large-progress">
+
+                        {% if total_internships %}
+                            <div
+                                class="large-progress-bar"
+                                style="width: {% widthratio active_internships total_internships 100 %}%;">
+                            </div>
+                        {% else %}
+                            <div
+                                class="large-progress-bar"
+                                style="width: 0%;">
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="progress-footer">
+
+                        <span>
+                            Total internships
+                        </span>
+
+                        <strong>
+                            {{ total_internships }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         LOWER GRID
+         ===================================================== -->
+
+    <section class="lower-grid">
+
+
+        <!-- RECENT APPLICATIONS -->
+
+        <div class="dashboard-panel recent-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="panel-eyebrow">
+                        RECRUITMENT
+                    </span>
+
+                    <h2>
+                        Recent Applications
+                    </h2>
+
+                </div>
+
+                <a href="#" class="view-all">
+                    View all
+                    <i data-lucide="arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            <div class="applications-list">
+
+                {% for application in recent_applications %}
+
+                <div class="application-row">
+
+
+                    <!-- AVATAR -->
+
+                    <div class="student-avatar">
+
+                        {{ application.student.first_name|first|upper }}{{ application.student.last_name|first|upper }}
+
+                    </div>
+
+
+                    <!-- STUDENT -->
+
+                    <div class="student-info">
+
+                        <strong>
+                            {{ application.student }}
+                        </strong>
+
+                        <span>
+                            {{ application.internship.title }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="application-status">
+
+                        <span class="status status-{{ application.status }}">
+
+                            {% if application.status == "pending" %}
+                                <i data-lucide="clock-3"></i>
+                            {% elif application.status == "shortlisted" %}
+                                <i data-lucide="star"></i>
+                            {% elif application.status == "accepted" %}
+                                <i data-lucide="check"></i>
+                            {% elif application.status == "rejected" %}
+                                <i data-lucide="x"></i>
+                            {% endif %}
+
+                            {{ application.get_status_display }}
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- DATE -->
+
+                    <div class="application-date">
+
+                        {{ application.applied_date|date:"M d, Y" }}
+
+                    </div>
+
+
+                </div>
+
+                {% empty %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        <i data-lucide="inbox"></i>
+                    </div>
+
+                    <strong>
+                        No applications yet
+                    </strong>
+
+                    <span>
+                        Applications will appear here when students apply.
+                    </span>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- QUICK ACTIONS -->
+
+      <div class="dashboard-panel quick-panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <span class="panel-eyebrow">
+                QUICK ACTIONS
+            </span>
+
+            <h2>
+                Manage
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="quick-actions">
+
+
+        <!-- POST INTERNSHIP -->
+
+        <a href="{% url 'admin:internships_internship_add' %}"
+           class="quick-action">
+
+            <div class="quick-action-icon blue">
+                <i data-lucide="plus"></i>
+            </div>
+
+            <div>
+                <strong>
+                    Post Internship
+                </strong>
+
+                <span>
+                    Create a new opportunity
+                </span>
+            </div>
+
+            <i
+                data-lucide="chevron-right"
+                class="quick-arrow">
+            </i>
+
+        </a>
+
+
+        <!-- APPLICATIONS -->
+
+        <a href="{% url 'admin:internships_application_changelist' %}"
+           class="quick-action">
+
+            <div class="quick-action-icon purple">
+                <i data-lucide="file-text"></i>
+            </div>
+
+            <div>
+                <strong>
+                    Applications
+                </strong>
+
+                <span>
+                    Review applicants
+                </span>
+            </div>
+
+            <i
+                data-lucide="chevron-right"
+                class="quick-arrow">
+            </i>
+
+        </a>
+
+
+        <!-- INTERNSHIPS -->
+
+        <a href="{% url 'admin:internships_internship_changelist' %}"
+           class="quick-action">
+
+            <div class="quick-action-icon green">
+                <i data-lucide="briefcase"></i>
+            </div>
+
+            <div>
+                <strong>
+                    Internships
+                </strong>
+
+                <span>
+                    Manage your listings
+                </span>
+            </div>
+
+            <i
+                data-lucide="chevron-right"
+                class="quick-arrow">
+            </i>
+
+        </a>
+
+
+        <!-- COMPANY PROFILE -->
+
+        <a href="#"
+           class="quick-action">
+
+            <div class="quick-action-icon orange">
+                <i data-lucide="building-2"></i>
+            </div>
+
+            <div>
+                <strong>
+                    Company Profile
+                </strong>
+
+                <span>
+                    Update company information
+                </span>
+            </div>
+
+            <i
+                data-lucide="chevron-right"
+                class="quick-arrow">
+            </i>
+
+        </a>
+
+
+    </div>
+
+</div>
+
+
+    </section>
+
+</div>
+
+
+
+<!-- =========================================================
+     LUCIDE
+     ========================================================= -->
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        lucide.createIcons();
+    });
+</script>
+
+
+
+<style>
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+.company-dashboard {
+    position: relative;
+    isolation: isolate;
+
+    width: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
+    padding: 10px 4px 50px;
+
+    color: #111827;
+}
+
+
+/* =========================================================
+   BACKGROUND GLOWS
+   ========================================================= */
+
+.dashboard-glow {
+    position: fixed;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    filter: blur(100px);
+
+    opacity: .16;
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+.glow-blue {
+    top: 80px;
+    left: 10%;
+
+    background: #3b82f6;
+}
+
+.glow-purple {
+    right: 8%;
+    bottom: 10%;
+
+    background: #8b5cf6;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.dashboard-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 28px;
+}
+
+
+.header-content {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.header-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 52px;
+    height: 52px;
+
+    flex: 0 0 52px;
+
+    color: #2563eb;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(239,246,255,.95),
+            rgba(219,234,254,.75)
+        );
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 15px;
+}
+
+
+.header-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+
+.eyebrow {
+    margin-bottom: 5px;
+
+    color: #64748b;
+
+    font-size: 10px;
+    font-weight: 750;
+
+    letter-spacing: .12em;
+}
+
+
+.dashboard-header h1 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: clamp(23px, 2.2vw, 31px);
+
+    font-weight: 750;
+
+    letter-spacing: -.035em;
+}
+
+
+.dashboard-header p {
+    margin: 6px 0 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+.header-actions {
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.dashboard-action {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 42px;
+
+    padding: 0 15px;
+
+    border-radius: 11px;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    text-decoration: none;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+
+.dashboard-action svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+.primary-action {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    box-shadow:
+        0 6px 18px rgba(37,99,235,.25);
+}
+
+
+.primary-action:hover {
+    color: #ffffff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(37,99,235,.32);
+}
+
+
+.secondary-action {
+    color: #475569;
+
+    background: rgba(255,255,255,.7);
+
+    border: 1px solid #e2e8f0;
+
+    backdrop-filter: blur(10px);
+}
+
+
+.secondary-action:hover {
+    color: #1e293b;
+
+    background: #ffffff;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   MAIN STATISTICS
+   ========================================================= */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 17px;
+}
+
+
+.main-stats {
+    margin-bottom: 22px;
+}
+
+
+.stat-card {
+    position: relative;
+
+    display: block;
+
+    min-width: 0;
+
+    padding: 21px;
+
+    overflow: hidden;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    border-radius: 19px;
+
+    border: 1px solid rgba(255,255,255,.7);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.82),
+            rgba(255,255,255,.55)
+        );
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 8px 25px rgba(15,23,42,.055),
+        inset 0 1px 0 rgba(255,255,255,.8);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+
+.stat-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    right: -45px;
+    bottom: -55px;
+
+    border-radius: 50%;
+
+    opacity: .35;
+
+    transition: transform .3s ease;
+}
+
+
+.stat-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 18px 40px rgba(15,23,42,.10),
+        inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+
+.stat-card:hover::before {
+    transform: scale(1.3);
+}
+
+
+.blue-card::before {
+    background: #60a5fa;
+}
+
+.green-card::before {
+    background: #34d399;
+}
+
+.purple-card::before {
+    background: #a78bfa;
+}
+
+.orange-card::before {
+    background: #fb923c;
+}
+
+
+/* =========================================================
+   STAT TOP
+   ========================================================= */
+
+.stat-top {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 24px;
+}
+
+
+.stat-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 13px;
+}
+
+
+.stat-icon svg {
+    width: 21px;
+    height: 21px;
+
+    stroke-width: 2;
+}
+
+
+.blue-card .stat-icon {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.green-card .stat-icon {
+    color: #059669;
+    background: #ecfdf5;
+}
+
+.purple-card .stat-icon {
+    color: #7c3aed;
+    background: #f5f3ff;
+}
+
+.orange-card .stat-icon {
+    color: #ea580c;
+    background: #fff7ed;
+}
+
+
+.stat-menu {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    color: #94a3b8;
+
+    background: rgba(255,255,255,.55);
+
+    border: 1px solid rgba(226,232,240,.7);
+
+    border-radius: 8px;
+}
+
+
+.stat-menu svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* =========================================================
+   STAT CONTENT
+   ========================================================= */
+
+.stat-content {
+    position: relative;
+    z-index: 1;
+}
+
+
+.stat-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #64748b;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+.stat-content strong {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #0f172a;
+
+    font-size: clamp(28px, 2.5vw, 35px);
+
+    font-weight: 780;
+
+    line-height: 1;
+
+    letter-spacing: -.04em;
+}
+
+
+.stat-description {
+    color: #94a3b8;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.analytics-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.55fr)
+        minmax(0, 1fr);
+
+    gap: 18px;
+
+    margin-bottom: 18px;
+}
+
+
+.dashboard-panel {
+    min-width: 0;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(226,232,240,.85);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.92),
+            rgba(248,250,252,.78)
+        );
+
+    box-shadow:
+        0 7px 25px rgba(15,23,42,.045),
+        inset 0 1px 0 rgba(255,255,255,.8);
+
+    backdrop-filter: blur(15px);
+}
+
+
+.panel-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 21px 16px;
+}
+
+
+.panel-eyebrow {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+    font-weight: 750;
+
+    letter-spacing: .12em;
+}
+
+
+.panel-header h2 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 16px;
+    font-weight: 720;
+
+    letter-spacing: -.015em;
+}
+
+
+.panel-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    color: #64748b;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+}
+
+
+.panel-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+/* =========================================================
+   APPLICATION SUMMARY
+   ========================================================= */
+
+.application-summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 10px;
+
+    padding: 8px 20px 22px;
+}
+
+
+.application-stat {
+    padding: 14px;
+
+    background: rgba(248,250,252,.72);
+
+    border: 1px solid #eef2f7;
+
+    border-radius: 13px;
+}
+
+
+.application-stat-top {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+}
+
+
+.mini-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 9px;
+}
+
+
+.mini-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+.mini-icon.yellow {
+    color: #d97706;
+    background: #fffbeb;
+}
+
+.mini-icon.blue {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.mini-icon.green {
+    color: #059669;
+    background: #ecfdf5;
+}
+
+.mini-icon.red {
+    color: #dc2626;
+    background: #fef2f2;
+}
+
+
+.application-number {
+    color: #0f172a;
+
+    font-size: 20px;
+    font-weight: 750;
+}
+
+
+.application-stat > span:last-child {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #64748b;
+
+    font-size: 11px;
+    font-weight: 550;
+}
+
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+.progress {
+    width: 100%;
+    height: 4px;
+
+    overflow: hidden;
+
+    background: #e2e8f0;
+
+    border-radius: 999px;
+}
+
+
+.progress-bar {
+    height: 100%;
+
+    border-radius: inherit;
+}
+
+
+.yellow-progress {
+    background: #f59e0b;
+}
+
+.blue-progress {
+    background: #3b82f6;
+}
+
+.green-progress {
+    background: #10b981;
+}
+
+.red-progress {
+    background: #ef4444;
+}
+
+
+/* =========================================================
+   INTERNSHIP OVERVIEW
+   ========================================================= */
+
+.internship-overview {
+    display: flex;
+
+    align-items: center;
+
+    gap: 35px;
+
+    padding: 10px 22px 25px;
+}
+
+
+.large-number {
+    min-width: 125px;
+}
+
+
+.large-number strong {
+    display: block;
+
+    color: #0f172a;
+
+    font-size: 42px;
+    font-weight: 780;
+
+    line-height: 1;
+
+    letter-spacing: -.05em;
+}
+
+
+.large-number span {
+    display: block;
+
+    margin-top: 8px;
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+.internship-progress {
+    flex: 1;
+}
+
+
+.progress-header,
+.progress-footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+.progress-header {
+    margin-bottom: 9px;
+}
+
+
+.progress-header strong,
+.progress-footer strong {
+    color: #334155;
+}
+
+
+.large-progress {
+    width: 100%;
+    height: 9px;
+
+    margin-bottom: 9px;
+
+    overflow: hidden;
+
+    background: #e2e8f0;
+
+    border-radius: 999px;
+}
+
+
+.large-progress-bar {
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #6366f1
+        );
+
+    border-radius: inherit;
+
+    box-shadow:
+        0 2px 8px rgba(37,99,235,.25);
+}
+
+
+/* =========================================================
+   LOWER GRID
+   ========================================================= */
+
+.lower-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.6fr)
+        minmax(300px, .8fr);
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   VIEW ALL
+   ========================================================= */
+
+.view-all {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: #2563eb;
+
+    font-size: 11px;
+    font-weight: 650;
+
+    text-decoration: none;
+}
+
+
+.view-all:hover {
+    color: #1d4ed8;
+}
+
+
+.view-all svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* =========================================================
+   APPLICATION LIST
+   ========================================================= */
+
+.applications-list {
+    border-top: 1px solid #eef2f7;
+}
+
+
+.application-row {
+    display: grid;
+
+    grid-template-columns:
+        42px
+        minmax(150px, 1fr)
+        auto
+        auto;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 14px 21px;
+
+    border-bottom: 1px solid #f1f5f9;
+
+    transition: background .18s ease;
+}
+
+
+.application-row:last-child {
+    border-bottom: none;
+}
+
+
+.application-row:hover {
+    background: rgba(248,250,252,.75);
+}
+
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
+
+.student-avatar {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+        );
+
+    border-radius: 12px;
+
+    font-size: 11px;
+    font-weight: 750;
+
+    box-shadow:
+        0 4px 10px rgba(37,99,235,.15);
+}
+
+
+.student-info {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.student-info strong {
+    color: #1e293b;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.student-info span {
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+.status svg {
+    width: 11px;
+    height: 11px;
+}
+
+
+.status-pending {
+    color: #92400e;
+    background: #fffbeb;
+    border: 1px solid #fef3c7;
+}
+
+
+.status-shortlisted {
+    color: #1d4ed8;
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+}
+
+
+.status-accepted {
+    color: #166534;
+    background: #ecfdf5;
+    border: 1px solid #d1fae5;
+}
+
+
+.status-rejected {
+    color: #991b1b;
+    background: #fef2f2;
+    border: 1px solid #fee2e2;
+}
+
+
+.application-date {
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-actions {
+    padding: 4px 12px 12px;
+}
+
+
+.quick-action {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px 9px;
+
+    color: inherit;
+
+    text-decoration: none;
+
+    border-radius: 12px;
+
+    transition:
+        background .18s ease,
+        transform .18s ease;
+}
+
+
+.quick-action:hover {
+    background: #f8fafc;
+
+    transform: translateX(3px);
+}
+
+
+.quick-action-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 39px;
+    height: 39px;
+
+    flex: 0 0 39px;
+
+    border-radius: 11px;
+}
+
+
+.quick-action-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+.quick-action-icon.blue {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+
+.quick-action-icon.purple {
+    color: #7c3aed;
+    background: #f5f3ff;
+}
+
+
+.quick-action-icon.green {
+    color: #059669;
+    background: #ecfdf5;
+}
+
+
+.quick-action-icon.orange {
+    color: #ea580c;
+    background: #fff7ed;
+}
+
+
+.quick-action > div:nth-child(2) {
+    min-width: 0;
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.quick-action strong {
+    color: #1e293b;
+
+    font-size: 11px;
+    font-weight: 650;
+}
+
+
+.quick-action span {
+    color: #94a3b8;
+
+    font-size: 9px;
+}
+
+
+.quick-arrow {
+    width: 14px;
+    height: 14px;
+
+    color: #cbd5e1;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-state {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 220px;
+
+    padding: 30px;
+
+    text-align: center;
+}
+
+
+.empty-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 46px;
+    height: 46px;
+
+    margin-bottom: 12px;
+
+    color: #94a3b8;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 13px;
+}
+
+
+.empty-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+
+.empty-state strong {
+    margin-bottom: 5px;
+
+    color: #475569;
+
+    font-size: 12px;
+}
+
+
+.empty-state span {
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1200px) {
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+
+    .analytics-grid,
+    .lower-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .company-dashboard {
+        padding: 5px 0 30px;
+    }
+
+
+    .dashboard-header {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 18px;
+    }
+
+
+    .header-actions {
+        width: 100%;
+    }
+
+
+    .dashboard-action {
+        flex: 1;
+    }
+
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+
+    .stat-card {
+        padding: 18px;
+
+        border-radius: 16px;
+    }
+
+
+    .application-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+    .internship-overview {
+        gap: 20px;
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .large-number {
+        min-width: 0;
+    }
+
+
+    .application-row {
+        grid-template-columns:
+            40px
+            minmax(0, 1fr)
+            auto;
+    }
+
+
+    .application-date {
+        display: none;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .header-content {
+        align-items: flex-start;
+    }
+
+
+    .header-icon {
+        width: 44px;
+        height: 44px;
+
+        flex-basis: 44px;
+    }
+
+
+    .header-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+
+    .dashboard-header h1 {
+        font-size: 21px;
+    }
+
+
+    .dashboard-header p {
+        font-size: 11px;
+    }
+
+
+    .header-actions {
+        flex-direction: column;
+    }
+
+
+    .application-summary {
+        grid-template-columns: 1fr;
+    }
+
+
+    .application-row {
+        grid-template-columns:
+            38px
+            minmax(0, 1fr);
+    }
+
+
+    .application-status {
+        grid-column: 2;
+    }
+
+
+    .student-avatar {
+        width: 38px;
+        height: 38px;
+    }
+
+
+    .panel-header {
+        padding: 17px 16px 14px;
+    }
+
+
+    .application-summary {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+
+    .application-row {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+
+        transition: none !important;
+        animation: none !important;
+    }
+
+}
+
+</style>
+
+{% endblock %}

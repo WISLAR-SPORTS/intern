@@ -1,0 +1,101 @@
+{% load static %}
+
+<!DOCTYPE html> <html lang="en"> <head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Unable to Continue | Internship Portal
+</title>
+
+<link
+    rel="stylesheet"
+    href="{% static 'accounts/css/legal.css' %}"
+>
+
+</head> <body> <div class="legal-page">
+<div class="legal-card">
+
+    <header class="legal-header">
+
+        <div class="legal-icon error-icon">
+            !
+        </div>
+
+        <div>
+
+            <h1>
+                Unable to Continue
+            </h1>
+
+            <p>
+                Internship Placement Portal
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <main class="legal-content error-content">
+
+        <h2>
+            Legal documents are currently unavailable
+        </h2>
+
+        <p>
+            We are unable to display the Terms and Conditions
+            or Privacy Policy at the moment.
+        </p>
+
+        <p>
+            Please try again later. If the problem continues,
+            contact the portal administrator.
+        </p>
+
+        {% if message %}
+
+            <div class="error-message">
+
+                {{ message }}
+
+            </div>
+
+        {% endif %}
+
+        <div class="error-actions">
+
+            <a
+                href="{% url 'consent' %}"
+                class="legal-button"
+            >
+                Try Again
+            </a>
+
+          <a
+                    href="{% url 'logout' %}"
+                    class="legal-button secondary"
+                >
+                    Logout
+                </a>
+
+        </div>
+
+    </main>
+
+
+    <footer class="legal-footer">
+
+        <span>
+            Internship Placement Portal
+        </span>
+
+    </footer>
+
+</div>
+
+</div> </body> </html>

@@ -1,0 +1,992 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Create Account - {{ site_settings.site_name|default:"InternConnect" }}
+{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{% static 'accounts/css/register.css' %}"
+>
+{% endblock %}
+
+{% block content %}
+
+<div class="register-page">
+
+    <!-- =====================================================
+         LEFT BRANDING / INFORMATION PANEL
+    ====================================================== -->
+
+    <aside class="register-showcase">
+
+        <div class="register-showcase-content">
+
+            <!-- BRAND -->
+
+            <div class="register-brand">
+
+                {% if site_settings and site_settings.logo %}
+
+                    <img
+                        src="{{ site_settings.logo.url }}"
+                        alt="{{ site_settings.site_name|default:'InternConnect' }}"
+                    >
+
+                {% else %}
+
+                    <div class="register-brand-placeholder">
+                        {{ site_settings.site_name|default:"InternConnect"|first }}
+                    </div>
+
+                {% endif %}
+
+                <div class="register-brand-text">
+
+                    <strong>
+                        {{ site_settings.site_name|default:"InternConnect" }}
+                    </strong>
+
+                    <span>
+                        {{ site_settings.tagline|default:"Connect. Intern. Grow." }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- SHOWCASE CONTENT -->
+
+            <div class="register-showcase-main">
+
+                <span class="register-badge">
+                    JOIN OUR NETWORK
+                </span>
+
+                <h2>
+                    Start Your Journey With
+                    {{ site_settings.site_name|default:"InternConnect" }}
+                </h2>
+
+                <p>
+                    Create your account and connect with students,
+                    universities and employers through one powerful
+                    internship platform.
+                </p>
+
+
+                <!-- BENEFITS -->
+
+                <div class="register-benefits">
+
+                    <div class="register-benefit">
+
+                        <div class="benefit-icon">
+                            ✓
+                        </div>
+
+                        <div>
+                            <strong>
+                                Students
+                            </strong>
+
+                            <span>
+                                Discover internship opportunities
+                                and build your career.
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="register-benefit">
+
+                        <div class="benefit-icon">
+                            ✓
+                        </div>
+
+                        <div>
+                            <strong>
+                                Universities
+                            </strong>
+
+                            <span>
+                                Manage placements and connect
+                                students with employers.
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="register-benefit">
+
+                        <div class="benefit-icon">
+                            ✓
+                        </div>
+
+                        <div>
+                            <strong>
+                                Companies
+                            </strong>
+
+                            <span>
+                                Find talented students for
+                                internship opportunities.
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATS -->
+
+                <div class="register-stats">
+
+                    <div class="register-stat">
+
+                        <strong>
+                            3
+                        </strong>
+
+                        <span>
+                            Communities
+                        </span>
+
+                    </div>
+
+
+                    <div class="register-stat">
+
+                        <strong>
+                            1
+                        </strong>
+
+                        <span>
+                            Platform
+                        </span>
+
+                    </div>
+
+
+                    <div class="register-stat">
+
+                        <strong>
+                            ∞
+                        </strong>
+
+                        <span>
+                            Opportunities
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DECORATIVE CIRCLES -->
+
+        <div class="register-circle register-circle-one"></div>
+
+        <div class="register-circle register-circle-two"></div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         RIGHT REGISTRATION PANEL
+    ====================================================== -->
+
+    <main class="register-panel">
+
+        <div class="register-card">
+
+            <!-- HEADER -->
+
+            <div class="register-header">
+
+                <div class="register-logo">
+
+                    {% if site_settings and site_settings.logo %}
+
+                        <img
+                            src="{{ site_settings.logo.url }}"
+                            alt="{{ site_settings.site_name|default:'InternConnect' }}"
+                        >
+
+                    {% else %}
+
+                        <span>
+                            {{ site_settings.site_name|default:"InternConnect"|first }}
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <h1>
+                    Create Account
+                </h1>
+
+                <p>
+                    Register as a student, company, or university
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACCOUNT TYPE TABS
+            ================================================== -->
+
+            <div
+                class="register-tabs"
+                role="tablist"
+                aria-label="Registration type"
+            >
+
+                <button
+                    type="button"
+                    id="student-tab"
+                    class="register-tab active"
+                    role="tab"
+                    aria-selected="true"
+                    onclick="showRegistrationForm('student')"
+                >
+                    Student
+                </button>
+
+
+                <button
+                    type="button"
+                    id="company-tab"
+                    class="register-tab"
+                    role="tab"
+                    aria-selected="false"
+                    onclick="showRegistrationForm('company')"
+                >
+                    Company
+                </button>
+
+
+                <button
+                    type="button"
+                    id="university-tab"
+                    class="register-tab"
+                    role="tab"
+                    aria-selected="false"
+                    onclick="showRegistrationForm('university')"
+                >
+                    University
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 STUDENT FORM
+            ================================================== -->
+
+            <form
+                method="POST"
+                action=""
+                id="student-form"
+                class="registration-form active-form"
+            >
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="registration_type"
+                    value="student"
+                >
+
+
+                {% if student_form.non_field_errors %}
+
+                    <div class="error">
+                        {{ student_form.non_field_errors }}
+                    </div>
+
+                {% endif %}
+
+
+                <!-- FIRST NAME -->
+
+                <div class="form-group">
+
+                    <label for="{{ student_form.first_name.id_for_label }}">
+                        First Name
+                    </label>
+
+                    {{ student_form.first_name }}
+
+                    {% if student_form.first_name.errors %}
+                        <div class="error">
+                            {{ student_form.first_name.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- LAST NAME -->
+
+                <div class="form-group">
+
+                    <label for="{{ student_form.last_name.id_for_label }}">
+                        Last Name
+                    </label>
+
+                    {{ student_form.last_name }}
+
+                    {% if student_form.last_name.errors %}
+                        <div class="error">
+                            {{ student_form.last_name.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="{{ student_form.username.id_for_label }}">
+                        Username
+                    </label>
+
+                    {{ student_form.username }}
+
+                    {% if student_form.username.errors %}
+                        <div class="error">
+                            {{ student_form.username.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="{{ student_form.email.id_for_label }}">
+                        Email
+                    </label>
+
+                    {{ student_form.email }}
+
+                    {% if student_form.email.errors %}
+                        <div class="error">
+                            {{ student_form.email.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- UNIVERSITY -->
+
+                <div class="form-group">
+
+                    <label for="{{ student_form.university.id_for_label }}">
+                        University
+                    </label>
+
+                    {{ student_form.university }}
+
+                    {% if student_form.university.errors %}
+                        <div class="error">
+                            {{ student_form.university.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- REGISTRATION NUMBER -->
+
+                <div class="form-group">
+
+                    <label for="{{ student_form.registration_number.id_for_label }}">
+                        Registration Number
+                    </label>
+
+                    {{ student_form.registration_number }}
+
+                    {% if student_form.registration_number.errors %}
+                        <div class="error">
+                            {{ student_form.registration_number.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="{{ student_form.password.id_for_label }}">
+                        Password
+                    </label>
+
+                    {{ student_form.password }}
+
+                    {% if student_form.password.errors %}
+                        <div class="error">
+                            {{ student_form.password.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="{{ student_form.password_confirm.id_for_label }}">
+                        Confirm Password
+                    </label>
+
+                    {{ student_form.password_confirm }}
+
+                    {% if student_form.password_confirm.errors %}
+                        <div class="error">
+                            {{ student_form.password_confirm.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="register-button"
+                >
+                    Register as Student
+                </button>
+
+            </form>
+
+
+            <!-- =================================================
+                 COMPANY FORM
+            ================================================== -->
+
+            <form
+                method="POST"
+                action=""
+                id="company-form"
+                class="registration-form"
+                style="display: none;"
+            >
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="registration_type"
+                    value="company"
+                >
+
+
+                {% if company_form.non_field_errors %}
+
+                    <div class="error">
+                        {{ company_form.non_field_errors }}
+                    </div>
+
+                {% endif %}
+
+
+                <!-- COMPANY NAME -->
+
+                <div class="form-group">
+
+                    <label for="{{ company_form.company_name.id_for_label }}">
+                        Company Name
+                    </label>
+
+                    {{ company_form.company_name }}
+
+                    {% if company_form.company_name.errors %}
+                        <div class="error">
+                            {{ company_form.company_name.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="{{ company_form.username.id_for_label }}">
+                        Username
+                    </label>
+
+                    {{ company_form.username }}
+
+                    {% if company_form.username.errors %}
+                        <div class="error">
+                            {{ company_form.username.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="{{ company_form.email.id_for_label }}">
+                        Company Email
+                    </label>
+
+                    {{ company_form.email }}
+
+                    {% if company_form.email.errors %}
+                        <div class="error">
+                            {{ company_form.email.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="{{ company_form.phone.id_for_label }}">
+                        Phone
+                    </label>
+
+                    {{ company_form.phone }}
+
+                    {% if company_form.phone.errors %}
+                        <div class="error">
+                            {{ company_form.phone.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label for="{{ company_form.location.id_for_label }}">
+                        Location
+                    </label>
+
+                    {{ company_form.location }}
+
+                    {% if company_form.location.errors %}
+                        <div class="error">
+                            {{ company_form.location.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- WEBSITE -->
+
+                <div class="form-group">
+
+                    <label for="{{ company_form.website.id_for_label }}">
+                        Website
+                    </label>
+
+                    {{ company_form.website }}
+
+                    {% if company_form.website.errors %}
+                        <div class="error">
+                            {{ company_form.website.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="{{ company_form.description.id_for_label }}">
+                        Company Description
+                    </label>
+
+                    {{ company_form.description }}
+
+                    {% if company_form.description.errors %}
+                        <div class="error">
+                            {{ company_form.description.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="{{ company_form.password.id_for_label }}">
+                        Password
+                    </label>
+
+                    {{ company_form.password }}
+
+                    {% if company_form.password.errors %}
+                        <div class="error">
+                            {{ company_form.password.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="{{ company_form.password_confirm.id_for_label }}">
+                        Confirm Password
+                    </label>
+
+                    {{ company_form.password_confirm }}
+
+                    {% if company_form.password_confirm.errors %}
+                        <div class="error">
+                            {{ company_form.password_confirm.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="register-button"
+                >
+                    Submit Company Registration
+                </button>
+
+            </form>
+
+
+            <!-- =================================================
+                 UNIVERSITY FORM
+            ================================================== -->
+
+            <form
+                method="POST"
+                action=""
+                id="university-form"
+                class="registration-form"
+                enctype="multipart/form-data"
+                style="display: none;"
+            >
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="registration_type"
+                    value="university"
+                >
+
+
+                {% if university_form.non_field_errors %}
+
+                    <div class="error">
+                        {{ university_form.non_field_errors }}
+                    </div>
+
+                {% endif %}
+
+
+                <!-- UNIVERSITY NAME -->
+
+                <div class="form-group">
+
+                    <label for="{{ university_form.university_name.id_for_label }}">
+                        University Name
+                    </label>
+
+                    {{ university_form.university_name }}
+
+                    {% if university_form.university_name.errors %}
+                        <div class="error">
+                            {{ university_form.university_name.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="{{ university_form.username.id_for_label }}">
+                        Username
+                    </label>
+
+                    {{ university_form.username }}
+
+                    {% if university_form.username.errors %}
+                        <div class="error">
+                            {{ university_form.username.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="{{ university_form.email.id_for_label }}">
+                        University Email
+                    </label>
+
+                    {{ university_form.email }}
+
+                    {% if university_form.email.errors %}
+                        <div class="error">
+                            {{ university_form.email.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- WEBSITE -->
+
+                <div class="form-group">
+
+                    <label for="{{ university_form.website.id_for_label }}">
+                        University Website
+                    </label>
+
+                    {{ university_form.website }}
+
+                    {% if university_form.website.errors %}
+                        <div class="error">
+                            {{ university_form.website.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- LOGO -->
+
+                <div class="form-group">
+
+                    <label for="{{ university_form.logo.id_for_label }}">
+                        University Logo
+                    </label>
+
+                    {{ university_form.logo }}
+
+                    {% if university_form.logo.errors %}
+                        <div class="error">
+                            {{ university_form.logo.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="{{ university_form.password.id_for_label }}">
+                        Password
+                    </label>
+
+                    {{ university_form.password }}
+
+                    {% if university_form.password.errors %}
+                        <div class="error">
+                            {{ university_form.password.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="{{ university_form.password_confirm.id_for_label }}">
+                        Confirm Password
+                    </label>
+
+                    {{ university_form.password_confirm }}
+
+                    {% if university_form.password_confirm.errors %}
+                        <div class="error">
+                            {{ university_form.password_confirm.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="register-button"
+                >
+                    Submit University Registration
+                </button>
+
+            </form>
+
+
+            <!-- =================================================
+                 LOGIN LINK
+            ================================================== -->
+
+            <div class="register-footer">
+
+                <p>
+                    Already have an account?
+                </p>
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+                 <p>
+                    Back to
+                </p>
+
+                <a href="{% url 'landing' %}">
+                    Home
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     FORM SWITCHING
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    showRegistrationForm("student");
+
+});
+
+
+function showRegistrationForm(type) {
+
+    const forms = {
+        student: document.getElementById("student-form"),
+        company: document.getElementById("company-form"),
+        university: document.getElementById("university-form")
+    };
+
+    const tabs = {
+        student: document.getElementById("student-tab"),
+        company: document.getElementById("company-tab"),
+        university: document.getElementById("university-tab")
+    };
+
+
+    /* Hide all forms */
+
+    Object.values(forms).forEach(function (form) {
+
+        if (form) {
+
+            form.style.display = "none";
+
+            form.classList.remove("active-form");
+
+        }
+
+    });
+
+
+    /* Deactivate all tabs */
+
+    Object.values(tabs).forEach(function (tab) {
+
+        if (tab) {
+
+            tab.classList.remove("active");
+
+            tab.setAttribute(
+                "aria-selected",
+                "false"
+            );
+
+        }
+
+    });
+
+
+    /* Show selected form */
+
+    if (forms[type]) {
+
+        forms[type].style.display = "block";
+
+        forms[type].classList.add("active-form");
+
+    }
+
+
+    /* Activate selected tab */
+
+    if (tabs[type]) {
+
+        tabs[type].classList.add("active");
+
+        tabs[type].setAttribute(
+            "aria-selected",
+            "true"
+        );
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

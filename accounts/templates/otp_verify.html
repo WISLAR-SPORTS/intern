@@ -1,0 +1,396 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+Verify OTP - {{ site_settings.site_name|default:"InternConnect" }}
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'accounts/css/login.css' %}" >
+
+{% endblock %}
+
+{% block content %}
+
+<div class="login-page">
+<!-- =====================================================
+     LEFT SHOWCASE
+====================================================== -->
+
+<aside class="login-showcase">
+
+    <div class="showcase-content">
+
+        <!-- BRAND -->
+
+        <div class="showcase-brand">
+
+            {% if site_settings and site_settings.logo %}
+
+                <img
+                    src="{{ site_settings.logo.url }}"
+                    alt="{{ site_settings.site_name|default:'InternConnect' }}"
+                >
+
+            {% else %}
+
+                <div class="showcase-brand-placeholder">
+                    {{ site_settings.site_name|default:"InternConnect"|first }}
+                </div>
+
+            {% endif %}
+
+            <div>
+
+                <strong>
+                    {{ site_settings.site_name|default:"InternConnect" }}
+                </strong>
+
+                <span>
+                    {{ site_settings.tagline|default:"Connect. Intern. Grow." }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- SHOWCASE CONTENT -->
+
+        <div class="showcase-main">
+
+            <span class="showcase-badge">
+                SECURE VERIFICATION
+            </span>
+
+
+            <h2>
+                Verify Your Identity
+            </h2>
+
+
+            <p>
+                Enter the verification code sent to your email
+                to securely access your
+                {{ site_settings.site_name|default:"InternConnect" }}
+                account.
+            </p>
+
+
+            <!-- FEATURES -->
+
+            <div class="showcase-features">
+
+                <div class="showcase-feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Secure Verification
+                        </strong>
+
+                        <span>
+                            Your one-time verification code
+                            helps protect your account.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="showcase-feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            One-Time Code
+                        </strong>
+
+                        <span>
+                            Your verification code can only
+                            be used for this login.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="showcase-feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Quick Access
+                        </strong>
+
+                        <span>
+                            Verify your account and continue
+                            directly to your dashboard.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="login-stats">
+
+                <div class="login-stat">
+
+                    <strong>
+                        3
+                    </strong>
+
+                    <span>
+                        Communities
+                    </span>
+
+                </div>
+
+
+                <div class="login-stat">
+
+                    <strong>
+                        1
+                    </strong>
+
+                    <span>
+                        Platform
+                    </span>
+
+                </div>
+
+
+                <div class="login-stat">
+
+                    <strong>
+                        ∞
+                    </strong>
+
+                    <span>
+                        Opportunities
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DECORATIVE CIRCLES -->
+
+    <div class="showcase-circle showcase-circle-one"></div>
+
+    <div class="showcase-circle showcase-circle-two"></div>
+
+</aside>
+
+
+<!-- =====================================================
+     RIGHT OTP PANEL
+====================================================== -->
+
+<main class="login-panel">
+
+    <div class="login-card">
+
+        <!-- HEADER -->
+
+        <div class="login-header">
+
+            <div class="login-logo">
+
+                {% if site_settings and site_settings.logo %}
+
+                    <img
+                        src="{{ site_settings.logo.url }}"
+                        alt="{{ site_settings.site_name|default:'InternConnect' }}"
+                    >
+
+                {% else %}
+
+                    <span>
+                        {{ site_settings.site_name|default:"InternConnect"|first }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <h1>
+                Verify Your Login
+            </h1>
+
+
+            <p>
+                Enter the one-time password sent to
+            </p>
+
+
+            <p class="login-email">
+                {{ email }}
+            </p>
+
+        </div>
+
+
+        <!-- FORM ERRORS -->
+
+        {% if form.non_field_errors %}
+
+            <div class="error">
+
+                {{ form.non_field_errors }}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- OTP FORM -->
+
+        <form
+            method="POST"
+            action="{% url 'verify_otp' %}"
+        >
+
+            {% csrf_token %}
+
+
+            <div class="form-group">
+
+                <label
+                    for="{{ form.otp.id_for_label }}"
+                >
+                    One-Time Password
+                </label>
+
+
+                {{ form.otp }}
+
+
+                {% if form.otp.errors %}
+
+                    <div class="error">
+
+                        {{ form.otp.errors }}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Verify &amp; Login
+            </button>
+
+        </form>
+
+
+        <!-- SECURITY -->
+
+        <div class="login-security">
+
+            <svg
+                class="login-security-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+
+                <path
+                    d="M12 3L5 6v5c0 4.5 2.9 8.5 7 10
+                       4.1-1.5 7-5.5 7-10V6l-7-3z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linejoin="round"
+                />
+
+                <path
+                    d="M9 12l2 2 4-4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+
+            </svg>
+
+            <span>
+                Your verification is securely protected.
+            </span>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="login-footer">
+
+            <p>
+                Didn't receive the code?
+            </p>
+
+            <a href="{% url 'request_otp' %}">
+                Send a new code
+            </a>
+
+
+            <br>
+
+
+            <a href="{% url 'login_method' %}">
+                ← Choose another login method
+            </a>
+
+        </div>
+
+
+        <!-- BOTTOM LINKS -->
+
+        <div class="login-links">
+
+            <a href="{% url 'login' %}">
+                Different email
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+</div>
+
+{% endblock %}

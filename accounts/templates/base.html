@@ -1,0 +1,151 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+            Student System
+        {% endblock %}
+    </title>
+
+    <!-- Base CSS -->
+    <link
+        rel="stylesheet"
+        href="{% static 'accounts/css/base.css' %}"
+    >
+     <link
+        rel="stylesheet"
+        href="{% static 'accounts/css/login.css' %}"
+    >
+      <link
+        rel="stylesheet"
+        href="{% static 'accounts/css/register.css' %}"
+    >
+  
+     <link
+        rel="stylesheet"
+        href="{% static 'accounts/css/loginmethod.css' %}"
+    >
+    <!-- Page-specific CSS -->
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="navbar-container">
+
+         
+
+
+            {% if request.user.is_authenticated %}
+
+                <nav class="nav-links">
+
+                    {% if request.user.profile.role == "student" %}
+
+                        <a
+                            href="{% url 'student-dashboard' %}"
+                        >
+                            Dashboard
+                        </a>
+
+                    {% endif %}
+
+
+                    {% if request.user.profile.role == "company" %}
+
+                        <a href="/admin/">
+                            Admin Panel
+                        </a>
+
+                    {% endif %}
+
+
+                    {% if request.user.is_superuser or request.user.profile.role == "admin" %}
+
+                        <a href="/admin/">
+                            Admin Panel
+                        </a>
+
+                    {% endif %}
+
+
+                    <a
+                        href="{% url 'logout' %}"
+                        class="logout-link"
+                    >
+                        Logout
+                    </a>
+
+                </nav>
+
+            {% endif %}
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        {% if messages %}
+
+            <div class="messages">
+
+              <!-- {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %} --> 
+
+            </div>
+
+        {% endif %}
+
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <p>
+            &copy; 2026 Student System.
+            All rights reserved.
+        </p>
+
+    </footer>
+
+
+    {% block extra_js %}
+    {% endblock %}
+
+
+</body>
+
+</html>

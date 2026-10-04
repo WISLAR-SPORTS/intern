@@ -1,0 +1,742 @@
+/* =========================================================
+APPLICATIONS PAGE
+========================================================= */
+
+.applications-page {
+min-height: calc(100vh - var(--topbar-height));
+padding: 0px 24px 60px;
+
+background: var(--color-background);
+color: var(--color-text-primary);
+
+
+}
+
+.applications-container {
+width: 100%;
+max-width: var(--content-max-width);
+margin: 0 auto;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.applications-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+margin-bottom: 30px;
+
+
+}
+
+.applications-header h1 {
+margin: 0 0 7px;
+
+color: var(--color-text-primary);
+
+font-size: clamp(1.8rem, 4vw, 2.4rem);
+font-weight: 700;
+line-height: 1.2;
+letter-spacing: -0.5px;
+
+
+}
+
+.applications-header p {
+margin: 0;
+
+color: var(--color-text-secondary);
+
+font-size: 0.95rem;
+line-height: 1.5;
+
+
+}
+
+/* =========================================================
+APPLICATION STATISTICS
+========================================================= */
+
+.application-stats {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 18px;
+
+margin-bottom: 35px;
+
+
+}
+
+.application-stat-card {
+display: flex;
+align-items: center;
+gap: 14px;
+
+min-width: 0;
+padding: 20px;
+
+background: var(--color-surface);
+
+border: 1px solid var(--color-border);
+border-radius: var(--radius-medium);
+
+box-shadow: var(--shadow-card);
+
+transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+
+
+}
+
+.application-stat-card:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-card-hover);
+}
+
+/* =========================================================
+STAT ICON
+========================================================= */
+
+.stat-icon {
+display: flex;
+align-items: center;
+justify-content: center;
+
+flex: 0 0 auto;
+
+width: 43px;
+height: 43px;
+
+color: var(--color-primary);
+background: var(--color-primary-light);
+
+border-radius: var(--radius-small);
+
+font-size: 1.1rem;
+font-weight: 700;
+
+
+}
+
+.pending-icon {
+color: var(--color-warning-text);
+background: var(--color-warning-background);
+}
+
+.accepted-icon {
+color: var(--color-success-text);
+background: var(--color-success-background);
+}
+
+.rejected-icon {
+color: var(--color-error-text);
+background: var(--color-error-background);
+}
+
+/* =========================================================
+STAT CONTENT
+========================================================= */
+
+.stat-content {
+display: flex;
+flex-direction: column;
+min-width: 0;
+}
+
+.stat-label {
+margin-bottom: 3px;
+
+color: var(--color-text-secondary);
+
+font-size: 0.78rem;
+
+
+}
+
+.stat-content strong {
+color: var(--color-text-primary);
+
+font-size: 1.45rem;
+line-height: 1.2;
+
+
+}
+
+/* =========================================================
+SECTION
+========================================================= */
+
+.applications-section {
+width: 100%;
+}
+
+
+.section-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.section-header h2 svg {
+    width: 20px;
+    height: 20px;
+    color: var(--color-primary);
+    stroke-width: 2;
+}
+
+.stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon svg {
+    width: 21px;
+    height: 21px;
+    stroke-width: 2;
+}
+
+.section-header {
+margin-bottom: 18px;
+}
+
+.section-header h2 {
+margin: 0 0 5px;
+
+color: var(--color-text-primary);
+
+font-size: 1.3rem;
+font-weight: 700;
+
+
+}
+
+.section-header p {
+margin: 0;
+
+color: var(--color-text-secondary);
+
+font-size: 0.88rem;
+
+
+}
+
+/* =========================================================
+APPLICATION LIST
+========================================================= */
+
+.applications-list {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+/* =========================================================
+APPLICATION CARD
+========================================================= */
+
+.application-card {
+padding: 27px;
+
+background: var(--color-surface);
+
+border: 1px solid var(--color-border);
+border-radius: var(--radius-large);
+
+box-shadow: var(--shadow-card);
+
+transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+
+
+}
+
+.application-card:hover {
+box-shadow: var(--shadow-card-hover);
+}
+
+/* =========================================================
+CARD TOP
+========================================================= */
+
+.application-card-top {
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+gap: 20px;
+
+padding-bottom: 20px;
+
+border-bottom: 1px solid var(--color-border);
+
+
+}
+
+.internship-info {
+min-width: 0;
+}
+
+.internship-info h3 {
+margin: 0 0 6px;
+
+color: var(--color-text-primary);
+
+font-size: 1.2rem;
+font-weight: 700;
+line-height: 1.35;
+
+
+}
+
+.company-name {
+margin: 0;
+
+color: var(--color-text-secondary);
+
+font-size: 0.9rem;
+
+
+}
+
+/* =========================================================
+STATUS
+========================================================= */
+
+.application-status {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+flex: 0 0 auto;
+
+padding: 7px 13px;
+
+border-radius: 50px;
+
+font-size: 0.78rem;
+font-weight: 700;
+
+
+}
+
+.application-status.pending {
+color: var(--color-warning-text);
+background: var(--color-warning-background);
+border: 1px solid var(--color-warning-border);
+}
+
+.application-status.accepted {
+color: var(--color-success-text);
+background: var(--color-success-background);
+border: 1px solid var(--color-success-border);
+}
+
+.application-status.rejected {
+color: var(--color-error-text);
+background: var(--color-error-background);
+border: 1px solid var(--color-error-border);
+}
+
+/* =========================================================
+INTERNSHIP DETAILS
+========================================================= */
+
+.internship-details {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 20px;
+
+padding: 20px 0;
+
+border-bottom: 1px solid var(--color-border);
+
+
+}
+
+.detail-item {
+display: flex;
+flex-direction: column;
+gap: 5px;
+
+min-width: 0;
+
+
+}
+
+.detail-label {
+color: var(--color-text-muted);
+
+font-size: 0.75rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0.4px;
+
+
+}
+
+.detail-value {
+color: var(--color-text-primary);
+
+font-size: 0.88rem;
+font-weight: 500;
+
+overflow-wrap: anywhere;
+
+
+}
+
+/* =========================================================
+APPLICATION CONTENT
+========================================================= */
+
+.application-section {
+padding-top: 22px;
+}
+
+.application-section h4 {
+margin: 0 0 12px;
+
+color: var(--color-text-primary);
+
+font-size: 0.95rem;
+font-weight: 700;
+
+
+}
+
+/* =========================================================
+COVER LETTER
+========================================================= */
+
+.cover-letter {
+padding: 16px;
+
+color: var(--color-text-secondary);
+background: var(--color-background);
+
+border: 1px solid var(--color-border);
+border-radius: var(--radius-small);
+
+font-size: 0.88rem;
+line-height: 1.7;
+
+
+}
+
+.cover-letter p {
+margin: 0 0 10px;
+}
+
+.cover-letter p:last-child {
+margin-bottom: 0;
+}
+
+/* =========================================================
+ANSWERS
+========================================================= */
+
+.answers-list {
+display: flex;
+flex-direction: column;
+
+border: 1px solid var(--color-border);
+border-radius: var(--radius-small);
+
+overflow: hidden;
+
+
+}
+
+.answer-item {
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+gap: 25px;
+
+padding: 14px 16px;
+
+border-bottom: 1px solid var(--color-border);
+
+
+}
+
+.answer-item:last-child {
+border-bottom: none;
+}
+
+.answer-label {
+flex: 0 0 35%;
+
+color: var(--color-text-primary);
+
+font-size: 0.84rem;
+font-weight: 600;
+
+
+}
+
+.answer-value {
+flex: 1;
+
+color: var(--color-text-secondary);
+
+font-size: 0.85rem;
+line-height: 1.5;
+
+text-align: right;
+overflow-wrap: anywhere;
+
+
+}
+
+/* =========================================================
+FILE LINK
+========================================================= */
+
+.file-link {
+color: var(--color-primary);
+
+font-size: 0.85rem;
+font-weight: 600;
+
+text-decoration: none;
+
+
+}
+
+.file-link:hover {
+color: var(--color-primary-hover);
+text-decoration: underline;
+}
+
+/* =========================================================
+EMPTY STATE
+========================================================= */
+
+.empty-applications {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+min-height: 280px;
+padding: 40px;
+
+text-align: center;
+
+background: var(--color-surface);
+
+border: 1px solid var(--color-border);
+border-radius: var(--radius-large);
+
+box-shadow: var(--shadow-card);
+
+
+}
+
+.empty-icon {
+display: flex;
+align-items: center;
+justify-content: center;
+
+width: 60px;
+height: 60px;
+
+margin-bottom: 18px;
+
+color: var(--color-primary);
+background: var(--color-primary-light);
+
+border-radius: 50%;
+
+font-size: 1.5rem;
+
+
+}
+
+.empty-applications h3 {
+margin: 0 0 8px;
+
+color: var(--color-text-primary);
+
+font-size: 1.1rem;
+
+
+}
+
+.empty-applications p {
+max-width: 480px;
+margin: 0;
+
+color: var(--color-text-secondary);
+
+font-size: 0.88rem;
+line-height: 1.6;
+
+
+}
+
+/* =========================================================
+TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+.application-stats {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.internship-details {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+.applications-page {
+    padding: 5px 15px 45px;
+}
+
+.applications-header {
+    margin-bottom: 22px;
+}
+
+.applications-header h1 {
+    font-size: 1.7rem;
+}
+
+.applications-header p {
+    font-size: 0.85rem;
+}
+
+.application-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    margin-bottom: 28px;
+}
+
+.application-stat-card {
+    padding: 15px;
+    gap: 10px;
+}
+
+.stat-icon {
+    width: 36px;
+    height: 36px;
+
+    font-size: 0.9rem;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+}
+
+.stat-content strong {
+    font-size: 1.2rem;
+}
+
+.application-card {
+    padding: 19px 16px;
+    border-radius: var(--radius-medium);
+}
+
+.application-card-top {
+    flex-direction: column;
+    gap: 13px;
+
+    padding-bottom: 17px;
+}
+
+.internship-info h3 {
+    font-size: 1.05rem;
+}
+
+.application-status {
+    align-self: flex-start;
+}
+
+.internship-details {
+    grid-template-columns: 1fr 1fr;
+    gap: 17px 12px;
+
+    padding: 17px 0;
+}
+
+.answer-item {
+    flex-direction: column;
+    gap: 6px;
+
+    padding: 13px;
+}
+
+.answer-label {
+    flex: none;
+}
+
+.answer-value {
+    text-align: left;
+}
+
+.empty-applications {
+    min-height: 240px;
+    padding: 30px 20px;
+}
+
+
+}
+
+/* =========================================================
+SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+.applications-page {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.application-stats {
+    grid-template-columns: 1fr;
+}
+
+.internship-details {
+    grid-template-columns: 1fr;
+}
+
+.application-card {
+    padding: 16px 13px;
+}
+
+
+}
+
+/* =========================================================
+REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+.application-stat-card,
+.application-card {
+    transition: none;
+}
+
+.application-stat-card:hover {
+    transform: none;
+}
+
+
+}

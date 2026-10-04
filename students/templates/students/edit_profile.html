@@ -1,0 +1,131 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+
+<div class="edit-profile-page">
+
+    <div class="edit-profile-container">
+
+        <div class="edit-profile-header">
+            <h1>Edit Profile</h1>
+            <p>Update your personal and academic information.</p>
+        </div>
+
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+
+        <!-- PROFILE CARD -->
+
+        <div class="profile-card">
+
+            <div class="profile-card-header">
+                <h2>Personal Information</h2>
+                <p>Keep your student information up to date.</p>
+            </div>
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+                class="profile-form"
+            >
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="form_type"
+                    value="profile"
+                >
+
+                {{ user_form.as_p }}
+
+                {{ student_form.as_p }}
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="profile-button"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- PASSWORD CARD -->
+
+        <div class="profile-card password-card">
+
+            <div class="profile-card-header">
+                <h2>Change Password</h2>
+
+                <p>
+                    Choose a strong password to keep your account secure.
+                </p>
+            </div>
+
+
+            <div class="password-warning">
+                <span></span>
+
+                <span>
+                    You will need to enter your current password
+                    before choosing a new one.
+                </span>
+            </div>
+
+
+            <form
+                method="POST"
+                class="profile-form"
+            >
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="form_type"
+                    value="password"
+                >
+
+                {{ password_form.as_p }}
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="profile-button"
+                    >
+                        Change Password
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

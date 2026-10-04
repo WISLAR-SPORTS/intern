@@ -1,0 +1,443 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+
+ {% endblock %}
+
+{% block content %}
+
+<div class="application-page">
+<div class="application-container">
+
+ 
+
+    <!-- =====================================================
+         MESSAGES
+    ====================================================== -->
+
+    {% if messages %}
+
+        <div class="messages-container">
+
+            {% for message in messages %}
+
+                <div class="message {{ message.tags }}">
+
+                    <span class="message-icon">
+
+                        {% if message.tags == "success" %}
+                            ✓
+                        {% elif message.tags == "error" %}
+                            !
+                        {% else %}
+                            i
+                        {% endif %}
+
+                    </span>
+
+                    <span>
+                        {{ message }}
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         PAGE INTRO
+    ====================================================== -->
+
+    <div class="application-intro">
+
+        <div>
+
+            <span class="application-eyebrow">
+                Internship Application
+            </span>
+
+            <h1>
+                Apply for this opportunity
+            </h1>
+
+            <p>
+                Complete the form below to submit your application.
+                Make sure your information is accurate before submitting.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN APPLICATION CARD
+    ====================================================== -->
+
+    <div class="application-card">
+
+
+        <!-- =================================================
+             INTERNSHIP HEADER
+        ================================================== -->
+
+        <div class="application-header">
+
+            <div class="company-information">
+
+                <div class="company-logo">
+
+                    {% if internship.company.logo %}
+
+                        <img
+                            src="{{ internship.company.logo.url }}"
+                            alt="{{ internship.company.company_name }}"
+                        >
+
+                    {% else %}
+
+                        <span>
+                            {{ internship.company.company_name|first|upper }}
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="company-details">
+
+                    <div class="company-name-row">
+
+                        <strong>
+                            {{ internship.company.company_name }}
+                        </strong>
+
+                        {% if internship.company.verified %}
+
+                            <span class="verified-badge">
+                                <span>✓</span>
+                                Verified
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <small>
+                        Internship opportunity
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="internship-title">
+
+                <h2>
+                    {{ internship.title }}
+                </h2>
+
+                <p>
+                    Submit your application to be considered for this
+                    internship opportunity.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             INTERNSHIP INFORMATION
+        ================================================== -->
+
+        <div class="internship-info">
+
+            <div class="info-box">
+
+                <span class="info-icon">
+                    <i data-lucide="map-pin"></i>
+                </span>
+
+                <div>
+
+                    <small>
+                        Location
+                    </small>
+
+                    <strong>
+                        {{ internship.location|default:"Not specified" }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="info-icon">
+                    <i data-lucide="briefcase"></i>
+                </span>
+
+                <div>
+
+                    <small>
+                        Internship Type
+                    </small>
+
+                    <strong>
+                        {{ internship.get_internship_type_display }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box deadline-box">
+
+                <span class="info-icon">
+                    <i data-lucide="calendar-days"></i>
+                </span>
+
+                <div>
+
+                    <small>
+                        Application Deadline
+                    </small>
+
+                    <strong>
+                        {{ internship.deadline|date:"M d, Y" }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FORM HEADER
+        ================================================== -->
+
+        <div class="form-header">
+
+            <div class="form-header-icon">
+
+                <i data-lucide="file-pen-line"></i>
+
+            </div>
+
+            <div>
+
+                <h3>
+                    Application Details
+                </h3>
+
+                <p>
+                    Provide the information requested by the company.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             APPLICATION FORM
+        ================================================== -->
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="application-form"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- NON-FIELD ERRORS -->
+
+            {% if form.non_field_errors %}
+
+                <div class="non-field-errors">
+
+                    <div class="error-icon">
+                        !
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Please check your application
+                        </strong>
+
+                        {{ form.non_field_errors }}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- DYNAMIC FORM FIELDS -->
+
+            <div class="form-fields">
+
+                {% for field in form %}
+
+                    <div
+                        class="form-field
+                        {% if field.errors %}has-error{% endif %}"
+                    >
+
+                        <div class="field-label">
+
+                            {{ field.label_tag }}
+
+                            {% if field.field.required %}
+
+                                <span class="required">
+                                    *
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        {{ field }}
+
+
+                        {% if field.help_text %}
+
+                            <small class="field-help">
+                                {{ field.help_text }}
+                            </small>
+
+                        {% endif %}
+
+
+                        {% if field.errors %}
+
+                            <div class="field-errors">
+
+                                <span>!</span>
+
+                                <div>
+                                    {{ field.errors }}
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- =================================================
+                 SUBMISSION NOTICE
+            ================================================== -->
+
+            <div class="application-notice">
+
+                <div class="notice-icon">
+
+                    <i data-lucide="info"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Before you submit
+                    </strong>
+
+                    <p>
+                        Please review your answers carefully.
+                        Once submitted, your application will be sent
+                        to {{ internship.company.company_name }} for review.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTIONS
+            ================================================== -->
+
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'dashboard:student-dashboard' %}"
+                    class="cancel-button"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+
+                    <span>
+                        Submit Application
+                    </span>
+
+                    <span class="submit-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER NOTE
+    ====================================================== -->
+
+    <div class="application-footer">
+
+        <i data-lucide="shield-check"></i>
+
+        <span>
+            Your application information is securely handled and
+            shared only with the relevant company.
+        </span>
+
+    </div>
+
+</div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script> if (typeof lucide !== "undefined") { lucide.createIcons(); } </script>
+
+{% endblock %}

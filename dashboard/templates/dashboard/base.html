@@ -1,0 +1,1125 @@
+{% load static %}
+<!DOCTYPE html> <html lang="en"> <head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    {% block title %}
+        Student Portal
+    {% endblock %}
+</title>
+
+<!-- =====================================================
+     THEME
+====================================================== -->
+
+<script>
+    (function () {
+
+        const savedTheme =
+            localStorage.getItem("internconnect-theme");
+
+        if (savedTheme === "dark") {
+
+            document.documentElement.setAttribute(
+                "data-theme",
+                "dark"
+            );
+
+        }
+
+    })();
+</script>
+
+<!-- =====================================================
+     GLOBAL CSS
+====================================================== -->
+<link
+    rel="stylesheet"
+    href="{% static 'dashboard/css/base.css' %}"
+>
+<link
+    rel="stylesheet"
+    href="{% static 'students/css/edit_profile.css' %}"
+>
+<link
+    rel="stylesheet"
+    href="{% static 'students/css/application.css' %}"
+>
+
+<link
+    rel="stylesheet"
+    href="{% static 'students/css/notification.css' %}"
+>
+<link
+    rel="stylesheet"
+    href="{% static 'internships/css/apply.css' %}"
+>
+
+
+
+{% block extra_css %}
+{% endblock %}
+
+</head> <body> <div class="student-app">
+
+<!-- =====================================================
+     TOP NAVIGATION
+====================================================== -->
+
+<header class="topbar">
+
+    <!-- =================================================
+         BRAND
+    ================================================== -->
+
+    <a
+        href="{% url 'dashboard:student-dashboard' %}"
+        class="brand"
+    >
+
+        <div class="brand-icon">
+
+            {% if request.user.student.profile_picture %}
+
+                <img
+                    src="{{ request.user.student.profile_picture.url }}"
+                    alt="InternConnect"
+                >
+
+            {% else %}
+
+                <span>
+                    IC
+                </span>
+
+            {% endif %}
+
+        </div>
+
+        <div class="brand-text">
+
+            <h1>
+                Intern<span>Connect</span>
+            </h1>
+
+            <span>
+                Your Portal
+            </span>
+
+        </div>
+
+    </a>
+
+    <!-- =================================================
+         DESKTOP NAVIGATION
+    ================================================== -->
+
+    <nav class="desktop-nav">
+
+        <!-- THEME TOGGLE -->
+
+        <button
+            type="button"
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Switch to dark mode"
+            aria-pressed="false"
+        >
+
+            <span class="theme-track">
+
+                <span class="theme-sky"></span>
+
+                <span class="theme-sun">
+
+                    <i data-lucide="sun"></i>
+
+                </span>
+
+                <span class="theme-moon">
+
+                    <i data-lucide="moon"></i>
+
+                </span>
+
+                <span class="theme-person">
+
+                    <span class="person-head"></span>
+
+                    <span class="person-body"></span>
+
+                    <span class="person-leg leg-one"></span>
+
+                    <span class="person-leg leg-two"></span>
+
+                </span>
+
+            </span>
+
+        </button>
+
+        <!-- DASHBOARD -->
+
+        <a
+            href="{% url 'dashboard:student-dashboard' %}"
+            class="nav-link {% block dashboard_active %}{% endblock %}"
+        >
+
+            <span class="nav-icon">
+
+                <i data-lucide="house"></i>
+
+            </span>
+
+            Dashboard
+
+        </a>
+
+        <!-- APPLICATIONS -->
+
+      <a
+    href="{% url 'dashboard:my_applications' %}"
+    class="nav-link"
+>
+    <span class="nav-icon">
+        <i data-lucide="clipboard-list"></i>
+    </span>
+
+    Applications
+</a>
+
+
+        <!-- SAVED -->
+
+ <a
+    href="{% url 'internships:notifications' %}"
+    class="sidebar-notifications-link"
+>
+
+    <i data-lucide="bell"></i>
+
+    <span>
+        Notifications
+    </span>
+
+    {% if unread_notification_count > 0 %}
+        <span class="notification-badge">
+            {{ unread_notification_count }}
+        </span>
+    {% endif %}
+
+</a>
+
+
+
+        <!-- AI -->
+
+        <a
+            href="{% url 'ai_chat' %}"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+
+                <i data-lucide="bot"></i>
+
+            </span>
+
+            AI Assistant
+
+        </a>
+
+    </nav>
+
+    <!-- =================================================
+         USER MENU
+    ================================================== -->
+
+    <div class="user-menu-wrapper">
+
+        <button
+            type="button"
+            id="user-menu-button"
+            class="user-menu-button"
+            aria-expanded="false"
+        >
+
+            <!-- AVATAR -->
+
+            <div class="student-avatar">
+
+                {% if request.user.student.profile_picture %}
+
+                    <img
+                        src="{{ request.user.student.profile_picture.url }}"
+                        alt="{{ request.user.get_full_name }}"
+                    >
+
+                {% else %}
+
+                    {{ request.user.first_name|first|upper|default:"S" }}
+
+                {% endif %}
+
+            </div>
+
+            <!-- DETAILS -->
+
+            <div class="student-details">
+
+                <strong>
+
+                    {{ request.user.get_full_name|default:request.user.username }}
+
+                </strong>
+
+                <span>
+                    Student
+                </span>
+
+            </div>
+
+            <!-- CHEVRON -->
+
+            <span class="menu-chevron">
+
+                <i data-lucide="chevron-down"></i>
+
+            </span>
+
+        </button>
+
+        <!-- =================================================
+             USER DROPDOWN
+        ================================================== -->
+
+        <div
+            id="user-dropdown"
+            class="user-dropdown"
+        >
+
+            <!-- DROPDOWN HEADER -->
+
+            <div class="dropdown-header">
+
+                <div class="student-avatar">
+
+                    {% if request.user.student.profile_picture %}
+
+                        <img
+                            src="{{ request.user.student.profile_picture.url }}"
+                            alt="{{ request.user.get_full_name }}"
+                        >
+
+                    {% else %}
+
+                        {{ request.user.first_name|first|upper|default:"S" }}
+
+                    {% endif %}
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        {{ request.user.get_full_name|default:request.user.username }}
+
+                    </strong>
+
+                    <span>
+
+                        {% if request.user.student.registration_number %}
+
+                            {{ request.user.student.registration_number }}
+
+                        {% else %}
+
+                            Student
+
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <!-- PROFILE -->
+
+            <a
+                href="#"
+                class="dropdown-link"
+                onclick="openProfileModal(); return false;"
+            >
+
+                <span class="dropdown-icon">
+
+                    <i data-lucide="user"></i>
+
+                </span>
+
+                <div>
+
+                    <strong>
+                        My Profile
+                    </strong>
+
+                    <small>
+                        View your student profile
+                    </small>
+
+                </div>
+
+            </a>
+
+            <!-- APPLICATIONS -->
+ 
+
+            <a
+                href="{% url 'dashboard:my_applications' %}"
+                class="dropdown-link"
+            >
+
+                <span class="dropdown-icon">
+
+                    <i data-lucide="clipboard-list"></i>
+
+                </span>
+
+                <div>
+
+                    <strong>
+                        My Applications
+                    </strong>
+
+                    <small>
+                        Track your internship applications
+                    </small>
+
+                </div>
+
+            </a>
+
+            <!-- SAVED -->
+<a
+    href="{% url 'internships:notifications' %}"
+    class="dropdown-link notification-dropdown-link"
+>
+
+    <span class="dropdown-icon">
+        <i data-lucide="bell"></i>
+    </span>
+
+    <div class="dropdown-link-content">
+
+        <strong>
+            Notifications
+        </strong>
+
+        <small>
+            View your latest updates
+        </small>
+
+    </div>
+
+    {% if unread_notification_count > 0 %}
+        <span class="dropdown-notification-badge">
+            {{ unread_notification_count }}
+        </span>
+    {% endif %}
+
+</a>
+
+
+
+            <!-- COMPLETE PROFILE -->
+
+            <a
+                href="{% url 'students:edit_profile' %}"
+                class="dropdown-link"
+            >
+
+                <span class="dropdown-icon">
+
+                    <i data-lucide="user-pen"></i>
+
+                </span>
+
+                <div>
+
+                    <strong>
+                        Complete Profile
+                    </strong>
+
+                    <small>
+                        Update your academic information
+                    </small>
+
+                </div>
+
+            </a>
+
+            <!-- AI -->
+
+            <a
+                href="{% url 'ai_chat' %}"
+                class="dropdown-link"
+            >
+
+                <span class="dropdown-icon">
+
+                    <i data-lucide="bot"></i>
+
+                </span>
+
+                <div>
+
+                    <strong>
+                        AI Assistant
+                    </strong>
+
+                    <small>
+                        Get help finding internships
+                    </small>
+
+                </div>
+
+            </a>
+
+            <!-- THEME -->
+
+            <button
+                type="button"
+                id="mobile-theme-toggle"
+                class="mobile-menu-item"
+                aria-label="Switch to dark mode"
+                aria-pressed="false"
+            >
+
+                <span class="mobile-menu-icon">
+
+                    <i data-lucide="moon"></i>
+
+                </span>
+
+                <span class="mobile-menu-text">
+
+                    <strong>
+                        Dark Mode
+                    </strong>
+
+                    <small>
+                        Switch appearance
+                    </small>
+
+                </span>
+
+                <span class="mobile-theme-indicator">
+
+                    <i data-lucide="sun"></i>
+
+                </span>
+
+            </button>
+
+            <div class="dropdown-divider"></div>
+
+            <!-- LOGOUT -->
+
+            <form
+                method="post"
+                action="{% url 'logout' %}"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="dropdown-link logout-link"
+                >
+
+                    <span class="dropdown-icon">
+
+                        <i data-lucide="log-out"></i>
+
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Logout
+                        </strong>
+
+                        <small>
+                            Sign out of InternConnect
+                        </small>
+
+                    </div>
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</header>
+
+<!-- =====================================================
+     MOBILE BOTTOM NAVIGATION
+====================================================== -->
+
+<nav class="mobile-bottom-nav">
+
+    <!-- HOME -->
+
+    <a
+        href="{% url 'dashboard:student-dashboard' %}"
+        class="mobile-nav-item {% block mobile_dashboard_active %}{% endblock %}"
+    >
+
+        <span>
+
+            <i data-lucide="house"></i>
+
+        </span>
+
+        <small>
+            Home
+        </small>
+
+    </a>
+
+    <!-- APPLICATIONS -->
+
+    <a
+         href="{% url 'dashboard:my_applications' %}"
+        class="mobile-nav-item"
+    >
+
+        <span>
+
+            <i data-lucide="clipboard-list"></i>
+
+        </span>
+
+        <small>
+            Applications
+        </small>
+
+    </a>
+
+    <!-- SAVED -->
+
+<a
+    href="{% url 'internships:notifications' %}"
+    class="mobile-nav-item mobile-notification-item"
+>
+
+    <span class="mobile-nav-icon">
+
+        <i data-lucide="bell"></i>
+
+        {% if unread_notification_count > 0 %}
+            <span class="mobile-notification-badge">
+                {{ unread_notification_count }}
+            </span>
+        {% endif %}
+
+    </span>
+
+    <small>
+        Notifications
+    </small>
+
+</a>
+
+    <!-- PROFILE -->
+
+    <a
+        href="#"
+        class="mobile-nav-item"
+        id="mobile-profile-button"
+    >
+
+        <span class="mobile-profile-avatar">
+
+            {% if request.user.student.profile_picture %}
+
+                <img
+                    src="{{ request.user.student.profile_picture.url }}"
+                    alt="Profile"
+                >
+
+            {% else %}
+
+                {{ request.user.first_name|first|upper|default:"S" }}
+
+            {% endif %}
+
+        </span>
+
+        <small>
+            Profile
+        </small>
+
+    </a>
+
+</nav>
+
+<!-- =====================================================
+     MOBILE PROFILE SHEET
+====================================================== -->
+
+<div
+    id="mobile-profile-sheet"
+    class="mobile-profile-sheet"
+>
+
+    <div class="mobile-sheet-overlay"></div>
+
+    <div class="mobile-sheet">
+
+        <div class="mobile-sheet-handle"></div>
+
+        <!-- HEADER -->
+
+        <div class="mobile-sheet-header">
+
+            <div class="dropdown-avatar">
+
+                {% if request.user.student.profile_picture %}
+
+                    <img
+                        src="{{ request.user.student.profile_picture.url }}"
+                        alt="Profile"
+                    >
+
+                {% else %}
+
+                    {{ request.user.first_name|first|upper|default:"S" }}
+
+                {% endif %}
+
+            </div>
+
+            <div>
+
+                <strong>
+
+                    {{ request.user.get_full_name|default:request.user.username }}
+
+                </strong>
+
+                <span>
+
+                    {% if request.user.student.registration_number %}
+
+                        {{ request.user.student.registration_number }}
+
+                    {% else %}
+
+                        Student
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- MENU -->
+
+        <div class="mobile-menu-list">
+
+            <a
+                href="#"
+                onclick="openProfileModal(); closeMobileProfileSheet(); return false;"
+            >
+
+                <i data-lucide="user"></i>
+
+                <span>
+                    My Profile
+                </span>
+
+            </a>
+
+            <a   href="{% url 'dashboard:my_applications' %}">
+
+                <i data-lucide="clipboard-list"></i>
+
+                <span>
+                    My Applications
+                </span>
+
+            </a>
+
+          <a href="{% url 'internships:notifications' %}" class="sidebar-notifications-link">
+
+    <i data-lucide="heart"></i>
+
+    <span>
+        Notifications
+    </span>
+
+    {% if unread_notification_count > 0 %}
+        <span class="notification-badge">
+            {{ unread_notification_count }}
+        </span>
+    {% endif %}
+
+</a>
+
+            <a href="{% url 'students:edit_profile' %}">
+
+                <i data-lucide="user-pen"></i>
+
+                <span>
+                    Complete Profile
+                </span>
+
+            </a>
+
+            <a href="{% url 'ai_chat' %}">
+
+                <i data-lucide="bot"></i>
+
+                <span>
+                    AI Assistant
+                </span>
+
+            </a>
+
+            <a href="#">
+
+                <i data-lucide="settings"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+            <form
+                method="post"
+                action="{% url 'logout' %}"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="logout-btn"
+                >
+
+                    <i data-lucide="log-out"></i>
+
+                    <span>
+                        Logout
+                    </span>
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     MAIN CONTENT
+====================================================== -->
+
+<main class="dashboard-main">
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div>
+
+            <span class="eyebrow">
+                YOUR PORTAL
+            </span>
+
+            <h2>
+
+                {% block page_title %}
+                {% endblock %}
+
+            </h2>
+
+            <p>
+
+                {% block page_subtitle %}
+                {% endblock %}
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- PAGE CONTENT -->
+
+    <div class="page-content">
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+</main>
+
+<!-- =====================================================
+     AI FLOATING ASSISTANT
+====================================================== -->
+
+<div class="ai-floating-container">
+
+    <span class="ai-floating-label">
+        AI Assistant
+    </span>
+
+    <button
+        type="button"
+        id="ai-toggle"
+        class="ai-toggle"
+        aria-label="Open Internship Assistant"
+    >
+
+        <i data-lucide="bot"></i>
+
+    </button>
+
+</div>
+
+<!-- =====================================================
+     PROFILE MODAL
+====================================================== -->
+
+<div
+    class="profile-modal"
+    id="profileModal"
+>
+
+    <div
+        class="profile-modal-overlay"
+        onclick="closeProfileModal()"
+    ></div>
+
+    <div class="profile-modal-content">
+
+        <!-- HEADER -->
+
+        <div class="profile-modal-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    STUDENT PROFILE
+                </span>
+
+                <h2>
+                    My Profile
+                </h2>
+
+                <p>
+                    Your personal and academic information
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="close-button"
+                onclick="closeProfileModal()"
+                aria-label="Close profile"
+            >
+
+                <i data-lucide="x"></i>
+
+            </button>
+
+        </div>
+
+        <!-- PROFILE INFORMATION -->
+
+        <div class="profile-information">
+
+            <div class="profile-picture-wrapper">
+
+                {% if request.user.student.profile_picture %}
+
+                    <img
+                        src="{{ request.user.student.profile_picture.url }}"
+                        alt="Profile Picture"
+                        class="profile-picture"
+                    >
+
+                {% else %}
+
+                    <div class="profile-picture-placeholder">
+
+                        {{ request.user.first_name|first|upper|default:"S" }}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+            <div class="profile-name">
+
+                <h3>
+
+                    {{ request.user.get_full_name|default:request.user.username }}
+
+                </h3>
+
+                <span class="student-badge">
+                    Student
+                </span>
+
+            </div>
+
+            <div class="profile-details">
+
+                <div class="profile-detail">
+
+                    <span class="detail-label">
+                        Username
+                    </span>
+
+                    <span class="detail-value">
+                        {{ request.user.username }}
+                    </span>
+
+                </div>
+
+                <div class="profile-detail">
+
+                    <span class="detail-label">
+                        Email
+                    </span>
+
+                    <span class="detail-value">
+                        {{ request.user.email|default:"Not provided" }}
+                    </span>
+
+                </div>
+
+                <div class="profile-detail">
+
+                    <span class="detail-label">
+                        Registration Number
+                    </span>
+
+                    <span class="detail-value">
+                        {{ request.user.student.registration_number|default:"Not provided" }}
+                    </span>
+
+                </div>
+
+                <div class="profile-detail">
+
+                    <span class="detail-label">
+                        Course
+                    </span>
+
+                    <span class="detail-value">
+                        {{ request.user.student.course|default:"Not provided" }}
+                    </span>
+
+                </div>
+
+                <div class="profile-detail">
+
+                    <span class="detail-label">
+                        Year of Study
+                    </span>
+
+                    <span class="detail-value">
+                        {{ request.user.student.year_of_study|default:"Not provided" }}
+                    </span>
+
+                </div>
+
+                <div class="profile-detail">
+
+                    <span class="detail-label">
+                        Phone
+                    </span>
+
+                    <span class="detail-value">
+                        {{ request.user.student.phone|default:"Not provided" }}
+                    </span>
+
+                </div>
+
+                <div class="profile-detail profile-detail-full">
+
+                    <span class="detail-label">
+                        Skills
+                    </span>
+
+                    <span class="detail-value">
+                        {{ request.user.student.skills|default:"No skills added yet." }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="profile-modal-footer">
+
+            <button
+                type="button"
+                class="secondary-button"
+                onclick="closeProfileModal()"
+            >
+                Close
+            </button>
+
+            <a
+                href="{% url 'students:edit_profile' %}"
+                class="profile-button"
+            >
+                Edit Profile
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script>
+    lucide.createIcons();
+</script>
+
+
+<script src="{% static 'dashboard/js/base.js' %}"></script>
+
+</body> </html> 

@@ -1,0 +1,667 @@
+/* =========================================================
+   EDIT PROFILE PAGE
+========================================================= */
+
+.edit-profile-page {
+    min-height: calc(100vh - var(--topbar-height));
+    background: var(--color-background);
+    color: var(--color-text-primary);
+    padding: 40px 24px 60px;
+    transition:
+        background-color var(--transition-normal),
+        color var(--transition-normal);
+}
+
+.edit-profile-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.edit-profile-header {
+    margin-bottom: 30px;
+}
+
+.edit-profile-header h1 {
+    margin: 0 0 8px;
+    color: var(--color-text-primary);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+}
+
+.edit-profile-header p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.98rem;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   DJANGO MESSAGES
+========================================================= */
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.message {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-medium);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+
+.message.success {
+    color: var(--color-success-text);
+    background: var(--color-success-background);
+    border-color: var(--color-success-border);
+}
+
+.message.error {
+    color: var(--color-error-text);
+    background: var(--color-error-background);
+    border-color: var(--color-error-border);
+}
+
+.message.warning {
+    color: var(--color-warning-text);
+    background: var(--color-warning-background);
+    border-color: var(--color-warning-border);
+}
+
+.message.info {
+    color: var(--color-text-primary);
+    background: var(--color-primary-light);
+    border-color: var(--color-border);
+}
+
+
+/* =========================================================
+   PROFILE CARDS
+========================================================= */
+
+.profile-card {
+    width: 100%;
+    margin-bottom: 25px;
+    padding: 30px;
+    box-sizing: border-box;
+
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-card);
+
+    transition:
+        background-color var(--transition-normal),
+        border-color var(--transition-normal),
+        box-shadow var(--transition-normal);
+}
+
+.profile-card:hover {
+    box-shadow: var(--shadow-card-hover);
+}
+
+.profile-card-header {
+    margin-bottom: 25px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.profile-card-header h2 {
+    margin: 0 0 7px;
+    color: var(--color-text-primary);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.profile-card-header p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.profile-form {
+    width: 100%;
+}
+
+.profile-form p {
+    margin: 0 0 20px;
+}
+
+.profile-form label {
+    display: block;
+    margin-bottom: 7px;
+
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.profile-form input,
+.profile-form select,
+.profile-form textarea {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+
+    box-sizing: border-box;
+
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background-color var(--transition-fast);
+}
+
+.profile-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.profile-form input:hover,
+.profile-form select:hover,
+.profile-form textarea:hover {
+    border-color: var(--color-border-dark);
+}
+
+.profile-form input:focus,
+.profile-form select:focus,
+.profile-form textarea:focus {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(232, 93, 63, 0.12);
+}
+
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+.profile-form input[type="file"] {
+    min-height: auto;
+    padding: 9px;
+    cursor: pointer;
+}
+
+.profile-form input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 8px 12px;
+
+    color: var(--color-text-white);
+    background: var(--color-primary);
+
+    border: none;
+    border-radius: var(--radius-small);
+
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.profile-form input[type="file"]::file-selector-button:hover {
+    background: var(--color-primary-hover);
+}
+
+
+/* =========================================================
+   CHECKBOXES
+========================================================= */
+
+.profile-form input[type="checkbox"] {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    min-height: auto;
+
+    margin: 0 8px 0 0;
+
+    padding: 0;
+
+    accent-color: var(--color-primary);
+
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.profile-form input[type="checkbox"] + label {
+    display: inline;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   RADIO BUTTONS
+========================================================= */
+
+.profile-form input[type="radio"] {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    min-height: auto;
+
+    margin-right: 7px;
+
+    padding: 0;
+
+    accent-color: var(--color-primary);
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   DJANGO HELP TEXT
+========================================================= */
+
+.profile-form .helptext,
+.profile-form p small {
+    display: block;
+
+    margin-top: 6px;
+
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   DJANGO ERROR LIST
+========================================================= */
+
+.profile-form .errorlist {
+    margin: 6px 0 7px;
+    padding: 0;
+
+    list-style: none;
+
+    color: var(--color-error-text);
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.profile-form .errorlist li {
+    margin-bottom: 3px;
+}
+
+.profile-form input.is-invalid,
+.profile-form select.is-invalid,
+.profile-form textarea.is-invalid {
+    border-color: var(--color-error-text);
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    margin-top: 28px;
+    padding-top: 20px;
+
+    border-top: 1px solid var(--color-border);
+}
+
+.profile-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 45px;
+    padding: 11px 22px;
+
+    color: var(--color-text-white);
+    background: var(--color-primary);
+
+    border: none;
+    border-radius: var(--radius-small);
+
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 10px rgba(232, 93, 63, 0.18);
+
+    transition:
+        background-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.profile-button:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+
+    box-shadow: 0 6px 14px rgba(232, 93, 63, 0.25);
+}
+
+.profile-button:active {
+    transform: translateY(0);
+}
+
+.profile-button:focus-visible {
+    outline: 3px solid rgba(232, 93, 63, 0.25);
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   PASSWORD CARD
+========================================================= */
+
+.password-card {
+    margin-bottom: 0;
+}
+
+.password-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    margin-bottom: 25px;
+    padding: 14px 16px;
+
+    color: var(--color-warning-text);
+    background: var(--color-warning-background);
+
+    border: 1px solid var(--color-warning-border);
+    border-radius: var(--radius-medium);
+
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.password-warning > span:first-child {
+    position: relative;
+
+    flex: 0 0 auto;
+
+    width: 7px;
+    height: 7px;
+
+    margin-top: 7px;
+
+    background: var(--color-warning-text);
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   DISABLED FIELDS
+========================================================= */
+
+.profile-form input:disabled,
+.profile-form select:disabled,
+.profile-form textarea:disabled {
+    color: var(--color-text-muted);
+    background: var(--color-background);
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+
+/* =========================================================
+   AUTOFILL
+========================================================= */
+
+.profile-form input:-webkit-autofill,
+.profile-form input:-webkit-autofill:hover,
+.profile-form input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-text-primary);
+    -webkit-box-shadow: 0 0 0 1000px var(--color-surface) inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .edit-profile-page {
+        min-height: calc(100vh - var(--topbar-height));
+        padding: 30px 18px 50px;
+    }
+
+    .edit-profile-header {
+        margin-bottom: 24px;
+    }
+
+    .edit-profile-header h1 {
+        font-size: 1.9rem;
+    }
+
+    .profile-card {
+        padding: 24px;
+        border-radius: var(--radius-medium);
+    }
+
+    .profile-card-header {
+        margin-bottom: 22px;
+    }
+
+    .profile-form p {
+        margin-bottom: 17px;
+    }
+
+    .form-actions {
+        margin-top: 24px;
+        padding-top: 18px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+
+    .edit-profile-page {
+        padding: 22px 12px 40px;
+    }
+
+    .edit-profile-container {
+        width: 100%;
+    }
+
+    .edit-profile-header {
+        margin-bottom: 20px;
+    }
+
+    .edit-profile-header h1 {
+        font-size: 1.65rem;
+        letter-spacing: -0.3px;
+    }
+
+    .edit-profile-header p {
+        font-size: 0.88rem;
+    }
+
+    .profile-card {
+        margin-bottom: 18px;
+        padding: 19px 16px;
+
+        border-radius: var(--radius-medium);
+        box-shadow: var(--shadow-card);
+    }
+
+    .profile-card-header {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+    }
+
+    .profile-card-header h2 {
+        font-size: 1.08rem;
+    }
+
+    .profile-card-header p {
+        font-size: 0.83rem;
+    }
+
+    .profile-form label {
+        font-size: 0.85rem;
+    }
+
+    .profile-form input,
+    .profile-form select,
+    .profile-form textarea {
+        min-height: 44px;
+        padding: 10px 11px;
+        font-size: 0.9rem;
+    }
+
+    .profile-form textarea {
+        min-height: 100px;
+    }
+
+    .profile-form p {
+        margin-bottom: 16px;
+    }
+
+    .password-warning {
+        gap: 10px;
+        padding: 12px 13px;
+        font-size: 0.8rem;
+    }
+
+    .form-actions {
+        margin-top: 20px;
+        padding-top: 16px;
+    }
+
+    .profile-button {
+        width: 100%;
+        min-height: 46px;
+        padding: 11px 18px;
+    }
+
+    .messages {
+        margin-bottom: 18px;
+    }
+
+    .message {
+        padding: 11px 13px;
+        font-size: 0.82rem;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .edit-profile-page {
+        padding-right: 9px;
+        padding-left: 9px;
+    }
+
+    .profile-card {
+        padding: 17px 13px;
+    }
+
+    .edit-profile-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .profile-card-header h2 {
+        font-size: 1rem;
+    }
+
+    .password-warning {
+        font-size: 0.77rem;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .profile-card,
+    .profile-form input,
+    .profile-form select,
+    .profile-form textarea,
+    .profile-button {
+        transition: none;
+    }
+
+    .profile-button:hover {
+        transform: none;
+    }
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print {
+
+    .edit-profile-page {
+        padding: 0;
+        background: #ffffff;
+    }
+
+    .profile-card {
+        box-shadow: none;
+        border: 1px solid #cccccc;
+        break-inside: avoid;
+    }
+
+    .profile-button,
+    .password-warning {
+        display: none;
+    }
+}

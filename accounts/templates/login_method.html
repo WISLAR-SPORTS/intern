@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Choose Login Method - {{ site_settings.site_name|default:"InternConnect" }}
+{% endblock %}
+
+{% block extra_css %}
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="login-method-page">
+
+
+    <!-- =====================================================
+         LEFT PANEL
+    ====================================================== -->
+
+    <aside class="login-method-showcase">
+
+        <div class="login-method-showcase-content">
+
+
+            <!-- BRAND -->
+
+            <div class="login-method-brand">
+
+                {% if site_settings and site_settings.logo %}
+
+                    <img
+                        src="{{ site_settings.logo.url }}"
+                        alt="{{ site_settings.site_name|default:'InternConnect' }}"
+                    >
+
+                {% else %}
+
+                    <div class="login-method-brand-placeholder">
+                        {{ site_settings.site_name|default:"InternConnect"|first }}
+                    </div>
+
+                {% endif %}
+
+
+                <div class="login-method-brand-text">
+
+                    <strong>
+                        {{ site_settings.site_name|default:"InternConnect" }}
+                    </strong>
+
+                    <span>
+                        {{ site_settings.tagline|default:"Connect. Intern. Grow." }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAIN MESSAGE -->
+
+            <div class="login-method-showcase-main">
+
+                <span class="login-method-badge">
+                    WELCOME BACK
+                </span>
+
+
+                <h2>
+                    Continue Your Journey
+                </h2>
+
+
+                <p>
+                    Access your {{ site_settings.site_name|default:"InternConnect" }}
+                    account and continue connecting with students,
+                    universities and employers.
+                </p>
+
+
+                <!-- BENEFITS -->
+
+                <div class="login-method-benefits">
+
+
+                    <div class="login-method-benefit">
+
+                        <div class="login-method-benefit-icon">
+                            ✓
+                        </div>
+
+                        <div class="login-method-benefit-text">
+
+                            <strong>
+                                Secure Access
+                            </strong>
+
+                            <span>
+                                Your account and information stay protected.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="login-method-benefit">
+
+                        <div class="login-method-benefit-icon">
+                            ✓
+                        </div>
+
+                        <div class="login-method-benefit-text">
+
+                            <strong>
+                                Internship Opportunities
+                            </strong>
+
+                            <span>
+                                Discover opportunities that match your journey.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="login-method-benefit">
+
+                        <div class="login-method-benefit-icon">
+                            ✓
+                        </div>
+
+                        <div class="login-method-benefit-text">
+
+                            <strong>
+                                One Connected Platform
+                            </strong>
+
+                            <span>
+                                Students, universities and companies together.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         RIGHT LOGIN METHOD PANEL
+    ====================================================== -->
+
+    <main class="login-method-panel">
+
+        <div class="login-method-card">
+
+
+            <!-- HEADER -->
+
+            <div class="login-method-header">
+
+                <div class="login-method-logo">
+
+                    {% if site_settings and site_settings.logo %}
+
+                        <img
+                            src="{{ site_settings.logo.url }}"
+                            alt="{{ site_settings.site_name|default:'InternConnect' }}"
+                        >
+
+                    {% else %}
+
+                        <span class="login-method-logo-placeholder">
+                            {{ site_settings.site_name|default:"InternConnect"|first }}
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <h1>
+                    Continue Login
+                </h1>
+
+
+                <p>
+                    Choose how you want to access your account.
+                </p>
+
+            </div>
+
+
+            <!-- MESSAGES -->
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="login-method-message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+            <!-- EMAIL -->
+
+            <div class="login-method-email">
+
+                <label for="login-email">
+                    Email
+                </label>
+
+                <input
+                    id="login-email"
+                    type="email"
+                    value="{{ email }}"
+                    readonly
+                >
+
+            </div>
+
+
+            <!-- LOGIN OPTIONS -->
+
+            <div class="login-method-options">
+
+
+                <!-- PASSWORD -->
+
+             <!-- PASSWORD -->
+
+<a
+    href="{% url 'password_login' %}"
+    class="login-method-option"
+>
+
+    <div class="login-method-icon" aria-hidden="true">
+
+        <!-- Lock / Password Icon -->
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <rect
+                x="3"
+                y="11"
+                width="18"
+                height="10"
+                rx="2"
+            ></rect>
+
+            <path
+                d="M7 11V7a5 5 0 0 1 10 0v4"
+            ></path>
+
+        </svg>
+
+    </div>
+
+
+    <div class="login-method-option-content">
+
+        <strong>
+            Continue with Password
+        </strong>
+
+        <span>
+            Use your account password to sign in.
+        </span>
+
+    </div>
+
+
+    <div class="login-method-arrow" aria-hidden="true">
+
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path d="M5 12h14"></path>
+            <path d="m13 6 6 6-6 6"></path>
+        </svg>
+
+    </div>
+
+</a>
+
+
+<!-- OTP -->
+
+<a
+    href="{% url 'request_otp' %}"
+    class="login-method-option"
+>
+
+    <div class="login-method-icon" aria-hidden="true">
+
+        <!-- Email Icon -->
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <rect
+                x="3"
+                y="5"
+                width="18"
+                height="14"
+                rx="2"
+            ></rect>
+
+            <path
+                d="m3 7 9 6 9-6"
+            ></path>
+
+        </svg>
+
+    </div>
+
+
+    <div class="login-method-option-content">
+
+        <strong>
+            Continue with One-Time Password
+        </strong>
+
+        <span>
+            Receive a secure verification code by email.
+        </span>
+
+    </div>
+
+
+    <div class="login-method-arrow" aria-hidden="true">
+
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path d="M5 12h14"></path>
+            <path d="m13 6 6 6-6 6"></path>
+        </svg>
+
+    </div>
+
+</a>
+
+
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="login-method-footer">
+
+                <a href="{% url 'login' %}">
+                    ← Use a different email
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}

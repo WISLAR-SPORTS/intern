@@ -1,0 +1,253 @@
+:root {
+
+    /* ============================================
+       BRAND
+       ============================================ */
+
+    --color-primary: #E85D3F;
+    --color-primary-hover: #C7462F;
+    --color-primary-light: #FFF0EB;
+
+
+    /* ============================================
+       SIDEBAR
+       ============================================ */
+
+    --color-sidebar: #241A24;
+    --color-sidebar-hover: #3B2A3D;
+    --color-sidebar-text: #F3EEFF;
+    --color-sidebar-muted: #B8AEBB;
+
+
+    /* ============================================
+       TEXT
+       ============================================ */
+
+    --color-text-primary: #3B2A3D;
+    --color-text-secondary: #766A78;
+    --color-text-muted: #9B919D;
+    --color-text-white: #FFFFFF;
+
+
+    /* ============================================
+       BACKGROUNDS
+       ============================================ */
+
+    --color-background: #FCF9F7;
+    --color-surface: #FFFFFF;
+    --color-surface-hover: #FFF3EF;
+
+
+    /* ============================================
+       BORDERS
+       ============================================ */
+
+    --color-border: #EDE5E1;
+    --color-border-dark: #DDD0F4;
+
+
+    /* ============================================
+       SUCCESS
+       ============================================ */
+
+    --color-success-background: #E8F7EF;
+    --color-success-border: #9AD8B4;
+    --color-success-text: #287A4A;
+
+
+    /* ============================================
+       ERROR
+       ============================================ */
+
+    --color-error-background: #FFF0EB;
+    --color-error-border: #F2C8BE;
+    --color-error-text: #C7462F;
+
+
+    /* ============================================
+       WARNING
+       ============================================ */
+
+    --color-warning-background: #FFF7DF;
+    --color-warning-border: #E8C96A;
+    --color-warning-text: #9A6A12;
+
+
+    /* ============================================
+       SHADOWS
+       ============================================ */
+
+    --shadow-navbar:
+        0 2px 8px rgba(74, 48, 58, 0.06);
+
+    --shadow-card:
+        0 8px 25px rgba(74, 48, 58, 0.10);
+
+    --shadow-card-hover:
+        0 15px 35px rgba(74, 48, 58, 0.14);
+
+
+    /* ============================================
+       RADIUS
+       ============================================ */
+
+    --radius-small: 6px;
+    --radius-medium: 10px;
+    --radius-large: 16px;
+
+
+    /* ============================================
+       TRANSITIONS
+       ============================================ */
+
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+}
+/* =========================================================
+   DARK THEME
+   Overrides the login.css / global color variables
+   ========================================================= */
+
+[data-theme="dark"] {
+
+    /* ============================================
+       BRAND
+       ============================================ */
+
+    --color-primary: #F07155;
+    --color-primary-hover: #FF866D;
+    --color-primary-light: #3A211D;
+
+
+    /* ============================================
+       SIDEBAR
+       ============================================ */
+
+    --color-sidebar: #191419;
+    --color-sidebar-hover: #30252F;
+    --color-sidebar-text: #F8F1F3;
+    --color-sidebar-muted: #B8AAB3;
+
+
+    /* ============================================
+       TEXT
+       ============================================ */
+
+    --color-text-primary: #F8F1F3;
+    --color-text-secondary: #C0B2BA;
+    --color-text-muted: #91838D;
+    --color-text-white: #FFFFFF;
+
+
+    /* ============================================
+       BACKGROUNDS
+       ============================================ */
+
+    --color-background: #141115;
+    --color-surface: #211B21;
+    --color-surface-hover: #2B2027;
+
+
+    /* ============================================
+       BORDERS
+       ============================================ */
+
+    --color-border: #382E36;
+    --color-border-dark: #51434D;
+
+
+    /* ============================================
+       SUCCESS
+       ============================================ */
+
+    --color-success-background: #18291F;
+    --color-success-border: #315C43;
+    --color-success-text: #8BD5A8;
+
+
+    /* ============================================
+       ERROR
+       ============================================ */
+
+    --color-error-background: #351F1C;
+    --color-error-border: #704039;
+    --color-error-text: #FF9A85;
+
+
+    /* ============================================
+       WARNING
+       ============================================ */
+
+    --color-warning-background: #332A16;
+    --color-warning-border: #705E2A;
+    --color-warning-text: #E8C96A;
+
+
+    /* ============================================
+       SHADOWS
+       ============================================ */
+
+    --shadow-navbar:
+        0 2px 8px rgba(0, 0, 0, 0.28);
+
+    --shadow-card:
+        0 8px 25px rgba(0, 0, 0, 0.36);
+
+    --shadow-card-hover:
+        0 15px 35px rgba(0, 0, 0, 0.48);
+
+
+    /* ============================================
+       RADIUS
+       ============================================ */
+
+    --radius-small: 6px;
+    --radius-medium: 10px;
+    --radius-large: 16px;
+
+
+    /* ============================================
+       TRANSITIONS
+       ============================================ */
+
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+}
+
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    min-height: 100%;
+
+    background: var(--color-background);
+
+    color: var(--color-text-primary);
+
+    font-family: inherit;
+
+    transition:
+        background-color var(--transition-normal),
+        color var(--transition-normal);
+}
+
+
+body {
+    min-height: 100dvh;
+}
+
+
+/* Main application wrapper */
+
+.base-page,
+.main-content,
+.content-wrapper,
+.page-content {
+    min-height: 100dvh;
+
+    background: var(--color-background);
+
+    color: var(--color-text-primary);
+}

@@ -1,0 +1,716 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/lucide@latest"></script>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
+
+
+    <title>{{ settings.site_name|default:"InternConnect" }} | {{ settings.tagline|default:"Connect. Intern. Grow." }}</title>
+    <link rel="stylesheet" href="{% static 'companies/css/home.css' %}">
+     <link rel="stylesheet" href="{% static 'companies/css/network.css' %}">
+      <link rel="stylesheet" href="{% static 'companies/css/nav.css' %}">
+          <link rel="stylesheet" href="{% static 'companies/css/feature.css' %}">
+        <link rel="stylesheet" href="{% static 'companies/css/footer.css' %}">
+
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
+
+</head>
+<body>
+<header class="navbar">
+    <div class="container nav-container">
+
+        <a href="#home" class="logo">
+            {% if settings.logo %}
+                <img src="{{ settings.logo.url }}" alt="{{ settings.site_name }}">
+            {% else %}
+                <img src="{% static 'images/logo.png' %}" alt="InternConnect Logo">
+            {% endif %}
+
+            <div class="logo-text">
+                <strong>
+                    <span>{{ settings.logo_first|default:"Intern" }}</span><span>{{ settings.logo_second|default:"Connect" }}</span>
+                </strong>
+                <small>{{ settings.tagline|default:"Connect. Intern. Grow." }}</small>
+            </div>
+        </a>
+
+        <nav class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="#universities">Universities</a>
+            <a href="#companies">Companies</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button class="theme-toggle" type="button">
+                ☀️ <span></span> 🌙
+            </button>
+
+            <a href="{% url 'login' %}" class="btn btn-outline">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}" class="btn btn-primary">
+                Get Started
+            </a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <button class="menu-toggle" type="button" aria-label="Open navigation">
+            ☰
+        </button>
+
+    </div>
+</header>
+
+
+<main>
+<section id="home" class="hero"
+ 
+    {% if settings.hero_image %}
+        style="background-image: url('{{ settings.hero_image.url }}');"
+    {% else %}
+        style="background-image: url('{% static 'images/hero.png' %}');"
+    {% endif %}
+>
+
+    <div class="container hero-container">
+        <div class="hero-content">
+            <span class="section-badge">{{ settings.hero_badge }}</span>
+            <h1>{{ settings.hero_title }}</h1>
+            <p>{{ settings.hero_description }}</p>
+
+            <div class="hero-buttons">
+                <a href="{{ settings.hero_primary_url|default:'#' }}" class="btn btn-primary">
+                    {{ settings.hero_primary_button }} <span>→</span>
+                </a>
+
+                <a href="{{ settings.hero_secondary_url|default:'#' }}" class="btn btn-outline">
+                    {{ settings.hero_secondary_button }}
+                </a>
+            </div>
+
+            <div class="statistics">
+                <div class="stat">
+   
+                    <div>
+                        <strong>{{ university_count }}+</strong>
+                        <small>Universities</small>
+                    </div>
+                </div>
+
+                <div class="stat">
+                 
+                    <div>
+                        <strong>{{ company_count }}+</strong>
+                        <small>Companies</small>
+                    </div>
+                </div>
+
+                <div class="stat">
+                       <div class="stat-icon">
+            <i class="fa-solid fa-user-group"></i>
+        </div>
+                    <div>
+                        <strong>{{ student_count }}+</strong>
+                        <small>Students</small>
+                    </div>
+                </div>
+
+                <div class="stat">
+      
+                    <div>
+                        <strong>{{ internship_count }}+</strong>
+                        <small>Internships</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if featured_internship %}
+            <div class="internship-notification">
+                <div class="notification-icon">💼</div>
+                <div>
+                    <strong>New Internship Available!</strong>
+                    <p>{{ featured_internship.title }}</p>
+                    <small>
+                        {{ featured_internship.company.company_name }}<br>
+                        {{ featured_internship.location }}
+                    </small>
+                </div>
+                <span>›</span>
+            </div>
+        {% endif %}
+    </div>
+</section>
+<section id="features" class="features section">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="section-badge">
+                {{ settings.features_badge }}
+            </span>
+
+            <h2>
+                {{ settings.features_title }}
+            </h2>
+
+            <p>
+                {{ settings.features_description }}
+            </p>
+        </div>
+
+
+        <div class="features-grid">
+
+            {% for feature in settings.features %}
+
+                <article class="feature-card">
+
+                    <div class="feature-icon {{ feature.color|default:'blue' }}">
+
+                        <i
+                            data-lucide="{{ feature.icon|default:'sparkles' }}"
+                            aria-hidden="true">
+                        </i>
+
+                    </div>
+
+                    <div>
+                        <h3>{{ feature.title }}</h3>
+
+                        <p>
+                            {{ feature.description }}
+                        </p>
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <p>No features available.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+<section id="universities" class="network section">
+    <div class="container">
+
+        <!-- NETWORK HEADER -->
+        <div class="network-header">
+
+            <div class="network-intro">
+                <span class="section-badge">
+                    {{ settings.network_badge }}
+                </span>
+
+                <h2>{{ settings.network_title }}</h2>
+
+                <p>{{ settings.network_description }}</p>
+            </div>
+
+            <!-- NETWORK TOGGLE -->
+            <div class="network-toggle" role="tablist" aria-label="Network locations">
+
+                <button
+                    class="active"
+                    type="button"
+                    data-map="universities"
+                    role="tab"
+                    aria-selected="true"
+                >
+                    <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M22 10.5C22 17 12 22 12 22S2 17 2 10.5a10 10 0 0 1 20 0Z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+
+                    <span>Universities</span>
+                </button>
+
+                <button
+                    type="button"
+                    data-map="companies"
+                    role="tab"
+                    aria-selected="false"
+                >
+                    <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M3 21h18"/>
+                        <path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16"/>
+                        <path d="M15 9h4a2 2 0 0 1 2 2v10"/>
+                        <path d="M9 7h2"/>
+                        <path d="M9 11h2"/>
+                        <path d="M9 15h2"/>
+                    </svg>
+
+                    <span>Companies</span>
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- MAPS -->
+        <div class="maps-grid">
+
+            <!-- UNIVERSITY MAP -->
+            <article
+                class="map-card university-map-card"
+                data-map-card="universities"
+            >
+
+                <div class="map-header">
+
+                    <div class="map-title">
+
+                        <div class="map-title-icon university">
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="m3 10 9-6 9 6"/>
+                                <path d="M5 10v9"/>
+                                <path d="M9 10v9"/>
+                                <path d="M15 10v9"/>
+                                <path d="M19 10v9"/>
+                                <path d="M3 19h18"/>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <h3>University Locations</h3>
+                            <span>Explore universities in the network</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="map-search">
+
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="m20 20-3.5-3.5"/>
+                        </svg>
+
+                        <input
+                            type="search"
+                            id="university-search"
+                            placeholder="Search university..."
+                            autocomplete="off"
+                            aria-label="Search universities"
+                        >
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="university-map"
+                    class="map"
+                    aria-label="University locations map"
+                ></div>
+
+            </article>
+
+
+            <!-- COMPANY MAP -->
+            <article
+                class="map-card company-map-card"
+                data-map-card="companies"
+            >
+
+                <div class="map-header">
+
+                    <div class="map-title">
+
+                        <div class="map-title-icon company">
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="M3 21h18"/>
+                                <path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16"/>
+                                <path d="M15 9h4a2 2 0 0 1 2 2v10"/>
+                                <path d="M9 7h2"/>
+                                <path d="M9 11h2"/>
+                                <path d="M9 15h2"/>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <h3>Company Locations</h3>
+                            <span>Explore companies in the network</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="map-search">
+
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="m20 20-3.5-3.5"/>
+                        </svg>
+
+                        <input
+                            type="search"
+                            id="company-search"
+                            placeholder="Search company..."
+                            autocomplete="off"
+                            aria-label="Search companies"
+                        >
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="company-map"
+                    class="map"
+                    aria-label="Company locations map"
+                ></div>
+
+            </article>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section id="about" class="about section">
+    <div class="container about-container">
+        <div class="about-image">
+            {% if settings.about_image %}
+                <img src="{{ settings.about_image.url }}" alt="{{ settings.about_title }}">
+            {% else %}
+                <img src="{% static 'images/about.png' %}" alt="{{ settings.about_title }}">
+            {% endif %}
+
+            {% if settings.about_video_url %}
+                <a href="{{ settings.about_video_url }}" class="video-card">
+                    ▶
+                    <span>
+                        {{ settings.about_video_text|default:"Watch Our Story" }}
+                        <small>{{ settings.about_video_duration|default:"2:30" }}</small>
+                    </span>
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="about-content">
+    <span class="section-badge">{{ settings.about_badge }}</span>
+
+    <h2>{{ settings.about_title }}</h2>
+
+    <p>{{ settings.about_description }}</p>
+
+    <div class="about-values">
+
+        <!-- Mission -->
+        <div class="value">
+            <div class="value-icon">
+                <i data-lucide="map-pin"></i>
+            </div>
+
+            <div>
+                <h3>{{ settings.mission_title }}</h3>
+                <p>{{ settings.mission_text }}</p>
+            </div>
+        </div>
+
+
+        <!-- Vision -->
+        <div class="value">
+            <div class="value-icon">
+                <i data-lucide="target"></i>
+            </div>
+
+            <div>
+                <h3>{{ settings.vision_title }}</h3>
+                <p>{{ settings.vision_text }}</p>
+            </div>
+        </div>
+
+
+        <!-- Values -->
+        <div class="value">
+            <div class="value-icon">
+                <i data-lucide="heart"></i>
+            </div>
+
+            <div>
+                <h3>{{ settings.values_title }}</h3>
+                <p>{{ settings.values_text }}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+</section>
+
+<section id="contact" class="cta">
+    <div class="container cta-container">
+        <div class="cta-icon">{{ settings.cta_icon|default:"🎓" }}</div>
+
+        <div class="cta-content">
+            <h2>{{ settings.cta_title }}</h2>
+            <p>{{ settings.cta_description }}</p>
+        </div>
+
+        <div class="cta-buttons">
+            <a href="{{ settings.student_url|default:'#' }}" class="cta-btn">I'm a Student</a>
+            <a href="{{ settings.university_url|default:'#' }}" class="cta-btn">I'm a University</a>
+            <a href="{{ settings.company_url|default:'#' }}" class="cta-btn">I'm a Company</a>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <a href="#home" class="logo">
+                {% if settings.logo %}
+                    <img src="{{ settings.logo.url }}" alt="{{ settings.site_name }}">
+                {% else %}
+                    <img src="{% static 'images/logo.png' %}" alt="InternConnect">
+                {% endif %}
+                <div class="logo-text">
+                    <strong>
+                        <span>{{ settings.logo_first|default:"Intern" }}</span><span>{{ settings.logo_second|default:"Connect" }}</span>
+                    </strong>
+                    <small>{{ settings.tagline|default:"Connect. Intern. Grow." }}</small>
+                </div>
+            </a>
+
+            <p>{{ settings.footer_description }}</p>
+
+           <div class="social-links">
+
+    {% if settings.facebook_url %}
+        <a
+            href="{{ settings.facebook_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14 8h3V4h-3c-3.3 0-5 1.7-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9c0-.7.3-1 1-1z"/>
+            </svg>
+        </a>
+    {% endif %}
+
+
+    {% if settings.x_url %}
+        <a
+            href="{{ settings.x_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="X"
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.3L6.5 22H3.4l7.2-8.2L2.8 2h6.4l4.4 5.8L18.9 2zm-1.1 17.9h1.7L8.3 3.9H6.5L17.8 19.9z"/>
+            </svg>
+        </a>
+    {% endif %}
+
+
+    {% if settings.linkedin_url %}
+        <a
+            href="{{ settings.linkedin_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6.5 8.5H3V21h3.5V8.5zM4.75 3C3.65 3 3 3.72 3 4.65S3.65 6.3 4.72 6.3h.03c1.1 0 1.75-.73 1.75-1.65C6.47 3.72 5.82 3 4.75 3zM21 13.85c0-3.76-2.01-5.5-4.7-5.5-2.17 0-3.14 1.19-3.68 2.03V8.5H9.12V21h3.5v-6.96c0-1.84.35-3.62 2.63-3.62 2.24 0 2.27 2.1 2.27 3.74V21H21v-7.15z"/>
+            </svg>
+        </a>
+    {% endif %}
+
+
+    {% if settings.youtube_url %}
+        <a
+            href="{{ settings.youtube_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube"
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/>
+            </svg>
+        </a>
+    {% endif %}
+
+
+    {% if settings.instagram_url %}
+        <a
+            href="{{ settings.instagram_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect
+                    x="3"
+                    y="3"
+                    width="18"
+                    height="18"
+                    rx="5"
+                    ry="5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                />
+
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                />
+
+                <circle
+                    cx="17.5"
+                    cy="6.5"
+                    r="1"
+                    fill="currentColor"
+                />
+            </svg>
+        </a>
+    {% endif %}
+
+</div>
+
+
+        </div>
+
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="#universities">Universities</a>
+            <a href="#companies">Companies</a>
+            <a href="#contact">Contact</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>Support</h3>
+            <a href="{{ settings.help_url|default:'#' }}">Help Center</a>
+            <a href="{{ settings.faq_url|default:'#' }}">FAQs</a>
+            <a href="{{ settings.terms_url|default:'#' }}">Terms of Service</a>
+            <a href="{{ settings.privacy_url|default:'#' }}">Privacy Policy</a>
+        </div>
+
+        <div class="newsletter">
+            <h3>{{ settings.newsletter_title }}</h3>
+            <p>{{ settings.newsletter_description }}</p>
+            <form method="POST" action="{{ settings.newsletter_url|default:'#' }}">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Enter your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>{{ settings.copyright_text }}</p>
+        <span>{{ settings.tagline|default:"Connect. Intern. Grow." }}</span>
+    </div>
+</footer>
+
+
+{{ universities|json_script:"universities-data" }}
+    {{ companies|json_script:"companies-data" }}
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        lucide.createIcons();
+    });
+</script>
+
+    <script src="{% static 'companies/js/home.js' %}"></script>
+     <script src="{% static 'companies/js/map.js' %}"></script>
+     <script src="{% static 'companies/js/nav.js' %}"></script>
+</body>
+</html>

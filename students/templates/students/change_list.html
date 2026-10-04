@@ -1,0 +1,17 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+
+<li>
+    <a
+        href="{% url 'admin:studentverified_import' %}"
+        class="btn btn-primary"
+    >
+        <i class="fas fa-upload"></i>
+        Import Students
+    </a>
+</li>
+
+{{ block.super }}
+
+{% endblock %}

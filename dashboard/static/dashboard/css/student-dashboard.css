@@ -1,0 +1,1507 @@
+/* =========================================================
+   STUDENT DASHBOARD
+   Matches dashboard/base.css
+========================================================= */
+
+
+/* =========================================================
+   SEARCH SECTION
+========================================================= */
+
+.search-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.search-box {
+    position: relative;
+
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+}
+
+.search-box > span {
+    position: absolute;
+    left: 17px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: var(--color-text-muted);
+
+    font-size: 21px;
+    line-height: 1;
+
+    pointer-events: none;
+}
+.apply-button.already-applied {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    background: #ecfdf3;
+    color: #15803d;
+
+    border: 1px solid #bbf7d0;
+
+    cursor: default;
+
+    pointer-events: none;
+}
+
+.apply-button.already-applied svg {
+    width: 17px;
+    height: 17px;
+    stroke-width: 2.5;
+}
+.internship-details span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.internship-details svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2;
+}
+
+.verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.verified svg {
+    width: 15px;
+    height: 15px;
+}
+
+.save-button svg {
+    width: 19px;
+    height: 19px;
+}
+.apply-button.already-applied {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    background: #ecfdf3;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+
+    cursor: default;
+    pointer-events: none;
+}
+
+.apply-button.already-applied svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+
+
+.search-box input {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 18px 0 47px;
+
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    outline: none;
+
+    font-size: 13px;
+
+    box-shadow:
+        0 2px 8px rgba(74, 48, 58, 0.03);
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background-color var(--transition-normal);
+}
+
+.search-box input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.search-box input:hover {
+    border-color: var(--color-border-dark);
+}
+
+.search-box input:focus {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(232, 93, 63, 0.10);
+}
+
+.search-section select {
+    width: 155px;
+    height: 48px;
+
+    padding: 0 38px 0 14px;
+
+    color: var(--color-text-secondary);
+    background-color: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    outline: none;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background-color var(--transition-normal);
+}
+
+.search-section select:hover {
+    border-color: var(--color-border-dark);
+}
+
+.search-section select:focus {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(232, 93, 63, 0.10);
+}
+
+
+/* =========================================================
+   INTERNSHIP HEADER
+========================================================= */
+
+.internship-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 18px;
+}
+
+.internship-header h2 {
+    color: var(--color-text-primary);
+
+    font-size: 21px;
+    font-weight: 800;
+
+    letter-spacing: -0.4px;
+}
+
+.internship-header p {
+    margin-top: 4px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 12px;
+}
+
+.internship-count {
+    flex-shrink: 0;
+
+    padding: 7px 12px;
+
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   INTERNSHIP GRID
+========================================================= */
+
+.internship-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 18px;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   INTERNSHIP CARD
+========================================================= */
+
+.internship-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    min-height: 355px;
+
+    padding: 19px;
+
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-card);
+
+    transition:
+        transform var(--transition-normal),
+        box-shadow var(--transition-normal),
+        border-color var(--transition-normal),
+        background-color var(--transition-normal);
+}
+
+.internship-card:hover {
+    transform: translateY(-4px);
+
+    border-color:
+        rgba(232, 93, 63, 0.25);
+
+    box-shadow: var(--shadow-card-hover);
+}
+
+
+/* =========================================================
+   COMPANY ROW
+========================================================= */
+
+.company-row {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 0;
+}
+
+.company-logo {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    color: var(--color-primary);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--color-primary-light),
+            var(--color-surface-hover)
+        );
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 11px;
+
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.company-logo img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.company-info {
+    min-width: 0;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.company-info strong {
+    overflow: hidden;
+
+    color: var(--color-text-primary);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.verified {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+
+    margin-top: 3px;
+
+    color: var(--color-success-text);
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.save-button {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color: var(--color-text-muted);
+
+    background: transparent;
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 9px;
+
+    font-size: 21px;
+    line-height: 1;
+
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.save-button:hover {
+    color: var(--color-primary);
+
+    background: var(--color-primary-light);
+
+    border-color:
+        rgba(232, 93, 63, 0.20);
+
+    transform: scale(1.06);
+}
+
+.save-button.saved {
+    color: var(--color-primary);
+
+    background: var(--color-primary-light);
+
+    border-color:
+        rgba(232, 93, 63, 0.20);
+}
+
+
+/* =========================================================
+   INTERNSHIP TITLE
+========================================================= */
+
+.internship-title {
+    display: -webkit-box;
+
+    margin-top: 18px;
+
+    overflow: hidden;
+
+    color: var(--color-text-primary);
+
+    font-size: 16px;
+    font-weight: 800;
+
+    line-height: 1.35;
+
+    letter-spacing: -0.2px;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.description {
+    display: -webkit-box;
+
+    margin-top: 8px;
+
+    overflow: hidden;
+
+    color: var(--color-text-secondary);
+
+    font-size: 12px;
+    line-height: 1.65;
+
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+
+/* =========================================================
+   INTERNSHIP DETAILS
+========================================================= */
+
+.internship-details {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-top: 17px;
+}
+
+.internship-details > span {
+    display: flex;
+    align-items: center;
+
+    min-width: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.detail-icon {
+    width: 22px;
+    height: 22px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    margin-right: 7px;
+
+    color: var(--color-primary);
+
+    background: var(--color-primary-light);
+
+    border-radius: 6px;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-top: auto;
+    padding-top: 17px;
+
+    border-top: 1px solid var(--color-border);
+}
+
+.deadline {
+    min-width: 0;
+
+    color: var(--color-text-muted);
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.deadline .expired {
+    display: inline-flex;
+
+    padding: 4px 8px;
+
+    color: var(--color-error-text);
+
+    background: var(--color-error-background);
+
+    border-radius: 999px;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.apply-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 37px;
+
+    padding: 0 13px;
+
+    flex-shrink: 0;
+
+    color: #ffffff;
+
+    background: var(--color-primary);
+
+    border-radius: 8px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    box-shadow:
+        0 5px 12px rgba(232, 93, 63, 0.17);
+
+    transition:
+        background-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.apply-button:hover {
+    color: #ffffff;
+
+    background: var(--color-primary-hover);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 16px rgba(232, 93, 63, 0.24);
+}
+
+.apply-button span {
+    font-size: 15px;
+
+    transition:
+        transform var(--transition-fast);
+}
+
+.apply-button:hover span {
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 320px;
+
+    padding: 50px 25px;
+
+    text-align: center;
+
+    background: var(--color-surface);
+
+    border: 1px dashed var(--color-border-dark);
+
+    border-radius: var(--radius-large);
+}
+
+.empty-icon {
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 15px;
+
+    color: var(--color-primary);
+
+    background: var(--color-primary-light);
+
+    border-radius: 18px;
+
+    font-size: 30px;
+}
+
+.empty-state h3 {
+    color: var(--color-text-primary);
+
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.empty-state p {
+    max-width: 450px;
+
+    margin-top: 7px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   AI ASSISTANT
+========================================================= */
+.ai-assistant {
+    position: fixed;
+    right: 25px;
+    bottom: 92px;
+
+    width: 390px;
+    max-width: calc(100vw - 32px);
+    height: min(650px, calc(100vh - 125px));
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+
+    box-shadow: 0 25px 70px rgba(38, 25, 32, 0.20);
+
+    z-index: 9999;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(20px) scale(0.96);
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* THIS IS THE IMPORTANT PART */
+.ai-assistant.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform: translateY(0) scale(1);
+}
+
+
+
+.ai-assistant.open {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   AI HEADER
+========================================================= */
+
+.ai-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 15px 16px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--color-primary),
+            #d94f35
+        );
+}
+
+.ai-header-content {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 0;
+}
+
+.ai-avatar {
+    width: 39px;
+    height: 39px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.16);
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 11px;
+}
+
+.ai-avatar svg {
+    width: 21px;
+    height: 21px;
+}
+
+.ai-header-text {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-header-text strong {
+    overflow: hidden;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ai-header-text small {
+    margin-top: 2px;
+
+    color: rgba(255, 255, 255, 0.78);
+
+    font-size: 9px;
+}
+
+.ai-close {
+    width: 33px;
+    height: 33px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    border-radius: 8px;
+
+    transition:
+        background-color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.ai-close:hover {
+    background: rgba(255, 255, 255, 0.22);
+
+    transform: rotate(4deg);
+}
+
+.ai-close svg {
+    width: 17px;
+}
+
+
+/* =========================================================
+   AI BODY
+========================================================= */
+
+.ai-messages {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 18px;
+
+    background: var(--color-background);
+
+    scrollbar-width: thin;
+    scrollbar-color:
+        var(--color-border-dark)
+        transparent;
+}
+
+.ai-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.ai-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ai-messages::-webkit-scrollbar-thumb {
+    background: var(--color-border-dark);
+
+    border-radius: 999px;
+}
+
+
+/* =========================================================
+   AI WELCOME
+========================================================= */
+
+.ai-welcome {
+    padding: 5px 4px 17px;
+
+    text-align: center;
+}
+
+.ai-welcome-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 11px;
+
+    color: var(--color-primary);
+
+    background: var(--color-primary-light);
+
+    border-radius: 15px;
+}
+
+.ai-welcome-icon svg {
+    width: 25px;
+    height: 25px;
+}
+
+.ai-welcome h3 {
+    color: var(--color-text-primary);
+
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.ai-welcome p {
+    max-width: 300px;
+
+    margin: 6px auto 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: 11px;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-actions {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 8px;
+
+    margin-bottom: 15px;
+}
+
+.quick-action {
+    min-height: 64px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 10px;
+
+    color: var(--color-text-secondary);
+
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 10px;
+
+    text-align: left;
+
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.quick-action:hover {
+    color: var(--color-primary);
+
+    background: var(--color-primary-light);
+
+    border-color:
+        rgba(232, 93, 63, 0.18);
+
+    transform: translateY(-1px);
+}
+
+.quick-action svg {
+    width: 17px;
+    height: 17px;
+
+    color: var(--color-primary);
+}
+
+.quick-action span {
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   AI CONVERSATION
+========================================================= */
+
+.ai-conversation {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+/*
+   These styles support messages created
+   dynamically by ai-assistant.js.
+*/
+
+.ai-message {
+    display: flex;
+
+    max-width: 88%;
+}
+
+.ai-message.user {
+    align-self: flex-end;
+
+    justify-content: flex-end;
+}
+
+.ai-message.assistant {
+    align-self: flex-start;
+}
+
+.ai-message-content {
+    padding: 10px 12px;
+
+    color: var(--color-text-primary);
+
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 12px;
+
+    font-size: 11px;
+    line-height: 1.6;
+
+    box-shadow:
+        0 2px 5px rgba(74, 48, 58, 0.04);
+}
+
+.ai-message.user .ai-message-content {
+    color: #ffffff;
+
+    background: var(--color-primary);
+
+    border-color: var(--color-primary);
+}
+
+.ai-message.assistant .ai-message-content {
+    border-top-left-radius: 4px;
+}
+
+.ai-message.user .ai-message-content {
+    border-top-right-radius: 4px;
+}
+
+
+/* =========================================================
+   AI TYPING INDICATOR
+========================================================= */
+
+.ai-typing {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 4px;
+
+    padding: 11px 13px;
+
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 12px 12px 12px 4px;
+}
+
+.ai-typing span {
+    width: 5px;
+    height: 5px;
+
+    display: block;
+
+    background: var(--color-text-muted);
+
+    border-radius: 50%;
+
+    animation:
+        aiTyping 1.2s infinite ease-in-out;
+}
+
+.ai-typing span:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.ai-typing span:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes aiTyping {
+
+    0%,
+    60%,
+    100% {
+        opacity: 0.35;
+        transform: translateY(0);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translateY(-3px);
+    }
+}
+
+
+/* =========================================================
+   AI INPUT
+========================================================= */
+
+.ai-input-area {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 11px;
+
+    background: var(--color-surface);
+
+    border-top: 1px solid var(--color-border);
+}
+
+.ai-attachment,
+.ai-send {
+    width: 37px;
+    height: 37px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.ai-attachment {
+    color: var(--color-text-muted);
+
+    background: var(--color-background);
+}
+
+.ai-attachment:hover {
+    color: var(--color-primary);
+
+    background: var(--color-primary-light);
+}
+
+.ai-attachment svg {
+    width: 17px;
+    height: 17px;
+}
+
+.ai-input-area input {
+    min-width: 0;
+    flex: 1;
+
+    height: 37px;
+
+    padding: 0 10px;
+
+    color: var(--color-text-primary);
+
+    background: var(--color-background);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-size: 11px;
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.ai-input-area input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.ai-input-area input:focus {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(232, 93, 63, 0.08);
+}
+
+.ai-send {
+    color: #ffffff;
+
+    background: var(--color-primary);
+}
+
+.ai-send:hover {
+    background: var(--color-primary-hover);
+
+    transform: translateY(-1px);
+}
+
+.ai-send:active {
+    transform: scale(0.95);
+}
+
+.ai-send svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* =========================================================
+   AI FLOATING BUTTON OVERRIDES
+   Base button is defined in base.css
+========================================================= */
+
+.ai-floating-container {
+    z-index: 1600;
+}
+
+.ai-floating-container.ai-open .ai-floating-label {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ai-toggle.ai-active {
+    transform: rotate(0deg);
+}
+
+
+/* =========================================================
+   SEARCH FILTERING STATES
+========================================================= */
+
+.internship-card.hidden {
+    display: none;
+}
+
+.internship-grid.no-results::after {
+    content: "No internships match your search.";
+
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 180px;
+
+    color: var(--color-text-secondary);
+
+    background: var(--color-surface);
+
+    border: 1px dashed var(--color-border-dark);
+
+    border-radius: var(--radius-large);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DARK THEME
+========================================================= */
+
+[data-theme="dark"] .internship-card {
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.30);
+}
+
+[data-theme="dark"] .internship-card:hover {
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.42);
+}
+
+[data-theme="dark"] .search-box input,
+[data-theme="dark"] .search-section select {
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .ai-assistant {
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.50);
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .internship-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .search-section {
+        flex-direction: column;
+        align-items: stretch;
+
+        margin-bottom: 26px;
+    }
+
+    .search-section select {
+        width: 100%;
+    }
+
+    .internship-header {
+        align-items: flex-start;
+    }
+
+    .internship-header h2 {
+        font-size: 19px;
+    }
+
+    .internship-header p {
+        font-size: 11px;
+    }
+
+    .internship-count {
+        font-size: 9px;
+
+        padding: 6px 9px;
+    }
+
+    .internship-grid {
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+    }
+
+    .internship-card {
+        min-height: 330px;
+    }
+
+    .ai-assistant {
+        right: 16px;
+        bottom: 80px;
+
+        width: calc(100vw - 32px);
+
+        max-width: none;
+
+        height: min(
+            650px,
+            calc(100vh - 105px)
+        );
+
+        border-radius: 18px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .internship-header {
+        flex-direction: column;
+
+        gap: 9px;
+
+        margin-bottom: 15px;
+    }
+
+    .internship-count {
+        align-self: flex-start;
+    }
+
+    .internship-card {
+        padding: 16px;
+
+        border-radius: 14px;
+    }
+
+    .company-logo {
+        width: 41px;
+        height: 41px;
+    }
+
+    .internship-title {
+        margin-top: 15px;
+
+        font-size: 15px;
+    }
+
+    .description {
+        font-size: 11px;
+    }
+
+    .card-footer {
+        align-items: flex-end;
+    }
+
+    .deadline {
+        max-width: 45%;
+    }
+
+    .apply-button {
+        min-height: 35px;
+
+        padding: 0 11px;
+
+        font-size: 10px;
+    }
+
+    .ai-assistant {
+        right: 8px;
+        left: 8px;
+
+        bottom: calc(
+            var(--mobile-nav-height) + 8px
+        );
+
+        width: auto;
+
+        height: calc(
+            100vh -
+            var(--mobile-nav-height) -
+            24px
+        );
+
+        max-height: none;
+
+        border-radius: 18px;
+    }
+
+    .ai-messages {
+        padding: 14px;
+    }
+
+    .quick-actions {
+        gap: 6px;
+    }
+
+    .quick-action {
+        min-height: 58px;
+
+        padding: 9px;
+    }
+
+    .ai-floating-container {
+        right: 14px;
+
+        bottom: calc(
+            var(--mobile-nav-height) + 14px
+        );
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .internship-card,
+    .apply-button,
+    .save-button,
+    .quick-action,
+    .ai-assistant,
+    .ai-toggle,
+    .ai-floating-label {
+        transition: none;
+    }
+
+    .ai-typing span {
+        animation: none;
+    }
+}

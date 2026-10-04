@@ -1,0 +1,424 @@
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.footer {
+    width: 100%;
+    background: var(--footer-bg);
+    color: rgba(255, 255, 255, 0.65);
+    padding: 64px 0 0;
+    box-sizing: border-box;
+}
+
+
+/* ==========================================================================
+   REMOVE GLOBAL CONTAINER WIDTH
+   ========================================================================== */
+
+.footer > .container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+
+
+/* ==========================================================================
+   FOOTER GRID
+   ========================================================================== */
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr 0.8fr 1.3fr;
+    gap: 40px;
+
+    width: 100%;
+    padding-bottom: 48px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+}
+
+
+/* ==========================================================================
+   FOOTER BRAND
+   ========================================================================== */
+
+.footer-brand .logo-text strong span:first-child {
+    color: var(--text-white);
+}
+
+.footer-brand .logo-text strong span:last-child {
+    color: var(--primary-blue);
+}
+
+.footer-brand .logo-text small {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-brand p {
+    margin: 18px 0 20px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    max-width: 320px;
+}
+
+
+/* ==========================================================================
+   SOCIAL LINKS
+   ========================================================================== */
+
+.social-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* --------------------------------------------------------------------------
+   SOCIAL BUTTON
+   -------------------------------------------------------------------------- */
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: var(--radius-medium);
+
+    color: rgba(255, 255, 255, 0.75);
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.08);
+
+    transition:
+        color var(--transition-fast),
+        background var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+
+/* --------------------------------------------------------------------------
+   HOVER
+   -------------------------------------------------------------------------- */
+
+.social-links a:hover {
+    background: var(--color-primary);
+
+    border-color: var(--color-primary);
+
+    color: var(--color-text-white);
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(232, 93, 63, 0.25);
+}
+
+
+/* --------------------------------------------------------------------------
+   ACTIVE
+   -------------------------------------------------------------------------- */
+
+.social-links a:active {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 4px 10px rgba(232, 93, 63, 0.18);
+}
+
+
+/* --------------------------------------------------------------------------
+   KEYBOARD ACCESSIBILITY
+   -------------------------------------------------------------------------- */
+
+.social-links a:focus-visible {
+    outline: none;
+
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px var(--color-primary-light),
+        0 8px 20px rgba(232, 93, 63, 0.18);
+}
+
+
+/* --------------------------------------------------------------------------
+   HOVER ICON SCALE
+   -------------------------------------------------------------------------- */
+
+.social-links a svg {
+    width: 18px;
+    height: 18px;
+
+    fill: currentColor;
+
+    transition:
+        transform var(--transition-fast);
+}
+
+
+.social-links a:hover svg {
+    transform: scale(1.08);
+}
+
+
+/* --------------------------------------------------------------------------
+   MOBILE
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+    .social-links {
+        gap: 8px;
+    }
+
+    .social-links a {
+        width: 36px;
+        height: 36px;
+
+        border-radius: var(--radius-small);
+
+        font-size: 13px;
+    }
+
+    .social-links a svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+
+/* --------------------------------------------------------------------------
+   REDUCED MOTION
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .social-links a,
+    .social-links a svg {
+        transition: none;
+    }
+
+    .social-links a:hover {
+        transform: none;
+    }
+}
+
+
+
+
+
+/* ==========================================================================
+   FOOTER COLUMNS
+   ========================================================================== */
+
+.footer-column h3,
+.newsletter h3 {
+    font-family: var(--font-body);
+    color: var(--text-white);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-column a {
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.footer-column a:hover {
+    color: var(--text-white);
+}
+
+
+/* ==========================================================================
+   NEWSLETTER
+   ========================================================================== */
+
+.newsletter p {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    max-width: 300px;
+}
+
+.newsletter form {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.newsletter input[type="email"] {
+    flex: 1;
+    min-width: 0;
+
+    padding: 11px 14px;
+
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-white);
+
+    font-size: 0.88rem;
+}
+
+.newsletter input[type="email"]::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.newsletter input[type="email"]:focus {
+    border-color: var(--primary-blue);
+}
+
+.newsletter button {
+    padding: 11px 18px;
+
+    background: var(--primary-blue);
+    color: var(--text-white);
+
+    border-radius: var(--radius-md);
+
+    font-size: 0.88rem;
+    font-weight: 600;
+
+    transition: background-color 0.2s ease;
+}
+
+.newsletter button:hover {
+    background: var(--primary-blue-dark);
+}
+
+
+/* ==========================================================================
+   FOOTER BOTTOM
+   ========================================================================== */
+
+.footer-bottom {
+    width: 100%;
+    max-width: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 22px 40px;
+    margin: 0;
+
+    box-sizing: border-box;
+
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+
+/* ==========================================================================
+   TABLET
+   ========================================================================== */
+
+@media (max-width: 1000px) {
+
+    .footer > .container {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 35px;
+    }
+
+    .footer-bottom {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+
+@media (max-width: 650px) {
+
+    .footer {
+        padding-top: 48px;
+    }
+
+    .footer > .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding-bottom: 35px;
+    }
+
+    .footer-brand p,
+    .newsletter p {
+        max-width: none;
+    }
+
+    .newsletter form {
+        flex-direction: column;
+    }
+
+    .newsletter input[type="email"],
+    .newsletter button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+
+        padding: 20px 16px;
+    }
+}
+
+
+/* ==========================================================================
+   VERY SMALL PHONES
+   ========================================================================== */
+
+@media (max-width: 420px) {
+
+    .footer > .container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .footer-bottom {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}

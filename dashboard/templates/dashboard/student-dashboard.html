@@ -1,0 +1,637 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+
+{% block title %}
+    Student Dashboard
+{% endblock %}
+
+
+
+{% block extra_css %}
+
+
+
+<link
+    rel="stylesheet"
+    href="{% static 'dashboard/css/student-dashboard.css' %}"
+>
+
+{% endblock %}
+
+
+
+{% block dashboard_active %}
+active
+{% endblock %}
+
+
+
+{% block page_title %}
+    Find Your Internship
+{% endblock %}
+
+
+
+{% block page_subtitle %}
+
+    Discover internship opportunities from
+    companies looking for talented students.
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!-- =====================================================
+     SEARCH
+====================================================== -->
+
+<section class="search-section">
+
+
+    <div class="search-box">
+
+        <span>⌕</span>
+
+        <input
+            type="text"
+            id="internshipSearch"
+            placeholder="Search internships, companies, skills..."
+        >
+
+    </div>
+
+
+
+    <select id="typeFilter">
+
+        <option value="">
+            All Types
+        </option>
+
+        <option value="fulltime">
+            Full Time
+        </option>
+
+        <option value="parttime">
+            Part Time
+        </option>
+
+        <option value="remote">
+            Remote
+        </option>
+
+    </select>
+   
+
+
+
+</section>
+
+
+
+<!-- =====================================================
+     INTERNSHIP HEADER
+====================================================== -->
+
+<section class="internship-header">
+
+
+    <div>
+
+        <h2>
+            Available Internships
+        </h2>
+
+        <p>
+            Explore opportunities that match your career goals.
+        </p>
+
+    </div>
+    
+
+
+
+    <div class="internship-count">
+
+        {{ internships|length }}
+        Opportunities
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     INTERNSHIP CARDS
+====================================================== -->
+<section
+    class="internship-grid"
+    id="internshipGrid"
+>
+
+    {% if internships %}
+
+        {% for internship in internships %}
+
+            <article
+                class="internship-card"
+                data-title="{{ internship.title|lower }}"
+                data-company="{{ internship.company.company_name|lower }}"
+                data-type="{{ internship.internship_type }}"
+            >
+
+                <!-- COMPANY -->
+
+                <div class="company-row">
+
+                    <div class="company-logo">
+
+                        {% if internship.company.logo %}
+
+                            <img
+                                src="{{ internship.company.logo.url }}"
+                                alt="{{ internship.company.company_name }}"
+                            >
+
+                        {% else %}
+
+                            <span>
+                                {{ internship.company.company_name|first|upper }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="company-info">
+
+                        <strong>
+                            {{ internship.company.company_name }}
+                        </strong>
+
+                        {% if internship.company.verified %}
+
+                            <span class="verified">
+                                <i data-lucide="badge-check"></i>
+                                Verified
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="save-button"
+                        title="Save internship"
+                    >
+                        <i data-lucide="heart"></i>
+                    </button>
+
+                </div>
+
+
+                <!-- TITLE -->
+
+                <h3 class="internship-title">
+                    {{ internship.title }}
+                </h3>
+
+
+                <!-- DESCRIPTION -->
+
+                <p class="description">
+                    {{ internship.description|truncatewords:25 }}
+                </p>
+
+
+                <!-- DETAILS -->
+
+                <div class="internship-details">
+
+                    {% if internship.location %}
+
+                        <span>
+                            <i data-lucide="map-pin"></i>
+                            {{ internship.location }}
+                        </span>
+
+                    {% endif %}
+
+                    <span>
+                        <i data-lucide="briefcase"></i>
+                        {{ internship.get_internship_type_display }}
+                    </span>
+
+                    <span>
+                        <i data-lucide="calendar-days"></i>
+                        Deadline:
+                        {{ internship.deadline|date:"M d, Y" }}
+                    </span>
+
+                </div>
+
+
+                <!-- CARD FOOTER -->
+
+                <div class="card-footer">
+
+                    <div class="deadline">
+
+                        {% if internship.deadline < today %}
+
+                            <span class="expired">
+                                <i data-lucide="circle-alert"></i>
+                                Expired
+                            </span>
+
+                        {% else %}
+
+                            <span>
+                                <i data-lucide="clock"></i>
+                                Apply before
+                                {{ internship.deadline|date:"M d" }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                   {% if internship.already_applied %}
+
+    <span class="apply-button already-applied">
+        <i data-lucide="circle-check"></i>
+        Already Applied
+    </span>
+
+{% else %}
+
+    <a
+        href="{% url 'internships:apply_for_internship' internship.id %}"
+        class="apply-button"
+    >
+        Apply Now
+        <i data-lucide="arrow-right"></i>
+    </a>
+
+{% endif %}
+
+
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                <i data-lucide="briefcase-business"></i>
+            </div>
+
+            <h3>
+                No internships available
+            </h3>
+
+            <p>
+                There are currently no active internship
+                opportunities. Please check again later.
+            </p>
+
+        </div>
+
+    {% endif %}
+     <div
+    id="noResults"
+    class="empty-state"
+    style="display: none;"
+>
+    <div class="empty-icon">
+        <i data-lucide="search-x"></i>
+    </div>
+
+    <h3>
+        No internships found
+    </h3>
+
+    <p>
+        Try changing your search or internship type filter.
+    </p>
+</div>
+
+</section>
+
+<!-- =========================================================
+     AI ASSISTANT FLOATING BUTTON
+========================================================= -->
+
+<div
+    class="ai-floating-container"
+    aria-label="AI Internship Assistant"
+>
+
+    <span class="ai-floating-label">
+        AI Assistant
+    </span>
+
+ <button
+    type="button"
+    id="ai-toggle"
+    class="ai-toggle"
+    aria-label="Open Internship Assistant"
+    aria-controls="ai-assistant"
+    aria-expanded="false"
+>
+    <i data-lucide="bot"></i>
+</button>
+
+
+</div>
+
+
+<!-- =========================================================
+     AI ASSISTANT PANEL
+========================================================= -->
+
+<div
+    id="ai-assistant"
+    class="ai-assistant"
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby="ai-title"
+    aria-hidden="true"
+>
+
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="ai-header">
+
+        <div class="ai-header-content">
+
+            <div class="ai-avatar">
+
+                <i data-lucide="bot"></i>
+
+            </div>
+
+
+            <div class="ai-header-text">
+
+                <strong id="ai-title">
+                    Internship Assistant
+                </strong>
+
+                <small>
+                    Your internship companion
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="close-ai"
+            class="ai-close"
+            aria-label="Close Internship Assistant"
+        >
+
+            <i data-lucide="x"></i>
+
+        </button>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         BODY
+    ====================================================== -->
+
+    <div
+        id="ai-messages"
+        class="ai-messages"
+    >
+
+
+        <!-- =================================================
+             WELCOME
+        ================================================== -->
+
+        <div class="ai-welcome">
+
+            <div class="ai-welcome-icon">
+
+                <i data-lucide="bot"></i>
+
+            </div>
+
+
+            <h3>
+
+                Hi
+                {{ request.user.first_name|default:request.user.username }}!
+
+            </h3>
+
+
+            <p>
+
+                I can help you find internships,
+                check your documents, explore
+                applications, and find opportunities
+                that match your profile.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================== -->
+
+        <div class="quick-actions">
+
+
+            <!-- FIND INTERNSHIPS -->
+
+            <button
+                type="button"
+                class="quick-action"
+                data-ai-message="Find internships suitable for me"
+            >
+
+                <i data-lucide="search"></i>
+
+                <span>
+                    Find internships
+                </span>
+
+            </button>
+
+
+
+            <!-- DOCUMENTS -->
+
+            <button
+                type="button"
+                class="quick-action"
+                data-ai-message="Check my application documents"
+            >
+
+                <i data-lucide="file-text"></i>
+
+                <span>
+                    Documents
+                </span>
+
+            </button>
+
+
+
+            <!-- APPLICATIONS -->
+
+            <button
+                type="button"
+                class="quick-action"
+                data-ai-message="Show my applications"
+            >
+
+                <i data-lucide="clipboard-list"></i>
+
+                <span>
+                    Applications
+                </span>
+
+            </button>
+
+
+
+            <!-- MATCHES -->
+
+            <button
+                type="button"
+                class="quick-action"
+                data-ai-message="Show internships that match my profile"
+            >
+
+                <i data-lucide="sparkles"></i>
+
+                <span>
+                    Matches
+                </span>
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             CONVERSATION
+        ================================================== -->
+
+        <div
+            id="ai-conversation"
+            class="ai-conversation"
+            aria-live="polite"
+            aria-atomic="false"
+        >
+
+            <!-- JavaScript adds messages here -->
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         INPUT AREA
+    ====================================================== -->
+
+    <form
+        id="ai-form"
+        class="ai-input-area"
+        autocomplete="off"
+    >
+
+
+        <!-- ATTACHMENT -->
+
+        <button
+            type="button"
+            id="ai-attachment"
+            class="ai-attachment"
+            aria-label="Attach document"
+        >
+
+            <i data-lucide="paperclip"></i>
+
+        </button>
+
+
+
+        <!-- INPUT -->
+
+        <input
+            type="text"
+            id="ai-input"
+            name="message"
+            placeholder="Ask anything..."
+            autocomplete="off"
+            maxlength="2000"
+            aria-label="Message the Internship Assistant"
+        >
+
+
+
+        <!-- SEND -->
+
+        <button
+            type="submit"
+            id="ai-send"
+            class="ai-send"
+            aria-label="Send message"
+        >
+
+            <i data-lucide="send"></i>
+
+        </button>
+
+
+    </form>
+
+
+</div>
+</div>
+
+
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script src="{% static 'dashboard/js/filter.js' %}"></script>
+
+<script>
+    lucide.createIcons();
+</script>
+{% endblock %}

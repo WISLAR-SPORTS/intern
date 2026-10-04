@@ -1,0 +1,272 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}
+    Review Application
+{% endblock %}
+
+
+{% block content %}
+
+<div style="max-width:1100px;margin:30px auto;">
+
+
+    <!-- ==============================
+         HEADER
+    =============================== -->
+
+    <div class="card">
+
+        <div class="card-body">
+
+            <h1>
+                {{ application.student }}
+            </h1>
+
+            <p>
+                Application for
+                <strong>
+                    {{ application.internship.title }}
+                </strong>
+            </p>
+
+            <p class="text-muted">
+
+                Applied
+                {{ application.applied_date|date:"M d, Y H:i" }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- ==============================
+         COVER LETTER
+    =============================== -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h3>
+                Cover Letter
+            </h3>
+
+        </div>
+
+
+        <div class="card-body">
+
+            {% if application.cover_letter %}
+
+                {{ application.cover_letter|linebreaks }}
+
+            {% else %}
+
+                <span class="text-muted">
+                    No cover letter provided.
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- ==============================
+         APPLICATION ANSWERS
+    =============================== -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h3>
+                Application Answers
+            </h3>
+
+        </div>
+
+
+        <div class="card-body">
+
+            {% for answer in application.answers.all %}
+
+                <div
+                    style="
+                        padding:15px 0;
+                        border-bottom:1px solid #eee;
+                    "
+                >
+
+                    <strong>
+                        {{ answer.field.label }}
+                    </strong>
+
+
+                    {% if answer.answer %}
+
+                        <p>
+                            {{ answer.answer|linebreaks }}
+                        </p>
+
+                    {% endif %}
+
+
+                    {% if answer.file %}
+
+                        <a
+                            href="{{ answer.file.url }}"
+                            target="_blank"
+                            class="btn btn-primary"
+                        >
+                            View / Download File
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            {% empty %}
+
+                <p class="text-muted">
+                    No additional answers.
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- ==============================
+         REVIEW
+    =============================== -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h3>
+                Company Review
+            </h3>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-group">
+
+                    <label for="score">
+                        Score
+                    </label>
+
+                    <input
+                        type="number"
+                        id="score"
+                        name="score"
+                        min="0"
+                        max="100"
+                        value="{{ application.score|default:'' }}"
+                        class="form-control"
+                    >
+
+                </div>
+
+
+                <br>
+
+
+                <div class="form-group">
+
+                    <label for="company_notes">
+                        Internal Notes
+                    </label>
+
+                    <textarea
+                        id="company_notes"
+                        name="company_notes"
+                        rows="6"
+                        class="form-control"
+                    >{{ application.company_notes }}</textarea>
+
+                </div>
+
+
+                <br>
+
+
+                <!-- SAVE -->
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="save"
+                    class="btn btn-secondary"
+                >
+                    Save Review
+                </button>
+
+
+                <!-- SHORTLIST -->
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="shortlist"
+                    class="btn btn-info"
+                >
+                    Shortlist
+                </button>
+
+
+                <!-- ACCEPT -->
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="accept"
+                    class="btn btn-success"
+                >
+                    Accept
+                </button>
+
+
+                <!-- REJECT -->
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="reject"
+                    class="btn btn-danger"
+                >
+                    Reject
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

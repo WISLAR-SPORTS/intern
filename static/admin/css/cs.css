@@ -1,0 +1,462 @@
+/* =========================================================
+   MODERN JAZZMIN ADMIN SIDEBAR
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   SIDEBAR
+   --------------------------------------------------------- */
+
+.main-sidebar {
+    background:
+        linear-gradient(
+            180deg,
+            #0f172a 0%,
+            #111827 50%,
+            #0b1220 100%
+        ) !important;
+
+    border-right: 1px solid rgba(255,255,255,.06) !important;
+
+    box-shadow:
+        8px 0 30px rgba(15,23,42,.12) !important;
+}
+
+
+/* ---------------------------------------------------------
+   BRAND
+   --------------------------------------------------------- */
+
+.brand-link {
+    height: 64px !important;
+
+    display: flex !important;
+    align-items: center;
+
+    padding: 0 20px !important;
+
+    background: rgba(255,255,255,.025) !important;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.07) !important;
+}
+
+
+.brand-link .brand-text {
+    color: #ffffff !important;
+
+    font-size: 15px !important;
+
+    font-weight: 700 !important;
+
+    letter-spacing: -.01em;
+}
+
+
+.brand-link:hover {
+    background: rgba(255,255,255,.05) !important;
+}
+
+
+/* ---------------------------------------------------------
+   USER PANEL
+   --------------------------------------------------------- */
+
+.user-panel {
+    margin: 14px 12px !important;
+
+    padding: 12px !important;
+
+    border:
+        1px solid rgba(255,255,255,.07) !important;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,.045) !important;
+
+    backdrop-filter: blur(10px);
+}
+
+
+.user-panel .image img {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 10px;
+}
+
+
+.user-panel .info a {
+    color: #e2e8f0 !important;
+
+    font-size: 12px !important;
+
+    font-weight: 600 !important;
+}
+
+
+/* ---------------------------------------------------------
+   SIDEBAR NAVIGATION
+   --------------------------------------------------------- */
+
+.sidebar {
+    padding: 5px 8px 20px !important;
+}
+
+
+.nav-sidebar {
+    width: 100%;
+}
+
+
+/* Every navigation item */
+
+.nav-sidebar > .nav-item {
+    margin: 3px 0 !important;
+}
+
+
+/* ---------------------------------------------------------
+   NAV LINKS
+   --------------------------------------------------------- */
+
+.nav-sidebar .nav-link {
+
+    display: flex !important;
+
+    align-items: center;
+
+    min-height: 44px;
+
+    margin: 2px 4px !important;
+
+    padding: 10px 13px !important;
+
+    border-radius: 11px !important;
+
+    color: #94a3b8 !important;
+
+    background: transparent !important;
+
+    font-size: 13px !important;
+
+    font-weight: 500 !important;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease !important;
+}
+
+
+/* ---------------------------------------------------------
+   ICONS
+   --------------------------------------------------------- */
+
+.nav-sidebar .nav-link .nav-icon {
+
+    width: 22px !important;
+
+    margin-right: 10px !important;
+
+    color: #64748b !important;
+
+    font-size: 15px !important;
+
+    text-align: center;
+
+    transition:
+        color .2s ease,
+        transform .2s ease !important;
+}
+
+
+/* ---------------------------------------------------------
+   HOVER
+   --------------------------------------------------------- */
+
+.nav-sidebar .nav-link:hover {
+
+    color: #ffffff !important;
+
+    background:
+        rgba(255,255,255,.075) !important;
+
+    transform: translateX(2px);
+
+    box-shadow:
+        inset 2px 0 0 #3b82f6;
+}
+
+
+.nav-sidebar .nav-link:hover .nav-icon {
+
+    color: #60a5fa !important;
+
+    transform: scale(1.08);
+}
+
+
+/* ---------------------------------------------------------
+   ACTIVE LINK
+   --------------------------------------------------------- */
+
+.nav-sidebar .nav-link.active {
+
+    color: #ffffff !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37,99,235,.95),
+            rgba(59,130,246,.82)
+        ) !important;
+
+    box-shadow:
+        0 8px 20px rgba(37,99,235,.22),
+        inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+
+
+.nav-sidebar .nav-link.active .nav-icon {
+
+    color: #ffffff !important;
+}
+
+
+/* ---------------------------------------------------------
+   NAVIGATION HEADERS
+   --------------------------------------------------------- */
+
+.nav-sidebar .nav-header {
+
+    margin-top: 18px !important;
+
+    padding:
+        10px 14px 7px !important;
+
+    color: #475569 !important;
+
+    font-size: 9px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: .12em !important;
+
+    text-transform: uppercase;
+}
+
+
+/* ---------------------------------------------------------
+   TREEVIEW
+   --------------------------------------------------------- */
+
+.nav-sidebar .nav-treeview {
+
+    padding-left: 8px !important;
+
+    margin-top: 3px;
+}
+
+
+.nav-sidebar .nav-treeview .nav-link {
+
+    min-height: 39px;
+
+    padding:
+        8px 12px !important;
+
+    color: #7f8ea3 !important;
+
+    font-size: 12px !important;
+}
+
+
+.nav-sidebar .nav-treeview .nav-link:hover {
+
+    color: #ffffff !important;
+
+    background:
+        rgba(255,255,255,.06) !important;
+}
+
+
+/* ---------------------------------------------------------
+   TREEVIEW ICONS
+   --------------------------------------------------------- */
+
+.nav-sidebar .nav-treeview .nav-icon {
+
+    font-size: 10px !important;
+
+    color: #475569 !important;
+}
+
+
+/* ---------------------------------------------------------
+   ARROWS
+   --------------------------------------------------------- */
+
+.nav-sidebar .right {
+
+    color: #64748b !important;
+
+    transition:
+        transform .2s ease;
+}
+
+
+.nav-sidebar .menu-open > .nav-link .right {
+
+    transform: rotate(-90deg);
+}
+
+
+/* ---------------------------------------------------------
+   BADGES / COUNTS
+   --------------------------------------------------------- */
+
+.nav-sidebar .badge {
+
+    margin-left: auto !important;
+
+    padding: 3px 7px !important;
+
+    border-radius: 999px !important;
+
+    background:
+        rgba(255,255,255,.08) !important;
+
+    color: #94a3b8 !important;
+
+    font-size: 9px !important;
+
+    font-weight: 700 !important;
+}
+
+
+/* ---------------------------------------------------------
+   SPECIFIC MODEL ICON COLORS
+   --------------------------------------------------------- */
+
+
+/* Students */
+
+.nav-sidebar a[href*="/students/student/"]
+.nav-icon {
+
+    color: #60a5fa !important;
+}
+
+
+/* Applications */
+
+.nav-sidebar a[href*="/students/application/"]
+.nav-icon {
+
+    color: #a78bfa !important;
+}
+
+
+/* Internships */
+
+.nav-sidebar a[href*="/internships/internship/"]
+.nav-icon {
+
+    color: #34d399 !important;
+}
+
+
+/* Companies */
+
+.nav-sidebar a[href*="/companies/company/"]
+.nav-icon {
+
+    color: #fbbf24 !important;
+}
+
+
+/* Users */
+
+.nav-sidebar a[href*="/accounts/user/"]
+.nav-icon {
+
+    color: #38bdf8 !important;
+}
+
+
+/* ---------------------------------------------------------
+   SCROLLBAR
+   --------------------------------------------------------- */
+
+.main-sidebar {
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #334155
+        transparent;
+}
+
+
+.main-sidebar::-webkit-scrollbar {
+
+    width: 5px;
+}
+
+
+.main-sidebar::-webkit-scrollbar-track {
+
+    background: transparent;
+}
+
+
+.main-sidebar::-webkit-scrollbar-thumb {
+
+    background: #334155;
+
+    border-radius: 20px;
+}
+
+
+.main-sidebar::-webkit-scrollbar-thumb:hover {
+
+    background: #475569;
+}
+
+
+/* ---------------------------------------------------------
+   CONTENT AREA
+   --------------------------------------------------------- */
+
+.content-wrapper {
+
+    background: #f8fafc !important;
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+    }
+
+
+    .nav-sidebar .nav-link {
+
+        min-height: 46px;
+
+        margin:
+            2px 3px !important;
+
+        border-radius: 10px !important;
+    }
+
+}

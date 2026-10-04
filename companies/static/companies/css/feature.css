@@ -1,0 +1,176 @@
+/* ==========================================================================
+   FEATURES
+   ========================================================================== */
+
+.features {
+    background: var(--bg-white);
+    width: 100%;
+}
+
+
+/* Remove the global container width restriction ONLY for features */
+
+.features > .container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+
+
+/* Features grid */
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    width: 100%;
+}
+
+
+/* Feature card */
+
+.feature-card {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+
+    padding: 28px;
+
+    background: var(--card-bg);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.feature-card:hover {
+    border-color: var(--border-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+}
+
+
+/* ==========================================================================
+   FEATURE ICON
+   ========================================================================== */
+
+.feature-icon {
+    width: 56px;
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 14px;
+
+    transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.feature-icon svg {
+    width: 26px;
+    height: 26px;
+    stroke-width: 2;
+}
+
+.feature-icon.blue {
+    background: var(--primary-blue-light);
+    color: var(--primary-blue);
+}
+
+.feature-icon.green {
+    background: var(--secondary-green-light);
+    color: var(--secondary-green-dark);
+}
+
+.feature-icon.teal {
+    background: var(--teal-light);
+    color: var(--teal);
+}
+
+
+/* ==========================================================================
+   TEXT
+   ========================================================================== */
+
+.feature-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+}
+
+
+/* ==========================================================================
+   HOVER
+   ========================================================================== */
+
+.feature-card:hover .feature-icon {
+    transform: translateY(-4px);
+}
+
+.feature-card:hover .feature-icon.blue {
+    background: #E85D3F;
+    color: #FFFFFF;
+}
+
+.feature-card:hover .feature-icon.green {
+    background: #7C3AED;
+    color: #FFFFFF;
+}
+
+.feature-card:hover .feature-icon.teal {
+    background: #D69E2E;
+    color: #FFFFFF;
+}
+
+/* ==========================================================================
+   FEATURES RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1000px) {
+
+    .features > .container {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .features > .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .feature-card {
+        padding: 22px;
+    }
+}
+

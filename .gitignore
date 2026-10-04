@@ -1,0 +1,35 @@
+node_modules/
+.env
+dist/
+build/
+.vscode/
+*.log
+venv/
+.venv/
+staticfiles/
+media/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+
+# Environment/secrets
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

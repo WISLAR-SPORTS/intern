@@ -1,0 +1,350 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="applications-page">
+<div class="applications-container">
+
+    <!-- PAGE HEADER -->
+
+    <div class="applications-header">
+
+        <div>
+            <h1>My Applications</h1>
+
+            <p>
+                Track your internship applications and submitted information.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- APPLICATION SUMMARY -->
+<!-- APPLICATION SUMMARY -->
+
+<div class="application-stats">
+
+    <!-- TOTAL -->
+    <div class="application-stat-card">
+
+        <div class="stat-icon">
+            <i data-lucide="clipboard-list"></i>
+        </div>
+
+        <div class="stat-content">
+            <span class="stat-label">
+                Total Applications
+            </span>
+
+            <strong>
+                {{ total_applications }}
+            </strong>
+        </div>
+
+    </div>
+
+
+    <!-- PENDING -->
+    <div class="application-stat-card">
+
+        <div class="stat-icon pending-icon">
+            <i data-lucide="clock-3"></i>
+        </div>
+
+        <div class="stat-content">
+            <span class="stat-label">
+                Pending
+            </span>
+
+            <strong>
+                {{ pending_count }}
+            </strong>
+        </div>
+
+    </div>
+
+
+    <!-- ACCEPTED -->
+    <div class="application-stat-card">
+
+        <div class="stat-icon accepted-icon">
+            <i data-lucide="circle-check"></i>
+        </div>
+
+        <div class="stat-content">
+            <span class="stat-label">
+                Accepted
+            </span>
+
+            <strong>
+                {{ accepted_count }}
+            </strong>
+        </div>
+
+    </div>
+
+
+    <!-- REJECTED -->
+    <div class="application-stat-card">
+
+        <div class="stat-icon rejected-icon">
+            <i data-lucide="circle-x"></i>
+        </div>
+
+        <div class="stat-content">
+            <span class="stat-label">
+                Rejected
+            </span>
+
+            <strong>
+                {{ rejected_count }}
+            </strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- APPLICATIONS -->
+
+<div class="applications-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                <i data-lucide="history"></i>
+                Application History
+            </h2>
+
+            <p>
+                Your submitted internship applications.
+            </p>
+
+        </div>
+
+    </div>
+
+
+        {% if applications %}
+
+            <div class="applications-list">
+
+                {% for application in applications %}
+
+                    <div class="application-card">
+
+                        <!-- CARD TOP -->
+
+                        <div class="application-card-top">
+
+                            <div class="internship-info">
+
+                                <h3>
+                                    {{ application.internship.title }}
+                                </h3>
+
+                                <p class="company-name">
+                                    {{ application.internship.company }}
+                                </p>
+
+                            </div>
+
+
+                            <div class="application-status {{ application.status }}">
+
+                                {% if application.status == "pending" %}
+                                    Pending
+                                {% elif application.status == "accepted" %}
+                                    Accepted
+                                {% elif application.status == "rejected" %}
+                                    Rejected
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- INTERNSHIP DETAILS -->
+
+                        <div class="internship-details">
+
+                            <div class="detail-item">
+
+                                <span class="detail-label">
+                                    Location
+                                </span>
+
+                                <span class="detail-value">
+                                    {% if application.internship.location %}
+                                        {{ application.internship.location }}
+                                    {% else %}
+                                        Not specified
+                                    {% endif %}
+                                </span>
+
+                            </div>
+
+
+                            <div class="detail-item">
+
+                                <span class="detail-label">
+                                    Type
+                                </span>
+
+                                <span class="detail-value">
+                                    {{ application.internship.get_internship_type_display }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="detail-item">
+
+                                <span class="detail-label">
+                                    Deadline
+                                </span>
+
+                                <span class="detail-value">
+                                    {{ application.internship.deadline|date:"M d, Y" }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="detail-item">
+
+                                <span class="detail-label">
+                                    Applied
+                                </span>
+
+                                <span class="detail-value">
+                                    {{ application.applied_date|date:"M d, Y" }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- COVER LETTER -->
+
+                        {% if application.cover_letter %}
+
+                            <div class="application-section">
+
+                                <h4>
+                                    Cover Letter
+                                </h4>
+
+                                <div class="cover-letter">
+
+                                    {{ application.cover_letter|linebreaks }}
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- CUSTOM ANSWERS -->
+
+                        {% if application.answers.all %}
+
+                            <div class="application-section">
+
+                                <h4>
+                                    Application Information
+                                </h4>
+
+                                <div class="answers-list">
+
+                                    {% for answer in application.answers.all %}
+
+                                        <div class="answer-item">
+
+                                            <span class="answer-label">
+                                                {{ answer.field.label }}
+                                            </span>
+
+
+                                            {% if answer.file %}
+
+                                                <a
+                                                    href="{{ answer.file.url }}"
+                                                    target="_blank"
+                                                    class="file-link"
+                                                >
+                                                    View uploaded file
+                                                </a>
+
+                                            {% elif answer.field.field_type == "checkbox" %}
+
+                                                {% if answer.answer == "true" or answer.answer == "on" %}
+                                                    Yes
+                                                {% else %}
+                                                    No
+                                                {% endif %}
+
+                                            {% else %}
+
+                                                <span class="answer-value">
+                                                    {{ answer.answer|default:"Not provided" }}
+                                                </span>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+            <!-- EMPTY STATE -->
+
+            <div class="empty-applications">
+
+                <div class="empty-icon">
+                    📋
+                </div>
+
+                <h3>
+                    No applications yet
+                </h3>
+
+                <p>
+                    You haven't applied for any internships yet.
+                    Your applications will appear here once you apply.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</div>
+
+{% endblock %}

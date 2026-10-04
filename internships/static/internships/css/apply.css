@@ -1,0 +1,1370 @@
+
+
+    .application-page {
+    width: 100%;
+    min-height: calc(100vh - var(--topbar-height));
+
+    padding: 5px 28px 60px;
+
+    background: var(--color-background);
+
+    box-sizing: border-box;
+
+    }
+
+    .application-container {
+    width: 100%;
+    max-width: 1050px;
+
+    margin: 0 auto;
+
+    }
+
+    /* =========================================================
+    TOP NAVIGATION
+    ========================================================= */
+
+    .application-topbar {
+    margin-bottom: 24px;
+    }
+
+    .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        color var(--transition-fast),
+        transform var(--transition-fast);
+
+    }
+
+    .back-link:hover {
+    color: var(--color-primary);
+    transform: translateX(-2px);
+    }
+
+    .back-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+
+    font-size: 1rem;
+
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        border-color var(--transition-fast);
+
+    }
+
+    .back-link:hover .back-icon {
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+    border-color: var(--color-primary-light);
+    }
+
+    /* =========================================================
+    PAGE INTRO
+    ========================================================= */
+
+    .application-intro {
+    margin-bottom: 25px;
+    }
+
+    .application-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    color: var(--color-primary);
+
+    font-size: 0.72rem;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    }
+
+    .application-intro h1 {
+    margin: 0 0 8px;
+
+    color: var(--color-text-primary);
+
+    font-size: clamp(1.65rem, 3vw, 2.15rem);
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    }
+
+    .application-intro p {
+    max-width: 650px;
+
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.9rem;
+    line-height: 1.6;
+
+    }
+
+    /* =========================================================
+    MESSAGES
+    ========================================================= */
+
+    .messages-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+    }
+
+    .message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 12px 15px;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    font-size: 0.84rem;
+    font-weight: 600;
+
+    }
+
+    .message-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    width: 23px;
+    height: 23px;
+
+    border-radius: 50%;
+
+    font-size: 0.72rem;
+    font-weight: 800;
+
+    }
+
+    /* Success */
+
+    .message.success {
+    color: var(--color-success-text);
+    background: var(--color-success-background);
+    border-color: var(--color-success-border);
+    }
+
+    .message.success .message-icon {
+    color: var(--color-success-text);
+    background: rgba(40, 122, 74, 0.12);
+    }
+
+    /* Error */
+
+    .message.error {
+    color: var(--color-error-text);
+    background: var(--color-error-background);
+    border-color: var(--color-error-border);
+    }
+
+    .message.error .message-icon {
+    color: var(--color-error-text);
+    background: rgba(199, 70, 47, 0.12);
+    }
+
+    /* Warning */
+
+    .message.warning {
+    color: var(--color-warning-text);
+    background: var(--color-warning-background);
+    border-color: var(--color-warning-border);
+    }
+
+    /* =========================================================
+    MAIN APPLICATION CARD
+    ========================================================= */
+
+    .application-card {
+    overflow: hidden;
+
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-card);
+
+    }
+
+    /* =========================================================
+    APPLICATION HEADER
+    ========================================================= */
+
+    .application-header {
+    padding: 30px 34px 28px;
+
+    border-bottom: 1px solid var(--color-border);
+
+    }
+
+    /* =========================================================
+    COMPANY
+    ========================================================= */
+
+    .company-information {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    margin-bottom: 25px;
+
+    }
+
+    .company-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    width: 54px;
+    height: 54px;
+
+    overflow: hidden;
+
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    font-size: 1.25rem;
+    font-weight: 800;
+
+    }
+
+    .company-logo img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    }
+
+    .company-details {
+    min-width: 0;
+    }
+
+    .company-name-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    }
+
+    .company-name-row strong {
+    color: var(--color-text-primary);
+
+    font-size: 0.95rem;
+    font-weight: 750;
+
+    }
+
+    .company-details small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.75rem;
+
+    }
+
+    /* =========================================================
+    VERIFIED BADGE
+    ========================================================= */
+
+    .verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    padding: 4px 8px;
+
+    color: var(--color-success-text);
+    background: var(--color-success-background);
+
+    border: 1px solid var(--color-success-border);
+    border-radius: 50px;
+
+    font-size: 0.65rem;
+    font-weight: 700;
+
+    }
+
+    .verified-badge span {
+    font-size: 0.68rem;
+    }
+
+    /* =========================================================
+    INTERNSHIP TITLE
+    ========================================================= */
+
+    .internship-title h2 {
+    margin: 0 0 7px;
+
+    color: var(--color-text-primary);
+
+    font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+    font-weight: 800;
+
+    line-height: 1.3;
+
+    }
+
+    .internship-title p {
+    max-width: 700px;
+
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.86rem;
+    line-height: 1.6;
+
+    }
+
+    /* =========================================================
+    INTERNSHIP INFORMATION
+    ========================================================= */
+
+    .internship-info {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 1px;
+
+    background: var(--color-border);
+
+    border-bottom: 1px solid var(--color-border);
+
+    }
+
+    .info-box {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+
+    padding: 19px 22px;
+
+    background: var(--color-surface);
+
+    }
+
+    .info-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    width: 38px;
+    height: 38px;
+
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+
+    border-radius: var(--radius-small);
+
+    }
+
+    .info-icon svg {
+    width: 17px;
+    height: 17px;
+
+    stroke-width: 2;
+
+    }
+
+    .info-box > div:last-child {
+    min-width: 0;
+    }
+
+    .info-box small {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    }
+
+    .info-box strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--color-text-primary);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    }
+
+    /* Deadline */
+
+    .deadline-box .info-icon {
+    color: var(--color-warning-text);
+    background: var(--color-warning-background);
+    }
+
+    /* =========================================================
+    FORM HEADER
+    ========================================================= */
+
+    .form-header {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 27px 34px 22px;
+
+    }
+
+    .form-header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    width: 40px;
+    height: 40px;
+
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+
+    border-radius: var(--radius-small);
+
+    }
+
+    .form-header-icon svg {
+    width: 18px;
+    height: 18px;
+    }
+
+    .form-header h3 {
+    margin: 0 0 3px;
+
+    color: var(--color-text-primary);
+
+    font-size: 1rem;
+    font-weight: 750;
+
+    }
+
+    .form-header p {
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.78rem;
+
+    }
+
+    /* =========================================================
+    FORM
+    ========================================================= */
+
+    .application-form {
+    padding: 0 34px 32px;
+    }
+
+    .form-fields {
+    display: flex;
+    flex-direction: column;
+
+    gap: 21px;
+
+    }
+
+    /* =========================================================
+    FORM FIELD
+    ========================================================= */
+
+    .form-field {
+    display: flex;
+    flex-direction: column;
+    }
+
+    .field-label {
+    display: flex;
+    align-items: baseline;
+
+    gap: 4px;
+
+    margin-bottom: 7px;
+
+    }
+
+    .field-label label {
+    color: var(--color-text-primary);
+
+    font-size: 0.82rem;
+    font-weight: 700;
+
+    }
+
+    .required {
+    color: var(--color-error-text);
+
+    font-size: 0.8rem;
+    font-weight: 800;
+
+    }
+
+    /* =========================================================
+    INPUTS
+    ========================================================= */
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+    width: 100%;
+
+    padding: 11px 13px;
+
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 0.84rem;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background-color var(--transition-fast);
+
+    }
+
+    .form-field input,
+    .form-field select {
+    min-height: 43px;
+    }
+
+    .form-field textarea {
+    min-height: 125px;
+
+    resize: vertical;
+
+    line-height: 1.55;
+
+    }
+
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+    color: var(--color-text-muted);
+    }
+
+    .form-field input:hover,
+    .form-field select:hover,
+    .form-field textarea:hover {
+    border-color: var(--color-border-dark);
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px var(--color-primary-light);
+
+    }
+
+    /* =========================================================
+    FILE INPUT
+    ========================================================= */
+
+    .form-field input[type="file"] {
+    padding: 8px 10px;
+
+    cursor: pointer;
+
+    }
+
+    .form-field input[type="file"]::file-selector-button {
+    margin-right: 10px;
+
+    padding: 7px 11px;
+
+    color: var(--color-text-primary);
+    background: var(--color-background);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast);
+
+    }
+
+    .form-field input[type="file"]::file-selector-button:hover {
+    background: var(--color-primary-light);
+    border-color: var(--color-primary);
+    }
+
+    /* =========================================================
+    CHECKBOX
+    ========================================================= */
+
+    .form-field input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+
+    min-height: auto;
+
+    padding: 0;
+
+    accent-color: var(--color-primary);
+
+    box-shadow: none;
+
+    cursor: pointer;
+
+    }
+
+    /* =========================================================
+    HELP TEXT
+    ========================================================= */
+
+    .field-help {
+    margin-top: 6px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.72rem;
+    line-height: 1.5;
+
+    }
+
+    /* =========================================================
+    FIELD ERRORS
+    ========================================================= */
+
+    .has-error input,
+    .has-error select,
+    .has-error textarea {
+    border-color: var(--color-error-border);
+
+    background: var(--color-error-background);
+
+    }
+
+    .has-error input:focus,
+    .has-error select:focus,
+    .has-error textarea:focus {
+    border-color: var(--color-error-text);
+
+    box-shadow:
+        0 0 0 3px rgba(199, 70, 47, 0.1);
+
+    }
+
+    .field-errors {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 7px;
+
+    margin-top: 7px;
+
+    color: var(--color-error-text);
+
+    font-size: 0.73rem;
+    line-height: 1.5;
+
+    }
+
+    .field-errors > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    width: 16px;
+    height: 16px;
+
+    color: #ffffff;
+    background: var(--color-error-text);
+
+    border-radius: 50%;
+
+    font-size: 0.6rem;
+    font-weight: 800;
+
+    }
+
+    .field-errors ul {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+    }
+
+    /* =========================================================
+    NON FIELD ERRORS
+    ========================================================= */
+
+    .non-field-errors {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin-bottom: 22px;
+
+    padding: 13px 15px;
+
+    color: var(--color-error-text);
+    background: var(--color-error-background);
+
+    border: 1px solid var(--color-error-border);
+    border-radius: var(--radius-medium);
+
+    font-size: 0.78rem;
+    line-height: 1.5;
+
+    }
+
+    .non-field-errors strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 0.8rem;
+
+    }
+
+    .non-field-errors ul {
+    margin: 0;
+    padding-left: 16px;
+    }
+
+    .error-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    width: 22px;
+    height: 22px;
+
+    color: #ffffff;
+    background: var(--color-error-text);
+
+    border-radius: 50%;
+
+    font-size: 0.7rem;
+    font-weight: 800;
+
+    }
+
+    /* =========================================================
+    APPLICATION NOTICE
+    ========================================================= */
+
+    .application-notice {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 11px;
+
+    margin-top: 26px;
+    padding: 14px 15px;
+
+    color: var(--color-text-secondary);
+    background: var(--color-background);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+
+    }
+
+    .notice-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    width: 24px;
+    height: 24px;
+
+    color: var(--color-primary);
+
+    }
+
+    .notice-icon svg {
+    width: 17px;
+    height: 17px;
+    }
+
+    .application-notice strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--color-text-primary);
+
+    font-size: 0.76rem;
+
+    }
+
+    .application-notice p {
+    margin: 0;
+
+    font-size: 0.73rem;
+    line-height: 1.55;
+
+    }
+
+    /* =========================================================
+    FORM ACTIONS
+    ========================================================= */
+
+    .form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 27px;
+    padding-top: 23px;
+
+    border-top: 1px solid var(--color-border);
+
+    }
+
+    .cancel-button,
+    .submit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 43px;
+
+    padding: 0 18px;
+
+    border-radius: var(--radius-small);
+
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+
+    }
+
+    /* Cancel */
+
+    .cancel-button {
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+
+    }
+
+    .cancel-button:hover {
+    color: var(--color-text-primary);
+    background: var(--color-background);
+
+    border-color: var(--color-border-dark);
+
+    }
+
+    /* Submit */
+
+    .submit-button {
+    gap: 9px;
+
+    color: var(--color-text-white);
+    background: var(--color-primary);
+
+    border: 1px solid var(--color-primary);
+
+    box-shadow:
+        0 4px 10px rgba(232, 93, 63, 0.2);
+
+    }
+
+    .submit-button:hover {
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 16px rgba(232, 93, 63, 0.25);
+
+    }
+
+    .submit-button:active {
+    transform: translateY(0);
+    }
+
+    .submit-arrow {
+    font-size: 1rem;
+    }
+
+    /* =========================================================
+    APPLICATION FOOTER
+    ========================================================= */
+
+    .application-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    max-width: 700px;
+
+    margin: 18px auto 0;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.7rem;
+    line-height: 1.5;
+
+    text-align: center;
+
+    }
+
+    .application-footer svg {
+    flex: 0 0 auto;
+
+    width: 15px;
+    height: 15px;
+
+    }
+
+    /* =========================================================
+    TABLET
+    ========================================================= */
+
+    @media (max-width: 900px) {
+
+    .application-page {
+        padding: 30px 20px 50px;
+    }
+
+    .application-header {
+        padding: 27px 27px 25px;
+    }
+
+    .form-header {
+        padding-left: 27px;
+        padding-right: 27px;
+    }
+
+    .application-form {
+        padding-left: 27px;
+        padding-right: 27px;
+    }
+
+    .info-box {
+        padding: 17px;
+    }
+
+    }
+
+    /* =========================================================
+    TABLET / SMALL SCREEN
+    ========================================================= */
+
+    @media (max-width: 700px) {
+
+    .internship-info {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .info-box {
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .info-box:last-child {
+        border-bottom: none;
+    }
+
+    }
+
+    /* =========================================================
+    MOBILE
+    ========================================================= */
+
+    @media (max-width: 576px) {
+
+    .application-page {
+        min-height: calc(100vh - var(--mobile-nav-height));
+
+        padding: 22px 12px 40px;
+    }
+
+    .application-topbar {
+        margin-bottom: 19px;
+    }
+
+    .back-link {
+        font-size: 0.78rem;
+    }
+
+    .back-icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* Intro */
+
+    .application-intro {
+        margin-bottom: 19px;
+    }
+
+    .application-eyebrow {
+        margin-bottom: 7px;
+
+        font-size: 0.65rem;
+    }
+
+    .application-intro h1 {
+        font-size: 1.45rem;
+    }
+
+    .application-intro p {
+        font-size: 0.78rem;
+    }
+
+    /* Card */
+
+    .application-card {
+        border-radius: var(--radius-medium);
+
+        box-shadow: var(--shadow-card);
+    }
+
+    /* Header */
+
+    .application-header {
+        padding: 21px 17px 20px;
+    }
+
+    .company-information {
+        gap: 10px;
+
+        margin-bottom: 19px;
+    }
+
+    .company-logo {
+        width: 45px;
+        height: 45px;
+
+        font-size: 1rem;
+    }
+
+    .company-name-row {
+        gap: 5px;
+    }
+
+    .company-name-row strong {
+        font-size: 0.82rem;
+    }
+
+    .company-details small {
+        font-size: 0.67rem;
+    }
+
+    .verified-badge {
+        padding: 3px 6px;
+
+        font-size: 0.58rem;
+    }
+
+    .internship-title h2 {
+        font-size: 1.15rem;
+    }
+
+    .internship-title p {
+        font-size: 0.76rem;
+    }
+
+    /* Information */
+
+    .info-box {
+        padding: 14px 16px;
+    }
+
+    .info-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    .info-icon svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .info-box small {
+        font-size: 0.62rem;
+    }
+
+    .info-box strong {
+        font-size: 0.76rem;
+    }
+
+    /* Form header */
+
+    .form-header {
+        gap: 10px;
+
+        padding: 21px 17px 17px;
+    }
+
+    .form-header-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .form-header-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .form-header h3 {
+        font-size: 0.9rem;
+    }
+
+    .form-header p {
+        font-size: 0.7rem;
+    }
+
+    /* Form */
+
+    .application-form {
+        padding: 0 17px 21px;
+    }
+
+    .form-fields {
+        gap: 18px;
+    }
+
+    .field-label label {
+        font-size: 0.76rem;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+        font-size: 0.8rem;
+    }
+
+    .form-field input,
+    .form-field select {
+        min-height: 41px;
+    }
+
+    .form-field textarea {
+        min-height: 110px;
+    }
+
+    .field-help {
+        font-size: 0.68rem;
+    }
+
+    /* Notice */
+
+    .application-notice {
+        margin-top: 21px;
+
+        padding: 12px;
+    }
+
+    .application-notice strong {
+        font-size: 0.72rem;
+    }
+
+    .application-notice p {
+        font-size: 0.68rem;
+    }
+
+    /* Actions */
+
+    .form-actions {
+        gap: 8px;
+
+        margin-top: 21px;
+        padding-top: 18px;
+    }
+
+    .cancel-button,
+    .submit-button {
+        min-height: 41px;
+
+        padding: 0 14px;
+
+        font-size: 0.75rem;
+    }
+
+    /* Footer */
+
+    .application-footer {
+        padding: 0 8px;
+
+        font-size: 0.64rem;
+    }
+
+    }
+
+    /* =========================================================
+    SMALL MOBILE
+    ========================================================= */
+
+    @media (max-width: 380px) {
+
+    .application-page {
+        padding-right: 9px;
+        padding-left: 9px;
+    }
+
+    .application-header {
+        padding: 18px 14px;
+    }
+
+    .application-form {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    .form-header {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    .company-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .company-name-row strong {
+        font-size: 0.77rem;
+    }
+
+    .verified-badge {
+        display: none;
+    }
+
+    .internship-title h2 {
+        font-size: 1.05rem;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+    }
+
+    .cancel-button,
+    .submit-button {
+        width: 100%;
+    }
+
+    }
+
+    /* =========================================================
+    REDUCED MOTION
+    ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+    .back-link,
+    .back-icon,
+    .form-field input,
+    .form-field select,
+    .form-field textarea,
+    .cancel-button,
+    .submit-button {
+        transition: none;
+    }
+
+    }

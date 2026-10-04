@@ -1,0 +1,776 @@
+{% extends "admin/base_site.html" %}
+
+{% block extrastyle %}
+{{ block.super }}
+
+<style>
+
+    /* =========================================================
+       PAGE
+    ========================================================= */
+
+    .email-page {
+        max-width: 1200px;
+        margin: 20px auto;
+    }
+
+
+    /* =========================================================
+       MAIN CARD
+       ========================================================= */
+
+    .email-card {
+        background: #ffffff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+    }
+
+
+    /* =========================================================
+       CARD HEADER
+       ========================================================= */
+
+    .email-card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        background: #343a40;
+        color: #ffffff;
+
+        padding: 18px 22px;
+    }
+
+    .email-card-header h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .email-card-header i {
+        font-size: 18px;
+    }
+
+
+    /* =========================================================
+       CARD BODY
+       ========================================================= */
+
+    .email-card-body {
+        padding: 25px;
+    }
+
+
+    /* =========================================================
+       INFO ALERT
+       ========================================================= */
+
+    .recipient-alert {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        background: #e8f4ff;
+        border: 1px solid #b8daff;
+        color: #004085;
+
+        border-radius: 6px;
+
+        padding: 14px 16px;
+        margin-bottom: 25px;
+    }
+
+    .recipient-alert i {
+        font-size: 18px;
+    }
+
+    .recipient-alert strong {
+        font-size: 18px;
+    }
+
+
+    /* =========================================================
+       SECTION TITLES
+       ========================================================= */
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        font-size: 16px;
+        font-weight: 600;
+
+        color: #343a40;
+
+        margin-bottom: 12px;
+    }
+
+    .section-title i {
+        color: #007bff;
+    }
+
+
+    /* =========================================================
+       RECIPIENT TABLE
+       ========================================================= */
+
+    .recipient-table-wrapper {
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        overflow: hidden;
+
+        margin-bottom: 30px;
+    }
+
+    .recipient-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    .recipient-table thead {
+        background: #f8f9fa;
+    }
+
+    .recipient-table th {
+        color: #495057;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        text-transform: uppercase;
+
+        padding: 13px 15px;
+
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .recipient-table td {
+        padding: 13px 15px;
+
+        color: #495057;
+
+        font-size: 14px;
+
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .recipient-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .recipient-table tbody tr:hover {
+        background: #f8fbff;
+    }
+
+
+    /* =========================================================
+       APPLICANT NAME
+       ========================================================= */
+
+    .applicant-name {
+        font-weight: 600;
+        color: #343a40;
+    }
+
+
+    /* =========================================================
+       EMAIL
+       ========================================================= */
+
+    .applicant-email {
+        color: #007bff;
+    }
+
+    .no-email {
+        color: #dc3545;
+        font-weight: 500;
+    }
+
+
+    /* =========================================================
+       INTERNSHIP
+       ========================================================= */
+
+    .internship-name {
+        color: #495057;
+    }
+
+
+    /* =========================================================
+       FORM
+       ========================================================= */
+
+    .email-form {
+        margin-top: 10px;
+    }
+
+
+    /* =========================================================
+       FORM GROUP
+       ========================================================= */
+
+    .email-form-group {
+        margin-bottom: 22px;
+    }
+
+    .email-form-label {
+        display: block;
+
+        color: #343a40;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        margin-bottom: 8px;
+    }
+
+
+    /* =========================================================
+       INPUTS
+       ========================================================= */
+
+    .email-input,
+    .email-textarea {
+        display: block;
+
+        width: 100%;
+
+        box-sizing: border-box;
+
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+
+        background: #ffffff;
+
+        color: #495057;
+
+        font-size: 14px;
+
+        padding: 10px 12px;
+
+        transition:
+            border-color 0.15s ease-in-out,
+            box-shadow 0.15s ease-in-out;
+    }
+
+
+    .email-input {
+        height: 42px;
+    }
+
+
+    .email-textarea {
+        min-height: 240px;
+
+        resize: vertical;
+
+        line-height: 1.6;
+    }
+
+
+    .email-input:focus,
+    .email-textarea:focus {
+        outline: none;
+
+        border-color: #80bdff;
+
+        box-shadow:
+            0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+    }
+
+
+    /* =========================================================
+       BUTTON AREA
+       ========================================================= */
+
+    .email-actions {
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        margin-top: 25px;
+
+        padding-top: 20px;
+
+        border-top: 1px solid #eeeeee;
+    }
+
+
+    /* =========================================================
+       SEND BUTTON
+       ========================================================= */
+
+    .send-email-btn {
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        background: #28a745;
+
+        color: #ffffff;
+
+        border: 1px solid #28a745;
+
+        border-radius: 5px;
+
+        padding: 10px 18px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            transform 0.1s ease;
+    }
+
+    .send-email-btn:hover {
+        background: #218838;
+
+        border-color: #1e7e34;
+
+        color: #ffffff;
+    }
+
+    .send-email-btn:active {
+        transform: translateY(1px);
+    }
+
+
+    /* =========================================================
+       CANCEL BUTTON
+       ========================================================= */
+
+    .cancel-email-btn {
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        background: #6c757d;
+
+        color: #ffffff;
+
+        border: 1px solid #6c757d;
+
+        border-radius: 5px;
+
+        padding: 10px 18px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        text-decoration: none;
+
+        transition:
+            background 0.15s ease,
+            border-color 0.15s ease;
+    }
+
+    .cancel-email-btn:hover {
+        background: #5a6268;
+
+        border-color: #545b62;
+
+        color: #ffffff;
+
+        text-decoration: none;
+    }
+
+
+    /* =========================================================
+       DIVIDER
+       ========================================================= */
+
+    .email-divider {
+        border: 0;
+
+        border-top: 1px solid #dee2e6;
+
+        margin: 25px 0;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 768px) {
+
+        .email-page {
+            margin: 10px;
+        }
+
+        .email-card-body {
+            padding: 15px;
+        }
+
+        .email-card-header {
+            padding: 15px;
+        }
+
+        .recipient-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .recipient-table {
+            min-width: 650px;
+        }
+
+        .email-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .send-email-btn,
+        .cancel-email-btn {
+            width: 100%;
+        }
+    }
+
+
+    /* =========================================================
+       DARK MODE
+       ========================================================= */
+
+    body.dark-mode .email-card,
+    body.dark-mode .email-input,
+    body.dark-mode .email-textarea {
+        background: #343a40;
+        color: #ffffff;
+        border-color: #4b545c;
+    }
+
+    body.dark-mode .email-card-header {
+        background: #212529;
+    }
+
+    body.dark-mode .section-title,
+    body.dark-mode .email-form-label,
+    body.dark-mode .applicant-name {
+        color: #ffffff;
+    }
+
+    body.dark-mode .recipient-table thead {
+        background: #454d55;
+    }
+
+    body.dark-mode .recipient-table th,
+    body.dark-mode .recipient-table td {
+        color: #ffffff;
+        border-color: #4b545c;
+    }
+
+    body.dark-mode .recipient-table tbody tr:hover {
+        background: #3f474e;
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="email-page">
+
+    <div class="email-card">
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <div class="email-card-header">
+
+            <i class="fas fa-envelope"></i>
+
+            <h3>
+                Email Selected Applicants
+            </h3>
+
+        </div>
+
+
+        <!-- =================================================
+             BODY
+        ================================================== -->
+
+        <div class="email-card-body">
+
+
+            <!-- =============================================
+                 RECIPIENT COUNT
+            ============================================== -->
+
+            <div class="recipient-alert">
+
+                <i class="fas fa-users"></i>
+
+                <span>
+                    You are about to email
+                    <strong>{{ selected_count }}</strong>
+                    accepted applicant{{ selected_count|pluralize }}.
+                </span>
+
+            </div>
+
+
+            <!-- =============================================
+                 RECIPIENTS
+            ============================================== -->
+
+            <div class="section-title">
+
+                <i class="fas fa-user-check"></i>
+
+                <span>
+                    Recipients
+                </span>
+
+            </div>
+
+
+            <div class="recipient-table-wrapper">
+
+                <table class="recipient-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Applicant
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Internship
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for application in applications %}
+
+                        <tr>
+
+                            <td>
+
+                                <span class="applicant-name">
+                                    {{ application.student }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                {% if application.student.email %}
+
+                                    <span class="applicant-email">
+                                        {{ application.student.email }}
+                                    </span>
+
+                                {% elif application.student.user.email %}
+
+                                    <span class="applicant-email">
+                                        {{ application.student.user.email }}
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="no-email">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        No email address
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="internship-name">
+                                    {{ application.internship.title }}
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <hr class="email-divider">
+
+
+            <!-- =============================================
+                 EMAIL FORM
+            ============================================== -->
+
+            <div class="section-title">
+
+                <i class="fas fa-edit"></i>
+
+                <span>
+                    Compose Email
+                </span>
+
+            </div>
+
+
+            <form
+                method="post"
+                class="email-form"
+                onsubmit="return confirmEmailSend();"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- =========================================
+                     SUBJECT
+                ========================================== -->
+
+                <div class="email-form-group">
+
+                    <label
+                        for="id_subject"
+                        class="email-form-label"
+                    >
+                        Email Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        name="subject"
+                        id="id_subject"
+                        class="email-input"
+                        placeholder="Congratulations! You have been selected"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- =========================================
+                     MESSAGE
+                ========================================== -->
+
+                <div class="email-form-group">
+
+                    <label
+                        for="id_message"
+                        class="email-form-label"
+                    >
+                        Email Message
+                    </label>
+
+                    <textarea
+                        name="message"
+                        id="id_message"
+                        class="email-textarea"
+                        placeholder="Write your message to the selected applicants..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- =========================================
+                     ACTIONS
+                ========================================== -->
+
+                <div class="email-actions">
+
+                    <button
+                        type="submit"
+                        class="send-email-btn"
+                    >
+
+                        <i class="fas fa-paper-plane"></i>
+
+                        Send Email
+
+                    </button>
+
+
+                    <a
+                        href="{% url 'admin:internships_application_changelist' %}"
+                        class="cancel-email-btn"
+                    >
+
+                        <i class="fas fa-arrow-left"></i>
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function confirmEmailSend() {
+
+        const subject =
+            document.getElementById("id_subject").value.trim();
+
+        const message =
+            document.getElementById("id_message").value.trim();
+
+        if (!subject || !message) {
+
+            return false;
+
+        }
+
+        return confirm(
+            "Are you sure you want to send this email to " +
+            "{{ selected_count }}" +
+            " selected applicant(s)?"
+        );
+    }
+
+</script>
+
+{% endblock %}

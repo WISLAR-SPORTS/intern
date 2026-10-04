@@ -1,0 +1,298 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{% static 'css/students/notifications.css' %}"
+>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="notifications-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="notifications-header">
+
+        <div class="notifications-heading">
+
+            <div class="notifications-heading-icon">
+                <i data-lucide="bell"></i>
+            </div>
+
+            <div>
+                <h1>Notifications</h1>
+
+                <p>
+                    Stay updated on your applications and internship opportunities.
+                </p>
+            </div>
+
+        </div>
+
+
+        {% if unread_count > 0 %}
+
+            <div class="unread-summary">
+                <span class="unread-summary-dot"></span>
+
+                <span>
+                    {{ unread_count }}
+                    {% if unread_count == 1 %}
+                        unread update
+                    {% else %}
+                        unread updates
+                    {% endif %}
+                </span>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =====================================================
+         NOTIFICATIONS CARD
+    ====================================================== -->
+
+    <section class="notifications-card">
+
+
+        <!-- CARD HEADER -->
+
+        <div class="notifications-card-header">
+
+            <div>
+
+                <h2>
+                    Recent Updates
+                </h2>
+
+                <p>
+                    Your latest application and internship activity.
+                </p>
+
+            </div>
+
+
+            {% if unread_count > 0 %}
+
+                <span class="card-unread-count">
+                    {{ unread_count }} unread
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =================================================
+             NOTIFICATION LIST
+        ================================================== -->
+
+        <div class="notifications-list">
+
+
+            {% for notification in notifications %}
+
+                <article
+                    class="notification-item {% if not notification.is_read %}unread{% endif %}"
+                >
+
+
+                    <!-- ICON -->
+
+                    <div class="notification-icon {{ notification.notification_type }}">
+
+                        {% if notification.notification_type == "application" %}
+
+                            <i data-lucide="file-check"></i>
+
+                        {% elif notification.notification_type == "internship" %}
+
+                            <i data-lucide="briefcase-business"></i>
+
+                        {% else %}
+
+                            <i data-lucide="bell"></i>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- CONTENT -->
+
+                    <div class="notification-content">
+
+                        <div class="notification-title-row">
+
+                            <div class="notification-title">
+
+                                <h3>
+                                    {{ notification.title }}
+                                </h3>
+
+
+                                {% if not notification.is_read %}
+
+                                    <span class="new-badge">
+                                        New
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            {% if notification.notification_type == "application" %}
+
+                                <span class="notification-type application-type">
+                                    Application
+                                </span>
+
+                            {% elif notification.notification_type == "internship" %}
+
+                                <span class="notification-type internship-type">
+                                    Internship
+                                </span>
+
+                            {% else %}
+
+                                <span class="notification-type system-type">
+                                    System
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <p class="notification-message">
+                            {{ notification.message }}
+                        </p>
+
+
+                        <div class="notification-meta">
+
+                            <span class="notification-time">
+
+                                <i data-lucide="clock-3"></i>
+
+                                {{ notification.created_at|timesince }} ago
+
+                            </span>
+
+
+                            {% if notification.application %}
+
+                                <span class="notification-reference">
+
+                                    <i data-lucide="file-text"></i>
+
+                                    {{ notification.application.internship.title }}
+
+                                </span>
+
+                            {% elif notification.internship %}
+
+                                <span class="notification-reference">
+
+                                    <i data-lucide="briefcase"></i>
+
+                                    {{ notification.internship.title }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="notification-actions">
+
+                        {% if not notification.is_read %}
+
+                            <a
+                                href="{% url 'internships:mark_notification_read' notification.id %}"
+                                class="notification-action mark-read"
+                                title="Mark as read"
+                                aria-label="Mark notification as read"
+                            >
+                                <i data-lucide="check"></i>
+                            </a>
+
+                        {% endif %}
+
+
+                        <a
+                            href="{% url 'internships:delete_notification' notification.id %}"
+                            class="notification-action delete-notification"
+                            title="Delete notification"
+                            aria-label="Delete notification"
+                        >
+                            <i data-lucide="trash-2"></i>
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+
+                <!-- =================================================
+                     EMPTY STATE
+                ================================================== -->
+
+                <div class="notifications-empty">
+
+                    <div class="empty-notification-icon">
+
+                        <i data-lucide="bell-off"></i>
+
+                    </div>
+
+                    <h3>
+                        No notifications yet
+                    </h3>
+
+                    <p>
+                        You'll see updates about your applications,
+                        application status changes, and new internship
+                        opportunities here.
+                    </p>
+
+                </div>
+
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+        }
+
+    });
+</script>
+
+{% endblock %}

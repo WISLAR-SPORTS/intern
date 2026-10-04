@@ -1,0 +1,446 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#061a33"
+    >
+
+    <title>Internship Connect</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'dashboard/css/intro.css' %}"
+    >
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+
+<body>
+
+    <main class="intro" id="intro">
+
+        <!-- =================================
+             BACKGROUND
+        ================================== -->
+
+        <div class="background">
+
+            <div class="glow glow-one"></div>
+            <div class="glow glow-two"></div>
+            <div class="glow glow-three"></div>
+
+            <div class="grid"></div>
+
+            <div class="particles" id="particles"></div>
+            <!-- =====================================================
+     ECOSYSTEM CONNECTION LINES
+===================================================== -->
+
+<svg
+    class="connection-lines"
+    viewBox="0 0 1000 600"
+    preserveAspectRatio="none"
+>
+
+    <!-- Student → Center -->
+
+    <line
+    class="connection-line-glow line-student"
+    x1="180"
+    y1="160"
+    x2="500"
+    y2="300"
+/>
+
+<line
+    class="connection-line-glow line-company"
+    x1="820"
+    y1="160"
+    x2="500"
+    y2="300"
+/>
+
+<line
+    class="connection-line-glow line-university"
+    x1="190"
+    y1="470"
+    x2="500"
+    y2="300"
+/>
+
+<line
+    class="connection-line-glow line-internship"
+    x1="810"
+    y1="470"
+    x2="500"
+    y2="300"
+/>
+<circle
+    class="data-dot dot-student"
+    cx="180"
+    cy="160"
+    r="5"
+/>
+
+<circle
+    class="data-dot dot-company"
+    cx="820"
+    cy="160"
+    r="5"
+/>
+
+<circle
+    class="data-dot dot-university"
+    cx="190"
+    cy="470"
+    r="5"
+/>
+
+<circle
+    class="data-dot dot-internship"
+    cx="810"
+    cy="470"
+    r="5"
+/>
+
+</svg>
+
+
+        </div>
+
+
+        <!-- =================================
+             TOP BAR
+        ================================== -->
+
+        <header class="top-bar">
+
+            <div class="mini-logo">
+                <span>IC</span>
+            </div>
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <span>
+                    SYSTEM ONLINE
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================
+             FLOATING ECOSYSTEM CARDS
+        ================================== -->
+
+        <section class="ecosystem">
+
+
+            <!-- STUDENT -->
+
+            <article
+                 class="ecosystem-card card-student"
+                data-delay="0"
+            >
+
+                <div class="card-icon">
+        <i data-lucide="graduation-cap"></i>
+    </div>
+
+                <div>
+
+                    <span class="card-label">
+                        TALENT
+                    </span>
+
+                    <h2>
+                        Students
+                    </h2>
+
+                    <p>
+                        Discover opportunities
+                        and build your career.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- COMPANY -->
+
+            <article
+                class="ecosystem-card card-company"
+                data-delay="500"
+            >
+  <div class="card-icon">
+        <i data-lucide="building-2"></i>
+    </div>
+
+                <div>
+
+                    <span class="card-label">
+                        EMPLOYERS
+                    </span>
+
+                    <h2>
+                        Companies
+                    </h2>
+
+                    <p>
+                        Discover and recruit
+                        emerging talent.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- UNIVERSITY -->
+
+            <article
+                class="ecosystem-card card-university"
+                data-delay="1000"
+            >
+
+                  <div class="card-icon">
+        <i data-lucide="landmark"></i>
+    </div>
+
+                <div>
+
+                    <span class="card-label">
+                        EDUCATION
+                    </span>
+
+                    <h2>
+                        Universities
+                    </h2>
+
+                    <p>
+                        Connect students with
+                        industry opportunities.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- INTERNSHIP -->
+
+            <article
+                class="ecosystem-card card-internship"
+                data-delay="1500"
+            >
+
+                   <div class="card-icon">
+        <i data-lucide="briefcase-business"></i>
+    </div>
+
+                <div>
+
+                    <span class="card-label">
+                        OPPORTUNITIES
+                    </span>
+
+                    <h2>
+                        Internships
+                    </h2>
+
+                    <p>
+                        The bridge between
+                        education and industry.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+        <!-- =================================
+             CENTER BRAND
+        ================================== -->
+
+        <section class="brand">
+
+            <div class="brand-mark">
+
+                <div class="brand-ring"></div>
+
+            <div class="brand-icon">
+    <i data-lucide="network"></i>
+</div>
+
+
+            </div>
+
+
+            <div class="brand-content">
+
+                <span class="eyebrow">
+                    SMART INTERNSHIP ECOSYSTEM
+                </span>
+
+                <h1>
+                    InternUg
+                    <span>Connect</span>
+                </h1>
+
+                <p>
+                    Connecting students,
+                    companies and universities
+                    through one intelligent platform.
+                </p>
+
+            </div>
+
+
+            <!-- =================================
+                 LOADING STATUS
+            ================================== -->
+
+            <div class="launch-status">
+
+                <div class="status-text">
+
+                    <span id="statusMessage">
+                        Initializing platform...
+                    </span>
+
+                    <span id="percentage">
+                        0%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-track">
+
+                    <div
+                        class="progress-bar"
+                        id="progressBar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             FEATURE STRIP
+        ================================== -->
+
+        <div class="feature-strip">
+
+            <div class="feature">
+                <span>01</span>
+                Smart Placement
+            </div>
+
+            <div class="feature">
+                <span>02</span>
+                Digital Logbook
+            </div>
+
+            <div class="feature">
+                <span>03</span>
+                Real-time Tracking
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             ENTER PLATFORM
+        ================================== -->
+
+        <button
+            class="enter-button"
+            id="enterButton"
+            type="button"
+        >
+
+            <span class="enter-icon">
+                →
+            </span>
+
+            <span class="enter-content">
+
+                <strong>
+                    ENTER PLATFORM
+                </strong>
+
+                <small>
+                    Your internship journey starts here
+                </small>
+
+            </span>
+
+            <span class="enter-arrow">
+                ↗
+            </span>
+
+        </button>
+
+
+        <!-- =================================
+             BOTTOM
+        ================================== -->
+
+        <footer class="footer">
+
+            <span>
+                INTERNSHIP CONNECT
+            </span>
+
+            <span>
+                HACKATHON EDITION • 2026
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <!-- Django-generated URL -->
+
+<script>
+    const loginUrl =
+        "{% url 'companies:landing' %}";
+</script>
+
+
+
+    <script
+        src="{% static 'dashboard/js/intro.js' %}"
+    ></script>
+<script>
+    lucide.createIcons();
+</script>
+
+
+</body>
+
+</html>

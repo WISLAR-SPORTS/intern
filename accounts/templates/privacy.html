@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {{ document.title }} | Internship Portal
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'accounts/css/legal.css' %}"
+    >
+</head>
+
+<body>
+
+<div class="legal-page">
+
+    <div class="legal-card">
+
+        <header class="legal-header">
+
+            <div class="legal-icon">
+                ✓
+            </div>
+
+            <div>
+                <h1>
+                    {{ document.title }}
+                </h1>
+
+                <p>
+                    Internship Placement Portal
+                </p>
+            </div>
+
+        </header>
+
+
+        <main class="legal-content">
+
+            <div class="document-meta">
+
+                <span>
+                    Version {{ document.version }}
+                </span>
+
+                <span>
+                    Updated {{ document.updated_at|date:"F j, Y" }}
+                </span>
+
+            </div>
+
+
+            <div class="legal-document-text">
+
+                {{ document.content|linebreaks }}
+
+            </div>
+
+        </main>
+
+
+        <footer class="legal-footer">
+
+            <a
+                href="{% url 'consent' %}"
+                class="legal-button"
+            >
+                Back to Consent
+            </a>
+
+        </footer>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

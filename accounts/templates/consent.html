@@ -1,0 +1,307 @@
+{% load static %}
+
+<!DOCTYPE html> <html lang="en"> <head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Before You Continue | Internship Portal
+</title>
+
+<link
+    rel="stylesheet"
+    href="{% static 'accounts/css/consent.css' %}"
+>
+
+</head> <body> <div class="consent-page">
+<div class="consent-card">
+
+
+    <!-- =========================================
+         HEADER
+         ========================================= -->
+
+    <header class="consent-header">
+
+        <div class="consent-icon" aria-hidden="true">
+            ✓
+        </div>
+
+        <h1>
+            Before you continue
+        </h1>
+
+        <p>
+            Please review and accept our
+            Terms and Conditions and Privacy Policy
+            before continuing.
+        </p>
+
+    </header>
+
+
+    <!-- =========================================
+         DOCUMENT LINKS
+         ========================================= -->
+
+    <nav
+        class="legal-documents"
+        aria-label="Legal documents"
+    >
+
+        <!-- TERMS -->
+
+        <a
+            href="{% url 'terms' %}?next={{ next_url|urlencode }}"
+            class="legal-link"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+
+            <span>
+                {{ terms_document.title }}
+            </span>
+
+            <small>
+                Version {{ terms_document.version }}
+            </small>
+
+        </a>
+
+
+        <!-- PRIVACY -->
+
+        <a
+            href="{% url 'privacy' %}?next={{ next_url|urlencode }}"
+            class="legal-link"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+
+            <span>
+                {{ privacy_document.title }}
+            </span>
+
+            <small>
+                Version {{ privacy_document.version }}
+            </small>
+
+        </a>
+
+    </nav>
+
+
+    <!-- =========================================
+         LEGAL DOCUMENT PREVIEWS
+         ========================================= -->
+
+    <main class="legal-content">
+
+
+        <!-- =====================================
+             TERMS PREVIEW
+             ===================================== -->
+
+        <section
+            class="legal-section"
+            aria-labelledby="terms-heading"
+        >
+
+            <div class="document-heading">
+
+                <h2 id="terms-heading">
+                    {{ terms_document.title }}
+                </h2>
+
+                <span class="document-version">
+                    Version {{ terms_document.version }}
+                </span>
+
+            </div>
+
+
+            <div class="document-preview">
+
+                {{ terms_document.content|truncatewords:60|linebreaks }}
+
+            </div>
+
+
+            <a
+                href="{% url 'terms' %}?next={{ next_url|urlencode }}"
+                class="read-more"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Read full Terms and Conditions →
+            </a>
+
+        </section>
+
+
+        <!-- =====================================
+             PRIVACY PREVIEW
+             ===================================== -->
+
+        <section
+            class="legal-section"
+            aria-labelledby="privacy-heading"
+        >
+
+            <div class="document-heading">
+
+                <h2 id="privacy-heading">
+                    {{ privacy_document.title }}
+                </h2>
+
+                <span class="document-version">
+                    Version {{ privacy_document.version }}
+                </span>
+
+            </div>
+
+
+            <div class="document-preview">
+
+                {{ privacy_document.content|truncatewords:60|linebreaks }}
+
+            </div>
+
+
+            <a
+                href="{% url 'privacy' %}?next={{ next_url|urlencode }}"
+                class="read-more"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Read full Privacy Policy →
+            </a>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================================
+         CONSENT FORM
+         ========================================= -->
+
+    <form
+        id="consent-form"
+        method="POST"
+        action="{% url 'accept_consent' %}"
+        data-submit-url="{% url 'accept_consent' %}"
+    >
+
+        {% csrf_token %}
+
+
+        <!-- =====================================
+             ORIGINAL DESTINATION
+             ===================================== -->
+
+        <input
+            type="hidden"
+            name="next"
+            value="{{ next_url }}"
+        >
+
+
+        <!-- =====================================
+             ACCEPTANCE VALUE
+             ===================================== -->
+
+        <input
+            type="hidden"
+            name="accepted"
+            value="true"
+        >
+
+
+        <!-- =====================================
+             ACCEPTANCE CHECKBOX
+             ===================================== -->
+
+        <label
+            class="consent-checkbox"
+            for="accept-checkbox"
+        >
+
+            <input
+                type="checkbox"
+                id="accept-checkbox"
+                name="consent_checkbox"
+                value="true"
+            >
+
+            <span>
+
+                I have read and agree to the
+
+                <a
+                    href="{% url 'terms' %}?next={{ next_url|urlencode }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Terms and Conditions
+                </a>
+
+                and
+
+                <a
+                    href="{% url 'privacy' %}?next={{ next_url|urlencode }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Privacy Policy
+                </a>.
+
+            </span>
+
+        </label>
+
+
+        <!-- =====================================
+             ERROR MESSAGE
+             ===================================== -->
+
+        <p
+            id="consent-error"
+            class="consent-error"
+            role="alert"
+            aria-live="polite"
+        ></p>
+
+
+        <!-- =====================================
+             SUBMIT
+             ===================================== -->
+
+        <button
+            type="submit"
+            id="accept-button"
+            disabled
+        >
+            Accept and Continue
+        </button>
+
+    </form>
+
+
+</div>
+
+</div> <!-- ============================================= JAVASCRIPT ============================================= --> <script src="{% static 'accounts/js/consent.js' %}" defer ></script> </body> </html>
+
+<script
+    src="{% static 'accounts/js/consent.js' %}"
+    defer
+></script>
+
+</body>
+
+</html>

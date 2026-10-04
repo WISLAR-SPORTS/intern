@@ -1,0 +1,85 @@
+{% extends "admin/change_list.html" %}
+
+{% block extrastyle %}
+    {{ block.super }}
+
+    <style>
+        .upload-students-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            background: #2563eb;
+            color: #ffffff !important;
+
+            padding: 9px 16px;
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            text-decoration: none !important;
+
+            border: 1px solid #2563eb;
+
+            transition:
+                background-color 0.2s ease,
+                transform 0.15s ease,
+                box-shadow 0.2s ease;
+
+            box-shadow: 0 2px 5px rgba(37, 99, 235, 0.2);
+        }
+
+        .upload-students-btn:hover {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+            color: #ffffff !important;
+
+            transform: translateY(-1px);
+
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+        }
+
+        .upload-students-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        }
+
+        .upload-students-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+    </style>
+{% endblock %}
+
+
+{% block object-tools-items %}
+
+    <li>
+        <a
+            href="{% url 'admin:students_studentverified_upload' %}"
+            class="upload-students-btn"
+        >
+            <svg
+                class="upload-students-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
+                <path d="M12 3v12"></path>
+                <path d="m7 8 5-5 5 5"></path>
+                <path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"></path>
+            </svg>
+
+            Upload Students
+        </a>
+    </li>
+
+    {{ block.super }}
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+
+<div class="card">
+
+    <div class="card-header">
+        <h3 class="card-title">
+            Import Verified Students
+        </h3>
+    </div>
+
+    <div class="card-body">
+
+        <p>
+            Upload a CSV or Excel file containing
+            the following columns:
+        </p>
+
+        <ul>
+            <li>full_name</li>
+            <li>registration_number</li>
+        </ul>
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                Import Students
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

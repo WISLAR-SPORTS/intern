@@ -1,0 +1,275 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+
+{% block extrastyle %}
+    {{ block.super }}
+
+    <link
+        rel="stylesheet"
+        href="{% static 'students/css/student_upload.css' %}"
+    >
+{% endblock %}
+
+
+{% block content %}
+
+<div class="student-upload-page">
+
+    <!-- Page Header -->
+
+    <div class="student-upload-header">
+
+        <h1>
+            Upload Verified Students
+        </h1>
+
+        <p>
+            Upload your university's verified student list.
+            The system will validate the file before importing
+            any students.
+        </p>
+
+    </div>
+
+
+    <!-- Upload Card -->
+
+    <div class="student-upload-card">
+
+        <div class="student-upload-card-header">
+
+            <h2>
+                Student List
+            </h2>
+
+        </div>
+
+
+        <div class="student-upload-card-body">
+
+            <form
+                method="post"
+                enctype="multipart/form-data"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- Errors -->
+
+                {% if form.non_field_errors %}
+
+                    <div class="student-upload-errors">
+
+                        {{ form.non_field_errors }}
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if form.file.errors %}
+
+                    <div class="student-upload-errors">
+
+                        {{ form.file.errors }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- Upload Area -->
+
+                <div class="student-upload-dropzone">
+
+                    <div class="student-upload-dropzone-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M12 3v12"></path>
+                            <path d="m7 8 5-5 5 5"></path>
+                            <path d="M5 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"></path>
+                        </svg>
+
+                    </div>
+
+
+                    <p class="student-upload-dropzone-title">
+                        Select your student list
+                    </p>
+
+                    <p class="student-upload-dropzone-text">
+                        Excel (.xlsx) or PDF files
+                    </p>
+
+
+                    {{ form.file }}
+
+                </div>
+
+
+                {% if form.file.help_text %}
+
+                    <p class="student-upload-help">
+                        {{ form.file.help_text }}
+                    </p>
+
+                {% endif %}
+
+
+                <!-- Actions -->
+
+                <div class="student-upload-actions">
+
+                    <a
+                        href="{% url 'admin:students_studentverified_changelist' %}"
+                        class="student-upload-btn student-upload-btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="student-upload-btn student-upload-btn-primary"
+                    >
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M12 3v12"></path>
+                            <path d="m7 8 5-5 5 5"></path>
+                            <path d="M5 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"></path>
+                        </svg>
+
+                        Upload Students
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- Requirements Card -->
+
+    <div class="student-upload-card">
+
+        <div class="student-upload-card-header">
+
+            <h2>
+                File Requirements
+            </h2>
+
+        </div>
+
+
+        <div class="student-upload-card-body">
+
+            <div class="student-upload-requirements">
+
+
+                <!-- Requirements -->
+
+                <div>
+
+                    <h3>
+                        Required format
+                    </h3>
+
+                    <ul class="student-upload-list">
+
+                        <li>
+                            File must contain exactly two columns.
+                        </li>
+
+                        <li>
+                            Student Number is required.
+                        </li>
+
+                        <li>
+                            Full Name is required.
+                        </li>
+
+                        <li>
+                            Student Numbers must be unique.
+                        </li>
+
+                        <li>
+                            Existing Student Numbers cannot be uploaded again.
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- Example -->
+
+                <div>
+
+                    <h3>
+                        Example
+                    </h3>
+
+
+                    <div class="student-upload-table-wrapper">
+
+                        <table class="student-upload-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Student Number</th>
+                                    <th>Full Name</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+                                    <td>2024001</td>
+                                    <td>Wamani Issa</td>
+                                </tr>
+
+                                <tr>
+                                    <td>2024002</td>
+                                    <td>Muhumuza Shadia</td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,350 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Login - Student System
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'accounts/css/login.css' %}"
+>
+
+{% endblock %}
+{% block content %}
+
+<div class="login-page">
+
+    <!-- ==========================================
+         LEFT BRANDING PANEL
+    =========================================== -->
+
+    <section class="login-showcase">
+
+        <div class="showcase-content">
+
+            <!-- Brand -->
+            <div class="showcase-brand">
+
+                {% if site_settings and site_settings.logo %}
+                    <img
+                        src="{{ site_settings.logo.url }}"
+                        alt="{{ site_settings.site_name }}"
+                    >
+                {% endif %}
+
+                <div>
+                    <strong>
+                        {{ site_settings.site_name|default:"InternConnect" }}
+                    </strong>
+
+                    <span>
+                        {{ site_settings.tagline|default:"Connect. Intern. Grow." }}
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- Main message -->
+            <div class="showcase-main">
+
+                <span class="showcase-badge">
+                    YOUR CAREER STARTS HERE
+                </span>
+
+                <h2>
+                    Connect with opportunities
+                    that move your career forward.
+                </h2>
+
+                <p>
+                    Discover internship opportunities, connect with
+                    universities and build meaningful relationships
+                    with employers across Uganda.
+                </p>
+
+            </div>
+
+
+            <!-- Benefits -->
+            <div class="showcase-features">
+
+                <div class="showcase-feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong>
+                            Discover Opportunities
+                        </strong>
+
+                        <span>
+                            Find internships aligned with your skills
+                            and career goals.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="showcase-feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong>
+                            Connect With Employers
+                        </strong>
+
+                        <span>
+                            Build professional connections with
+                            organizations looking for emerging talent.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="showcase-feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong>
+                            Grow Your Career
+                        </strong>
+
+                        <span>
+                            Gain practical experience and take the
+                            next step toward your future.
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Statistics -->
+            <div class="login-stats">
+
+                <div class="login-stat">
+                    <strong>{{ student_count|default:"0" }}+</strong>
+                    <span>Students</span>
+                </div>
+
+                <div class="login-stat">
+                    <strong>{{ company_count|default:"0" }}+</strong>
+                    <span>Companies</span>
+                </div>
+
+                <div class="login-stat">
+                    <strong>{{ university_count|default:"0" }}+</strong>
+                    <span>Universities</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Decorative shapes -->
+        <div class="showcase-circle showcase-circle-one"></div>
+        <div class="showcase-circle showcase-circle-two"></div>
+
+    </section>
+
+
+    <!-- ==========================================
+         LOGIN PANEL
+    =========================================== -->
+
+    <section class="login-panel">
+
+        <div class="login-card">
+
+            <div class="login-header">
+
+                <div class="login-logo">
+
+                    {% if site_settings and site_settings.logo %}
+
+                        <img
+                            src="{{ site_settings.logo.url }}"
+                            alt="{{ site_settings.site_name }}"
+                        >
+
+                    {% else %}
+
+                        <span>
+                            {{ site_settings.site_name|default:"InternConnect"|first }}
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <h1>
+                    Welcome back
+                </h1>
+
+                <p>
+                    Sign in to continue to your
+                    {{ site_settings.site_name|default:"InternConnect" }}
+                    account.
+                </p>
+
+            </div>
+
+
+            {% if form.non_field_errors %}
+
+                <div class="error">
+                    {{ form.non_field_errors }}
+                </div>
+
+            {% endif %}
+
+
+            <form
+                method="POST"
+                action="{% url 'login' %}"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.email.id_for_label }}">
+                        Email address
+                    </label>
+
+                    {{ form.email }}
+
+                    {% if form.email.errors %}
+
+                        <div class="error">
+                            {{ form.email.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- HUMAN VERIFICATION -->
+
+                <div class="turnstile-container">
+
+                    <div
+                        class="cf-turnstile"
+                        data-sitekey="{{ turnstile_site_key }}"
+                        data-action="login"
+                    ></div>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+                    Continue
+                    <span>→</span>
+                </button>
+
+            </form>
+
+
+            <!-- FOOTER -->
+
+            <div class="login-footer">
+
+                <p>
+                    Don't have an account?
+                </p>
+
+                <a href="{% url 'register' %}">
+                    Create an account
+                </a>
+                <p>
+                    Back to
+                </p>
+
+                <a href="{% url 'companies:landing' %}">
+                    Home
+                </a>
+
+
+            </div>
+
+
+            <!-- Trust message -->
+
+            <div class="login-security">
+
+                <span class="security-icon">
+                    
+                </span>
+
+                <span>
+                    Your information is securely protected.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Bottom links -->
+
+        <div class="login-links">
+
+            {% if site_settings.help_url %}
+                <a href="{{ site_settings.help_url }}">
+                    Help
+                </a>
+            {% endif %}
+
+            {% if site_settings.privacy_url %}
+                <a href="{{ site_settings.privacy_url }}">
+                    Privacy
+                </a>
+            {% endif %}
+
+            {% if site_settings.terms_url %}
+                <a href="{{ site_settings.terms_url }}">
+                    Terms
+                </a>
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+></script>
+
+{% endblock %}
