@@ -181,6 +181,31 @@
 /* ==========================================================================
    MOBILE MENU TOGGLE - DARK/LIGHT THEME
    ========================================================================== */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.theme-toggle svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+}
+.menu-toggle svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2;
+}
+
+
+.theme-toggle span {
+    width: 1px;
+    height: 18px;
+    background: currentColor;
+    opacity: 0.3;
+}
 
 .menu-toggle {
     display: none;

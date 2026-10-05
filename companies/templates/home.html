@@ -53,9 +53,12 @@
         </nav>
 
         <div class="nav-actions">
-            <button class="theme-toggle" type="button">
-                ☀️ <span></span> 🌙
-            </button>
+           <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+    <i data-lucide="sun"></i>
+    <span></span>
+    <i data-lucide="moon"></i>
+</button>
+
 
             <a href="{% url 'login' %}" class="btn btn-outline">
                 Login
@@ -67,9 +70,10 @@
         </div>
 
         <!-- Mobile menu button -->
-        <button class="menu-toggle" type="button" aria-label="Open navigation">
-            ☰
-        </button>
+      <button class="menu-toggle" type="button" aria-label="Open navigation">
+    <i data-lucide="menu"></i>
+</button>
+
 
     </div>
 </header>
@@ -140,7 +144,10 @@
 
         {% if featured_internship %}
             <div class="internship-notification">
-                <div class="notification-icon">💼</div>
+               <div class="notification-icon">
+    <i data-lucide="{{ notification.icon|default:'briefcase-business' }}"></i>
+</div>
+
                 <div>
                     <strong>New Internship Available!</strong>
                     <p>{{ featured_internship.title }}</p>
@@ -523,7 +530,9 @@
 
 <section id="contact" class="cta">
     <div class="container cta-container">
-        <div class="cta-icon">{{ settings.cta_icon|default:"🎓" }}</div>
+       <div class="cta-icon">
+    <i data-lucide="{{ settings.cta_icon|default:'rocket' }}"></i>
+</div>
 
         <div class="cta-content">
             <h2>{{ settings.cta_title }}</h2>
@@ -699,6 +708,11 @@
 
 {{ universities|json_script:"universities-data" }}
     {{ companies|json_script:"companies-data" }}
+    <script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>
+
 
     <script
         src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
