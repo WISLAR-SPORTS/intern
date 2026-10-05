@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from cloudinary.models import CloudinaryField
 class Company(models.Model):
 
     user = models.OneToOneField(
@@ -89,11 +89,12 @@ class LandingPageSettings(models.Model):
         )
     )
 
-    hero_image = models.ImageField(
-        upload_to="landing/",
-        blank=True,
-        null=True
-    )
+    hero_image = CloudinaryField(
+    "hero_image",
+    folder="landing/",
+    blank=True,
+    null=True
+)
 
     hero_primary_button = models.CharField(
         max_length=100,
@@ -125,9 +126,9 @@ class LandingPageSettings(models.Model):
             "between students, universities and employers."
         )
     )
-
-    about_image = models.ImageField(
-        upload_to="landing/",
+    about_image = CloudinaryField(
+        "about_image",
+        folder="landing/",
         blank=True,
         null=True
     )
@@ -206,7 +207,12 @@ class LandingPageSettings(models.Model):
     )
     site_name = models.CharField(max_length=100, default="InternConnect")
     tagline = models.CharField(max_length=200, default="Connect. Intern. Grow.")
-    logo = models.ImageField(upload_to="landing/", blank=True, null=True)
+    logo = CloudinaryField(
+    "logo",
+    folder="landing/",
+    blank=True,
+    null=True
+)
     logo_first = models.CharField(max_length=50, default="Intern")
     logo_second = models.CharField(max_length=50, default="Connect")
         
