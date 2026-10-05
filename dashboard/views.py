@@ -85,8 +85,15 @@ def university_dashboard(request):
             "application_metrics": application_metrics,
         },
     )
+from companies.models import LandingPageSettings
+
 def intro(request):
-    return render(request, "dashboard/intro.html")
+    landing = LandingPageSettings.objects.first()
+
+    return render(request, "dashboard/intro.html", {
+        "landing": landing,
+    })
+
 
 
 def home(request):

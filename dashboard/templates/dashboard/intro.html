@@ -287,9 +287,14 @@
 
                 <div class="brand-ring"></div>
 
-            <div class="brand-icon">
-    <i data-lucide="network"></i>
+<div class="brand-icon">
+    {% if landing and landing.logo %}
+        <img src="{{ landing.logo.url }}" alt="Logo">
+    {% else %}
+        <i data-lucide="network"></i>
+    {% endif %}
 </div>
+
 
 
             </div>
