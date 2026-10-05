@@ -44,6 +44,7 @@
             </div>
         </a>
 
+        <!-- Desktop Navigation -->
         <nav class="nav-links">
             <a href="#features">Features</a>
             <a href="#about">About</a>
@@ -52,13 +53,14 @@
             <a href="#contact">Contact</a>
         </nav>
 
+        <!-- Desktop Actions -->
         <div class="nav-actions">
-           <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
-    <i data-lucide="sun"></i>
-    <span></span>
-    <i data-lucide="moon"></i>
-</button>
 
+            <button class="theme-toggle" type="button" aria-label="Toggle theme">
+                <i data-lucide="sun"></i>
+                <span></span>
+                <i data-lucide="moon"></i>
+            </button>
 
             <a href="{% url 'login' %}" class="btn btn-outline">
                 Login
@@ -67,17 +69,44 @@
             <a href="{% url 'register' %}" class="btn btn-primary">
                 Get Started
             </a>
+
         </div>
 
-        <!-- Mobile menu button -->
-      <button class="menu-toggle" type="button" aria-label="Open navigation">
-    <i data-lucide="menu"></i>
-</button>
+        <!-- Mobile Menu Button -->
+        <button
+            class="menu-toggle"
+            type="button"
+            aria-label="Open navigation"
+            aria-expanded="false"
+        >
+            <i data-lucide="menu"></i>
+        </button>
 
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+        <a href="#universities">Universities</a>
+        <a href="#companies">Companies</a>
+        <a href="#contact">Contact</a>
+
+        <div class="mobile-nav-actions">
+
+            <a href="{% url 'login' %}" class="btn btn-outline">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}" class="btn btn-primary">
+                Get Started
+            </a>
+
+        </div>
 
     </div>
 </header>
-
 
 <main>
 <section id="home" class="hero"
