@@ -1,0 +1,803 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link
+        rel="stylesheet"
+        href="{% static 'admin/css/application_review.css' %}"
+    >
+{% endblock %}
+
+
+{% block content %}
+
+<div class="application-review">
+
+    <!-- ================================================= -->
+    <!-- BACK BUTTON -->
+    <!-- ================================================= -->
+
+    <a
+        href="{% url 'admin:internships_application_changelist' %}"
+        class="back-button"
+    >
+        <span class="back-arrow">←</span>
+        <span>Back to Applications</span>
+    </a>
+
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <div class="review-header">
+
+        <div>
+
+            <div class="review-breadcrumb">
+                Applications / Review
+            </div>
+
+            <h1>
+                Review Application
+            </h1>
+
+            <p class="review-subtitle">
+                Review the candidate's application and make a decision.
+            </p>
+
+        </div>
+
+
+        <div class="header-status">
+
+            {% if application.status == "pending" %}
+
+                <span class="status-badge status-pending">
+                    Pending
+                </span>
+
+            {% elif application.status == "under_review" %}
+
+                <span class="status-badge status-review">
+                    Under Review
+                </span>
+
+            {% elif application.status == "shortlisted" %}
+
+                <span class="status-badge status-shortlisted">
+                    Shortlisted for Interview
+                </span>
+
+            {% elif application.status == "rejected" %}
+
+                <span class="status-badge status-rejected">
+                    Rejected
+                </span>
+
+            {% elif application.status == "accepted" %}
+
+                <span class="status-badge status-accepted">
+                    Accepted
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- MAIN LAYOUT -->
+    <!-- ================================================= -->
+
+    <div class="review-layout">
+
+
+        <!-- ================================================= -->
+        <!-- MAIN CONTENT -->
+        <!-- ================================================= -->
+
+        <main class="review-main">
+
+
+            <!-- ================================================= -->
+            <!-- MOBILE STUDENT CARD -->
+            <!-- ================================================= -->
+
+            <div class="mobile-student-card review-card">
+
+                <div class="card-header">
+
+                    <div class="profile-avatar">
+
+                        {% if application.student.profile_picture %}
+
+                            <img
+                                src="{{ application.student.profile_picture.url }}"
+                                alt="{{ application.student.user.get_full_name }}"
+                            >
+
+                        {% else %}
+
+                            {{ application.student.user.first_name|first|upper|default:"S" }}
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            {{ application.student.user.get_full_name }}
+                        </h2>
+
+                        <p>
+                            Applicant
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="student-meta">
+
+                    <span>
+                        {{ application.student.registration_number }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- COVER LETTER -->
+            <!-- ================================================= -->
+
+            <section class="review-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon">
+                        ✉
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Cover Letter
+                        </h2>
+
+                        <p>
+                            Candidate's application statement
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="cover-letter">
+
+                    {% if application.cover_letter %}
+
+                        {{ application.cover_letter|linebreaks }}
+
+                    {% else %}
+
+                        <div class="empty-state">
+
+                            <span class="empty-icon">
+                                —
+                            </span>
+
+                            <p>
+                                No cover letter was provided.
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+
+            <!-- ================================================= -->
+            <!-- APPLICATION ANSWERS -->
+            <!-- ================================================= -->
+
+            <section class="review-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon">
+                        ☷
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Application Questions
+                        </h2>
+
+                        <p>
+                            Responses provided by the candidate
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {% if answers %}
+
+                    <div class="answers-list">
+
+                        {% for answer in answers %}
+
+                            <div class="answer-item">
+
+                                <div class="answer-number">
+                                    {{ forloop.counter }}
+                                </div>
+
+
+                                <div class="answer-content">
+
+                                    <h3>
+                                        {{ answer.field.label }}
+                                    </h3>
+
+
+                                    {% if answer.answer %}
+
+                                        <div class="answer-text">
+                                            {{ answer.answer|linebreaks }}
+                                        </div>
+
+                                    {% else %}
+
+                                        <p class="no-answer">
+                                            No written answer provided.
+                                        </p>
+
+                                    {% endif %}
+
+
+                                    {% if answer.file %}
+
+                                        <div class="file-attachment">
+
+                                            <div class="file-info">
+
+                                                <span class="file-icon">
+                                                    📎
+                                                </span>
+
+                                                <div>
+
+                                                    <strong>
+                                                        Uploaded document
+                                                    </strong>
+
+                                                    <span>
+                                                        {{ answer.file.name }}
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <a
+                                                href="{{ answer.file.url }}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="file-button"
+                                            >
+                                                View File
+                                            </a>
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-state">
+
+                        <span class="empty-icon">
+                            —
+                        </span>
+
+                        <p>
+                            No application answers were provided.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <!-- ================================================= -->
+            <!-- APPLICATION DETAILS -->
+            <!-- ================================================= -->
+
+            <section class="review-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon">
+                        ℹ
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Application Details
+                        </h2>
+
+                        <p>
+                            Application information
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="details-grid">
+
+                    <div class="detail-item">
+
+                        <span>
+                            Application Date
+                        </span>
+
+                        <strong>
+                            {{ application.applied_date|date:"d M Y, H:i" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Current Status
+                        </span>
+
+                        <strong>
+                            {{ application.get_status_display }}
+                        </strong>
+
+                    </div>
+
+
+                    {% if application.reviewed_at %}
+
+                        <div class="detail-item">
+
+                            <span>
+                                Last Reviewed
+                            </span>
+
+                            <strong>
+                                {{ application.reviewed_at|date:"d M Y, H:i" }}
+                            </strong>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if application.reviewed_by %}
+
+                        <div class="detail-item">
+
+                            <span>
+                                Reviewed By
+                            </span>
+
+                            <strong>
+                                {{ application.reviewed_by.get_full_name|default:application.reviewed_by.username }}
+                            </strong>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- ================================================= -->
+        <!-- SIDEBAR -->
+        <!-- ================================================= -->
+
+        <aside class="review-sidebar">
+
+
+            <!-- ================================================= -->
+            <!-- STUDENT CARD -->
+            <!-- ================================================= -->
+
+            <section class="review-card student-card">
+
+                <div class="profile-avatar">
+
+                    {% if application.student.profile_picture %}
+
+                        <img
+                            src="{{ application.student.profile_picture.url }}"
+                            alt="{{ application.student.user.get_full_name }}"
+                        >
+
+                    {% else %}
+
+                        {{ application.student.user.first_name|first|upper|default:"S" }}
+
+                    {% endif %}
+
+                </div>
+
+
+                <h2>
+                    {{ application.student.user.get_full_name }}
+                </h2>
+
+                <p class="student-role">
+                    Applicant
+                </p>
+
+
+                <div class="student-details">
+
+                    <div>
+
+                        <span>
+                            Registration
+                        </span>
+
+                        <strong>
+                            {{ application.student.registration_number }}
+                        </strong>
+
+                    </div>
+
+
+                    {% if application.student.user.email %}
+
+                        <div>
+
+                            <span>
+                                Email
+                            </span>
+
+                            <strong>
+                                {{ application.student.user.email }}
+                            </strong>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+
+            <!-- ================================================= -->
+            <!-- INTERNSHIP CARD -->
+            <!-- ================================================= -->
+
+            <section class="review-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon">
+                        💼
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Internship
+                        </h2>
+
+                        <p>
+                            Applied position
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="internship-title">
+                    {{ application.internship.title }}
+                </div>
+
+            </section>
+
+
+            <!-- ================================================= -->
+            <!-- REVIEW PANEL -->
+            <!-- ================================================= -->
+
+            <section class="review-card review-panel">
+
+                <div class="card-header">
+
+                    <div class="card-icon review-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Review
+                        </h2>
+
+                        <p>
+                            Evaluate this application
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- REVIEW FORM -->
+                <!-- ================================================= -->
+
+                <form
+                    method="post"
+                    class="review-form"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- SCORE -->
+
+                    <div class="form-field">
+
+                        <label for="{{ form.score.id_for_label }}">
+                            Application Score
+                        </label>
+
+                        {{ form.score }}
+
+                        {% if form.score.errors %}
+
+                            <div class="form-errors">
+                                {{ form.score.errors }}
+                            </div>
+
+                        {% endif %}
+
+                        <span class="field-help">
+                            Enter a score from 0 to 100.
+                        </span>
+
+                    </div>
+
+
+                    <!-- NOTES -->
+
+                    <div class="form-field">
+
+                        <label for="{{ form.reviewer_notes.id_for_label }}">
+                            Reviewer Notes
+                        </label>
+
+                        {{ form.reviewer_notes }}
+
+                        {% if form.reviewer_notes.errors %}
+
+                            <div class="form-errors">
+                                {{ form.reviewer_notes.errors }}
+                            </div>
+
+                        {% endif %}
+
+                        <span class="field-help">
+                            Add notes explaining your evaluation.
+                        </span>
+
+                    </div>
+
+
+                    <!-- SAVE REVIEW -->
+
+                    <button
+                        type="submit"
+                        name="action"
+                        value="save_review"
+                        class="btn btn-primary btn-full"
+                    >
+                        Save Review
+                    </button>
+
+                </form>
+
+
+                <!-- ================================================= -->
+                <!-- DECISION ACTIONS -->
+                <!-- ================================================= -->
+
+                <div class="workflow-actions">
+
+                    <div class="workflow-title">
+                        Decision
+                    </div>
+
+
+                    <!-- ============================================= -->
+                    <!-- UNDER REVIEW -->
+                    <!-- ============================================= -->
+
+                    {% if application.status == "under_review" %}
+
+                        <form method="post">
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                name="action"
+                                value="shortlist"
+                                class="btn btn-success btn-full"
+                            >
+                                ✓ Shortlist for Interview
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
+
+                    <!-- ============================================= -->
+                    <!-- REJECT -->
+                    <!-- ============================================= -->
+
+                    {% if application.status == "pending" or application.status == "under_review" %}
+
+                        <form method="post">
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                name="action"
+                                value="reject"
+                                class="btn btn-danger btn-full"
+                                onclick="return confirm('Are you sure you want to reject this application?');"
+                            >
+                                Reject Application
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
+
+                    <!-- ============================================= -->
+                    <!-- SHORTLISTED -->
+                    <!-- ============================================= -->
+
+                    {% if application.status == "shortlisted" %}
+
+                        <div class="decision-success">
+
+                            <span class="success-icon">
+                                ✓
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Shortlisted for Interview
+                                </strong>
+
+                                <p>
+                                    This candidate has passed the application review.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- ============================================= -->
+                    <!-- REJECTED -->
+                    <!-- ============================================= -->
+
+                    {% if application.status == "rejected" %}
+
+                        <div class="decision-rejected">
+
+                            <span class="rejected-icon">
+                                ×
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Application Rejected
+                                </strong>
+
+                                <p>
+                                    This application will not proceed.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- ============================================= -->
+                    <!-- ACCEPTED -->
+                    <!-- ============================================= -->
+
+                    {% if application.status == "accepted" %}
+
+                        <div class="decision-success">
+
+                            <span class="success-icon">
+                                ✓
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Application Accepted
+                                </strong>
+
+                                <p>
+                                    This application has been accepted.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+        </aside>
+
+    </div>
+
+</div>
+
+{% endblock %}

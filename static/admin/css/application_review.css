@@ -1,0 +1,800 @@
+/* =========================================================
+   APPLICATION REVIEW
+   ========================================================= */
+.profile-avatar {
+    width: 130px;
+    height: 130px;
+    min-width: 130px;
+
+    margin: 0 auto 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    border-radius: 50%;
+
+    background: #2563eb;
+    color: white;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    border: 4px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-bottom: 22px;
+    padding: 10px 16px;
+
+    background: #2563eb;
+    border: 1px solid #2563eb;
+    border-radius: 8px;
+
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none !important;
+
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.18);
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.15s ease;
+}
+
+.back-button:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    color: #ffffff !important;
+
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.25);
+    transform: translateY(-1px);
+}
+
+.back-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.18);
+}
+.application-review {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 10px 20px 50px;
+    color: #1f2937;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.review-breadcrumb {
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.review-header h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.review-subtitle {
+    margin: 7px 0 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.header-status {
+    padding-top: 25px;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-pending {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.status-review {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.status-shortlisted {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.status-rejected {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.status-accepted {
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+.review-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 370px;
+    gap: 25px;
+    align-items: start;
+}
+
+.review-main {
+    min-width: 0;
+}
+
+.review-sidebar {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.review-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 24px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.review-card h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.review-card p {
+    color: #6b7280;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.card-header p {
+    margin: 3px 0 0;
+    font-size: 12px;
+}
+
+.card-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    border-radius: 9px;
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   STUDENT
+   ========================================================= */
+
+.student-card {
+    text-align: center;
+    padding: 28px 24px;
+}
+
+.profile-avatar {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.student-card h2 {
+    font-size: 19px;
+}
+
+.student-role {
+    margin: 5px 0 20px;
+    font-size: 13px;
+}
+
+.student-details {
+    text-align: left;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 16px;
+}
+
+.student-details > div {
+    margin-bottom: 13px;
+}
+
+.student-details > div:last-child {
+    margin-bottom: 0;
+}
+
+.student-details span {
+    display: block;
+    color: #9ca3af;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-bottom: 3px;
+}
+
+.student-details strong {
+    display: block;
+    color: #374151;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   COVER LETTER
+   ========================================================= */
+
+.cover-letter {
+    color: #374151;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.cover-letter p {
+    margin-top: 0;
+}
+
+
+/* =========================================================
+   ANSWERS
+   ========================================================= */
+
+.answers-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.answer-item {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 14px;
+    padding: 20px 0;
+    border-top: 1px solid #f0f0f0;
+}
+
+.answer-item:first-child {
+    border-top: none;
+    padding-top: 0;
+}
+
+.answer-number {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.answer-content h3 {
+    margin: 3px 0 10px;
+    color: #111827;
+    font-size: 14px;
+}
+
+.answer-text {
+    color: #4b5563;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.answer-text p {
+    margin: 0 0 8px;
+}
+
+.no-answer {
+    color: #9ca3af;
+    font-size: 13px;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   FILES
+   ========================================================= */
+
+.file-attachment {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 15px;
+    padding: 12px 14px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.file-icon {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef2ff;
+    border-radius: 7px;
+}
+
+.file-info strong,
+.file-info span {
+    display: block;
+}
+
+.file-info strong {
+    color: #374151;
+    font-size: 12px;
+}
+
+.file-info span {
+    max-width: 230px;
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+.file-button {
+    flex-shrink: 0;
+    padding: 7px 11px;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    color: #374151 !important;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none !important;
+}
+
+.file-button:hover {
+    background: #f3f4f6;
+}
+
+
+/* =========================================================
+   INTERNSHIP
+   ========================================================= */
+
+.internship-title {
+    padding: 14px;
+    background: #f9fafb;
+    border-radius: 8px;
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.detail-item span {
+    display: block;
+    margin-bottom: 4px;
+    color: #9ca3af;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.detail-item strong {
+    color: #374151;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   REVIEW FORM
+   ========================================================= */
+
+.review-panel {
+    position: sticky;
+    top: 20px;
+}
+
+.review-icon {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.review-form {
+    margin-top: 5px;
+}
+
+.form-field {
+    margin-bottom: 18px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    background: #fff;
+    color: #1f2937;
+    font-size: 13px;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+    outline: none;
+}
+
+.form-field textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.field-help {
+    display: block;
+    margin-top: 5px;
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+.form-errors {
+    margin-top: 5px;
+    color: #dc2626;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 8px 14px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all .15s ease;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    color: #374151 !important;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+.btn-success {
+    background: #059669;
+    color: white !important;
+}
+
+.btn-success:hover {
+    background: #047857;
+}
+
+.btn-danger {
+    background: #fff;
+    border-color: #fecaca;
+    color: #dc2626 !important;
+}
+
+.btn-danger:hover {
+    background: #fef2f2;
+}
+
+
+/* =========================================================
+   WORKFLOW
+   ========================================================= */
+
+.workflow-actions {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.workflow-title {
+    margin-bottom: 12px;
+    color: #6b7280;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.workflow-actions form {
+    margin-bottom: 9px;
+}
+
+.workflow-actions form:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   DECISION MESSAGES
+   ========================================================= */
+
+.decision-success,
+.decision-rejected {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 8px;
+}
+
+.decision-success {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+}
+
+.decision-rejected {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+}
+
+.success-icon,
+.rejected-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 700;
+}
+
+.success-icon {
+    background: #10b981;
+    color: white;
+}
+
+.rejected-icon {
+    background: #ef4444;
+    color: white;
+}
+
+.decision-success strong {
+    color: #047857;
+    font-size: 12px;
+}
+
+.decision-rejected strong {
+    color: #b91c1c;
+    font-size: 12px;
+}
+
+.decision-success p,
+.decision-rejected p {
+    margin: 4px 0 0;
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-state {
+    padding: 30px 15px;
+    text-align: center;
+    color: #9ca3af;
+}
+
+.empty-state p {
+    margin: 5px 0 0;
+    font-size: 13px;
+}
+
+.empty-icon {
+    color: #d1d5db;
+    font-size: 24px;
+}
+
+
+/* =========================================================
+   MOBILE STUDENT CARD
+   ========================================================= */
+
+.mobile-student-card {
+    display: none;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .review-layout {
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 18px;
+    }
+
+}
+
+@media (max-width: 800px) {
+
+    .application-review {
+        padding: 5px 10px 30px;
+    }
+
+    .review-header {
+        flex-direction: column;
+    }
+
+    .header-status {
+        padding-top: 0;
+    }
+
+    .review-layout {
+        display: block;
+    }
+
+    .review-sidebar {
+        margin-top: 20px;
+    }
+
+    .review-panel {
+        position: static;
+    }
+
+    .student-card {
+        display: none;
+    }
+
+    .mobile-student-card {
+        display: block;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .review-header h1 {
+        font-size: 23px;
+    }
+
+    .review-card {
+        padding: 17px;
+        border-radius: 8px;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .file-attachment {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .file-button {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+}

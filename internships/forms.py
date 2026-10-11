@@ -180,3 +180,33 @@ class ApplicantEmailForm(forms.Form):
             }
         )
     )
+from django import forms
+from .models import Application
+
+
+class ApplicationReviewForm(forms.ModelForm):
+
+    class Meta:
+        model = Application
+
+        fields = (
+            "score",
+            "reviewer_notes",
+        )
+
+        widgets = {
+            "score": forms.NumberInput(
+                attrs={
+                    "step": "0.01",
+                    "min": "0",
+                    "max": "100",
+                }
+            ),
+
+            "reviewer_notes": forms.Textarea(
+                attrs={
+                    "rows": 5,
+                    "placeholder": "Enter your review notes..."
+                }
+            ),
+        }

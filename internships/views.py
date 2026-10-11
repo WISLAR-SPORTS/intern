@@ -54,11 +54,12 @@ from django.utils import timezone
 
 from students.models import Student
 
-from .forms import InternshipApplicationForm
+from .forms import InternshipApplicationForm, ApplicationReviewForm
 from .models import (
     Internship,
     Application,
     ApplicationAnswer,
+    
 )
 
 
@@ -213,31 +214,36 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
 from students.models import Notification
-
 @login_required
 def notifications(request):
 
     student = request.user.student
 
-    notification_list = (
+    notification_list = list(
         Notification.objects
         .filter(
             student=student,
-            is_deleted=False
+            is_deleted=False,
         )
         .select_related(
             "application",
             "internship",
-            "internship__company"
+            "internship__company",
         )
         .order_by("-created_at")
     )
 
-    # Mark all notifications as read when the page is opened
+    unread_count = sum(
+        1
+        for notification in notification_list
+        if not notification.is_read
+    )
+
+    # Mark notifications as read when the page is opened
     Notification.objects.filter(
         student=student,
         is_deleted=False,
-        is_read=False
+        is_read=False,
     ).update(
         is_read=True
     )
@@ -247,8 +253,8 @@ def notifications(request):
         "students/notifications.html",
         {
             "notifications": notification_list,
-            "unread_count": 0,
-        }
+            "unread_count": unread_count,
+        },
     )
 
 
@@ -261,7 +267,7 @@ def mark_notification_read(request, notification_id):
         Notification,
         id=notification_id,
         student=student,
-        is_deleted=False
+        is_deleted=False,
     )
 
     notification.is_read = True
@@ -270,22 +276,24 @@ def mark_notification_read(request, notification_id):
         update_fields=["is_read"]
     )
 
-    # Go to the application if the notification belongs to one
+    # Application notification
     if notification.application:
+
         return redirect(
-            "internship:application_detail",
-            notification.application.id
+            "internships:application_detail",
+            notification.application.id,
         )
 
-    # Otherwise go to the internship
+    # Internship notification
     if notification.internship:
+
         return redirect(
-            "internship:internship_detail",
-            notification.internship.id
+            "internships:internship_detail",
+            notification.internship.id,
         )
 
     return redirect(
-        "internship:notifications"
+        "internships:notifications"
     )
 
 
@@ -297,7 +305,8 @@ def delete_notification(request, notification_id):
     notification = get_object_or_404(
         Notification,
         id=notification_id,
-        student=student
+        student=student,
+        is_deleted=False,
     )
 
     notification.is_deleted = True
@@ -307,6 +316,5 @@ def delete_notification(request, notification_id):
     )
 
     return redirect(
-        "internship:notifications"
+        "internships:notifications"
     )
-

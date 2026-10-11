@@ -1,6 +1,8 @@
 from django.db import models
 from companies.models import Company
 from students.models import Student
+from django.conf import settings
+
 
 
 class Internship(models.Model):
@@ -110,7 +112,8 @@ class Application(models.Model):
 
     STATUS = (
         ("pending", "Pending"),
-        ("shortlisted", "Shortlisted"),
+        ("under_review", "Under Review"),
+        ("shortlisted", "Shortlisted for interview"),
         ("accepted", "Accepted"),
         ("rejected", "Rejected"),
     )
@@ -151,6 +154,13 @@ class Application(models.Model):
     reviewer_notes = models.TextField(
         blank=True
     )
+    reviewed_by = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    related_name="reviewed_applications"
+)
 
     reviewed_at = models.DateTimeField(
         null=True,

@@ -1,0 +1,463 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+
+    <link
+        rel="stylesheet"
+        href="{% static 'admin/css/confirm_placement.css' %}"
+    >
+{% endblock %}
+
+
+{% block content %}
+
+<div class="placement-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <header class="placement-header">
+
+        <div class="placement-header-content">
+
+            <div class="placement-icon" aria-hidden="true">
+                <i data-lucide="check-circle-2"></i>
+            </div>
+
+            <div class="placement-header-text">
+
+                <div class="placement-breadcrumb">
+                    Applications
+                    <span>/</span>
+                    Placement
+                </div>
+
+                <h1>
+                    Confirm Internship Placement
+                </h1>
+
+                <p>
+                    Review the selected candidates before completing
+                    their internship placement.
+                </p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         PLACEMENT SUMMARY
+    ====================================================== -->
+
+    <section
+        class="placement-summary"
+        aria-label="Placement summary"
+    >
+
+        <!-- SELECTED STUDENTS -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon students-icon">
+                <i data-lucide="users"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <span class="summary-label">
+                    Selected Students
+                </span>
+
+                <strong class="summary-value">
+                    {{ placement_count }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- NEW STATUS -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon status-icon">
+                <i data-lucide="badge-check"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <span class="summary-label">
+                    New Status
+                </span>
+
+                <strong class="summary-value status-text">
+                    Accepted
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon notification-icon">
+                <i data-lucide="bell"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <span class="summary-label">
+                    Notifications
+                </span>
+
+                <strong class="summary-value notification-text">
+                    Will be sent
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         WARNING
+    ====================================================== -->
+
+    <section class="placement-warning">
+
+        <div class="warning-icon" aria-hidden="true">
+            <i data-lucide="triangle-alert"></i>
+        </div>
+
+        <div class="warning-content">
+
+            <h2>
+                Confirm placement
+            </h2>
+
+            <p>
+                You are about to approve and place
+                <strong>
+                    {{ placement_count }}
+                    student{{ placement_count|pluralize }}
+                </strong>
+                for internship.
+            </p>
+
+            <p>
+                The selected applications will be marked as
+                <strong>Accepted</strong>, and each student will
+                receive a placement notification.
+            </p>
+
+            <p class="warning-note">
+                <i data-lucide="info"></i>
+
+                <span>
+                    This action should only be completed after
+                    the interview and final selection process.
+                </span>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SELECTED STUDENTS
+    ====================================================== -->
+
+    <section class="students-section">
+
+        <!-- SECTION HEADER -->
+
+        <div class="section-header">
+
+            <div class="section-header-text">
+
+                <h2>
+                    Selected Students
+                </h2>
+
+                <p>
+                    Candidates who will be placed for internship.
+                </p>
+
+            </div>
+
+            <span class="selected-count">
+                {{ placement_count }} selected
+            </span>
+
+        </div>
+
+
+        <!-- STUDENT LIST -->
+
+        <div class="placement-list">
+
+            {% for application in applications %}
+
+                <article class="placement-student">
+
+                    <!-- =====================================
+                         STUDENT INFORMATION
+                    ====================================== -->
+
+                    <div class="student-column">
+
+                        <div class="student-avatar">
+
+                            {% if application.student.profile_picture %}
+
+                                <img
+                                    src="{{ application.student.profile_picture.url }}"
+                                    alt="{{ application.student }}"
+                                >
+
+                            {% else %}
+
+                                <span>
+                                    {{ application.student.user.first_name|first|upper|default:"S" }}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="student-info">
+
+                            <h3>
+                                {{ application.student }}
+                            </h3>
+
+                            {% if application.student.registration_number %}
+
+                                <span class="student-registration">
+                                    {{ application.student.registration_number }}
+                                </span>
+
+                            {% endif %}
+
+
+                            {% if application.student.user.email %}
+
+                                <span class="student-email">
+                                    {{ application.student.user.email }}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         INTERNSHIP INFORMATION
+                    ====================================== -->
+
+                    <div class="internship-column">
+
+                        <span class="column-label">
+                            Internship
+                        </span>
+
+                        <strong>
+                            {{ application.internship.title }}
+                        </strong>
+
+                        {% if application.internship.company %}
+
+                            <span class="company-name">
+                                {{ application.internship.company }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- =====================================
+                         STATUS TRANSITION
+                    ====================================== -->
+
+                    <div class="student-status">
+
+                        <span class="status-badge shortlisted">
+                            Shortlisted
+                        </span>
+
+                        <span
+                            class="status-arrow"
+                            aria-hidden="true"
+                        >
+                            <i data-lucide="arrow-right"></i>
+                        </span>
+
+                        <span class="status-badge accepted">
+                            Accepted
+                        </span>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <!-- =========================================
+                     EMPTY STATE
+                ========================================== -->
+
+                <div class="empty-state">
+
+                    <div class="empty-icon" aria-hidden="true">
+                        <i data-lucide="users-round"></i>
+                    </div>
+
+                    <h3>
+                        No students selected
+                    </h3>
+
+                    <p>
+                        There are no shortlisted applications
+                        available for placement.
+                    </p>
+
+                    <a
+                        href="{% url 'admin:internships_application_changelist' %}"
+                        class="empty-action"
+                    >
+                        <i data-lucide="arrow-left"></i>
+                        <span>Back to Applications</span>
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FINAL CONFIRMATION
+    ====================================================== -->
+
+    {% if applications %}
+
+        <section class="final-confirmation">
+
+            <div class="final-message">
+
+                <div class="final-check" aria-hidden="true">
+                    <i data-lucide="shield-check"></i>
+                </div>
+
+                <div>
+
+                    <h2>
+                        Ready to complete placement?
+                    </h2>
+
+                    <p>
+                        <strong>
+                            {{ placement_count }}
+                            student{{ placement_count|pluralize }}
+                        </strong>
+                        will be officially placed and notified.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="placement-actions">
+
+                <!-- CANCEL -->
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        name="action"
+                        value="cancel"
+                        class="action-button cancel-button"
+                    >
+                        <i data-lucide="arrow-left"></i>
+
+                        <span>
+                            Cancel
+                        </span>
+                    </button>
+
+                </form>
+
+
+                <!-- CONFIRM -->
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        name="action"
+                        value="confirm"
+                        class="action-button confirm-button"
+                    >
+                        <i data-lucide="check-circle-2"></i>
+
+                        <span>
+                            Confirm Placement
+                        </span>
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+</div>
+
+
+<!-- =====================================================
+     LUCIDE ICONS
+====================================================== -->
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+        }
+
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,1276 @@
+/* =========================================================
+   INTERNSHIP PLACEMENT CONFIRMATION
+   Modern Django Admin / Jazzmin UI
+   ========================================================= */
+
+
+/* =========================================================
+   DESIGN TOKENS
+   ========================================================= */
+
+:root {
+    --placement-primary: #2563eb;
+    --placement-primary-dark: #1d4ed8;
+    --placement-primary-soft: #eff6ff;
+
+    --placement-success: #16a34a;
+    --placement-success-dark: #15803d;
+    --placement-success-soft: #f0fdf4;
+
+    --placement-warning: #d97706;
+    --placement-warning-soft: #fffbeb;
+    --placement-warning-border: #fde68a;
+
+    --placement-danger: #dc2626;
+
+    --placement-text: #0f172a;
+    --placement-text-secondary: #475569;
+    --placement-text-muted: #64748b;
+
+    --placement-border: #e2e8f0;
+    --placement-border-light: #eef2f7;
+
+    --placement-bg: #f8fafc;
+    --placement-white: #ffffff;
+
+    --placement-radius-sm: 8px;
+    --placement-radius: 12px;
+    --placement-radius-lg: 16px;
+
+    --placement-shadow-sm:
+        0 1px 2px rgba(15, 23, 42, 0.04);
+
+    --placement-shadow:
+        0 8px 24px rgba(15, 23, 42, 0.06);
+
+    --placement-shadow-lg:
+        0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.placement-page {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 24px 28px 50px;
+    color: var(--placement-text);
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.placement-header {
+    margin-bottom: 24px;
+}
+
+.placement-header-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.placement-icon {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    color: var(--placement-primary);
+
+    background:
+        linear-gradient(
+            135deg,
+            #eff6ff,
+            #dbeafe
+        );
+
+    border: 1px solid #bfdbfe;
+
+    box-shadow:
+        0 4px 12px rgba(37, 99, 235, 0.10);
+}
+
+.placement-icon svg {
+    width: 21px;
+    height: 21px;
+    stroke-width: 2.2;
+}
+
+.placement-breadcrumb {
+    margin-bottom: 5px;
+
+    color: var(--placement-text-muted);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.placement-header h1 {
+    margin: 0;
+
+    color: var(--placement-text);
+
+    font-size: 26px;
+    line-height: 1.25;
+    font-weight: 700;
+
+    letter-spacing: -0.025em;
+}
+
+.placement-header p {
+    margin: 7px 0 0;
+
+    color: var(--placement-text-muted);
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   TOP SUMMARY MESSAGE
+   ========================================================= */
+
+.placement-header .placement-summary {
+    margin-top: 20px;
+}
+
+
+/* =========================================================
+   SUMMARY GRID
+   ========================================================= */
+
+.placement-page > .placement-summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   SUMMARY CARD
+   ========================================================= */
+
+.summary-card {
+    min-height: 88px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 17px 18px;
+
+    background: var(--placement-white);
+
+    border: 1px solid var(--placement-border);
+
+    border-radius: var(--placement-radius);
+
+    box-shadow: var(--placement-shadow-sm);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-1px);
+
+    border-color: #d7dee8;
+
+    box-shadow: var(--placement-shadow);
+}
+
+
+/* =========================================================
+   SUMMARY ICON
+   ========================================================= */
+
+.summary-icon,
+.empty-icon {
+    width: 40px;
+    height: 40px;
+
+    flex: 0 0 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #f1f5f9;
+
+    color: var(--placement-text-secondary);
+}
+
+.summary-icon svg,
+.empty-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+}
+
+
+/* Selected */
+
+.summary-card:first-child .summary-icon,
+.summary-card:first-child .empty-icon {
+    color: #7c3aed;
+    background: #f5f3ff;
+}
+
+
+/* Status */
+
+.summary-icon.status-icon {
+    color: var(--placement-success);
+    background: var(--placement-success-soft);
+}
+
+
+/* Notifications */
+
+.summary-icon.notification-icon {
+    color: var(--placement-warning);
+    background: var(--placement-warning-soft);
+}
+
+
+/* =========================================================
+   SUMMARY TEXT
+   ========================================================= */
+
+.summary-content {
+    min-width: 0;
+}
+
+.summary-label {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--placement-text-muted);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    text-transform: uppercase;
+    letter-spacing: 0.045em;
+}
+
+.summary-value {
+    display: block;
+
+    color: var(--placement-text);
+
+    font-size: 18px;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+.summary-value.status-text {
+    color: var(--placement-success);
+    font-size: 15px;
+}
+
+.summary-value.notification-text {
+    color: var(--placement-warning);
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   WARNING
+   ========================================================= */
+
+.placement-warning {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 14px;
+
+    margin-bottom: 24px;
+
+    padding: 17px 19px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fffbeb,
+            #fffdf5
+        );
+
+    border: 1px solid var(--placement-warning-border);
+
+    border-left: 4px solid #f59e0b;
+
+    border-radius: var(--placement-radius);
+
+    box-shadow:
+        0 2px 8px rgba(217, 119, 6, 0.04);
+}
+
+.warning-icon {
+    width: 34px;
+    height: 34px;
+
+    flex: 0 0 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #fef3c7;
+
+    color: #b45309;
+
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.warning-content {
+    min-width: 0;
+}
+
+.warning-content h3 {
+    margin: 0 0 5px;
+
+    color: #78350f;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.warning-content p {
+    margin: 0;
+
+    color: #92400e;
+
+    font-size: 12.5px;
+    line-height: 1.6;
+}
+
+.warning-content p + p {
+    margin-top: 5px;
+}
+
+.warning-note {
+    opacity: 0.85;
+}
+
+
+/* =========================================================
+   STUDENTS SECTION
+   ========================================================= */
+
+.students-section {
+    overflow: hidden;
+
+    margin-bottom: 24px;
+
+    background: var(--placement-white);
+
+    border: 1px solid var(--placement-border);
+
+    border-radius: var(--placement-radius-lg);
+
+    box-shadow: var(--placement-shadow);
+}
+
+
+/* =========================================================
+   SECTION HEADER
+   ========================================================= */
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 19px 22px;
+
+    border-bottom: 1px solid var(--placement-border-light);
+}
+
+.section-header h2 {
+    margin: 0;
+
+    color: var(--placement-text);
+
+    font-size: 16px;
+    font-weight: 700;
+
+    letter-spacing: -0.01em;
+}
+
+.section-header p {
+    margin: 4px 0 0;
+
+    color: var(--placement-text-muted);
+
+    font-size: 12px;
+}
+
+.selected-count {
+    flex-shrink: 0;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+
+    color: #1d4ed8;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PLACEMENT LIST
+   ========================================================= */
+
+.placement-list {
+    width: 100%;
+}
+
+
+/* =========================================================
+   STUDENT ROW
+   ========================================================= */
+
+.placement-student {
+    display: grid;
+
+    grid-template-columns:
+        minmax(260px, 1.25fr)
+        minmax(220px, 1fr)
+        minmax(190px, auto);
+
+    align-items: center;
+
+    gap: 22px;
+
+    padding: 16px 22px;
+
+    border-bottom: 1px solid var(--placement-border-light);
+
+    transition:
+        background-color 0.18s ease;
+}
+
+.placement-student:last-child {
+    border-bottom: none;
+}
+
+.placement-student:hover {
+    background: #fafcff;
+}
+
+
+/* =========================================================
+   STUDENT COLUMN
+   ========================================================= */
+
+.student-column {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   SMALL PROFESSIONAL AVATAR
+   ========================================================= */
+
+.student-avatar {
+    width: 42px;
+    height: 42px;
+
+    min-width: 42px;
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    border: 2px solid #ffffff;
+
+    box-shadow:
+        0 0 0 1px #dbeafe,
+        0 3px 8px rgba(37, 99, 235, 0.12);
+}
+
+.student-avatar img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   STUDENT INFO
+   ========================================================= */
+
+.student-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.student-info h3 {
+    margin: 0;
+
+    overflow: hidden;
+
+    color: var(--placement-text);
+
+    font-size: 13px;
+    font-weight: 700;
+
+    line-height: 1.35;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.student-info > span {
+    color: var(--placement-text-muted);
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+.student-info .student-email {
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   INTERNSHIP COLUMN
+   ========================================================= */
+
+.internship-column {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.column-label {
+    color: #94a3b8;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.07em;
+
+    text-transform: uppercase;
+}
+
+.internship-column strong {
+    overflow: hidden;
+
+    color: var(--placement-text-secondary);
+
+    font-size: 12px;
+    font-weight: 650;
+
+    line-height: 1.4;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.internship-column > span:last-child {
+    overflow: hidden;
+
+    color: var(--placement-text-muted);
+
+    font-size: 11px;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.student-status {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 7px;
+
+    white-space: nowrap;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 27px;
+
+    padding: 4px 9px;
+
+    border-radius: 999px;
+
+    color: #92400e;
+
+    background: #fffbeb;
+
+    border: 1px solid #fde68a;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.status-badge.accepted {
+    color: #166534;
+
+    background: #f0fdf4;
+
+    border-color: #bbf7d0;
+}
+
+.status-arrow {
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #94a3b8;
+}
+
+.status-arrow svg {
+    width: 13px;
+    height: 13px;
+
+    stroke-width: 2;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-state {
+    padding: 55px 25px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.empty-state .empty-icon {
+    width: 50px;
+    height: 50px;
+
+    margin-bottom: 13px;
+
+    color: #64748b;
+
+    background: #f1f5f9;
+}
+
+.empty-state .empty-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.empty-state h3 {
+    margin: 0 0 5px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    color: var(--placement-text);
+}
+
+.empty-state p {
+    max-width: 400px;
+
+    margin: 0;
+
+    color: var(--placement-text-muted);
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FINAL CONFIRMATION
+   ========================================================= */
+
+.final-confirmation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    padding: 20px 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f8fafc
+        );
+
+    border: 1px solid var(--placement-border);
+
+    border-radius: var(--placement-radius-lg);
+
+    box-shadow: var(--placement-shadow);
+}
+
+
+/* =========================================================
+   FINAL MESSAGE
+   ========================================================= */
+
+.final-message {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+}
+
+.final-check {
+    width: 40px;
+    height: 40px;
+
+    flex: 0 0 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: var(--placement-success);
+
+    background: var(--placement-success-soft);
+
+    border: 1px solid #bbf7d0;
+}
+
+.final-check svg {
+    width: 18px;
+    height: 18px;
+
+    stroke-width: 2.4;
+}
+
+.final-message h3 {
+    margin: 0 0 3px;
+
+    color: var(--placement-text);
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.final-message p {
+    margin: 0;
+
+    color: var(--placement-text-muted);
+
+    font-size: 11.5px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.placement-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    flex-shrink: 0;
+}
+
+.placement-actions form {
+    margin: 0;
+}
+
+
+/* =========================================================
+   BUTTON BASE
+   ========================================================= */
+
+.action-button {
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 9px 15px;
+
+    border-radius: 9px;
+
+    font-family: inherit;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+}
+
+.action-button span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-button svg {
+    width: 15px;
+    height: 15px;
+
+    stroke-width: 2.2;
+}
+
+
+/* =========================================================
+   CANCEL
+   ========================================================= */
+
+.cancel-button {
+    color: #475569 !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #cbd5e1 !important;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+.cancel-button:hover {
+    color: #1e293b !important;
+
+    background: #f8fafc !important;
+
+    border-color: #94a3b8 !important;
+
+    box-shadow:
+        0 3px 8px rgba(15, 23, 42, 0.06);
+}
+
+.cancel-button:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================================================
+   CONFIRM
+   ========================================================= */
+
+.confirm-button {
+    color: #ffffff !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #16a34a,
+            #15803d
+        ) !important;
+
+    border: 1px solid #15803d !important;
+
+    box-shadow:
+        0 3px 8px rgba(22, 163, 74, 0.20);
+}
+
+.confirm-button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #15803d,
+            #166534
+        ) !important;
+
+    border-color: #166534 !important;
+
+    box-shadow:
+        0 5px 14px rgba(22, 163, 74, 0.25);
+
+    transform: translateY(-1px);
+}
+
+.confirm-button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+   ========================================================= */
+
+.action-button:focus-visible {
+    outline: none;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+
+/* =========================================================
+   LUCIDE
+   ========================================================= */
+
+[data-lucide] {
+    vertical-align: middle;
+}
+
+svg.lucide {
+    display: inline-block;
+
+    width: 1em;
+    height: 1em;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+    .placement-page {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .placement-student {
+        grid-template-columns:
+            minmax(220px, 1.2fr)
+            minmax(180px, 1fr)
+            auto;
+
+        gap: 16px;
+
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .student-status {
+        flex-wrap: wrap;
+    }
+}
+
+
+/* =========================================================
+   TABLET / SMALL LAPTOP
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .placement-page > .placement-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-card {
+        min-height: 76px;
+    }
+
+    .placement-student {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .student-status {
+        grid-column: 1 / -1;
+
+        justify-content: flex-start;
+
+        padding-top: 4px;
+    }
+
+    .final-confirmation {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .placement-actions {
+        width: 100%;
+
+        justify-content: flex-end;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .placement-page {
+        padding: 16px 12px 35px;
+    }
+
+    .placement-header-content {
+        gap: 11px;
+    }
+
+    .placement-icon {
+        width: 40px;
+        height: 40px;
+
+        flex-basis: 40px;
+    }
+
+    .placement-header h1 {
+        font-size: 21px;
+    }
+
+    .placement-header p {
+        font-size: 12px;
+    }
+
+    .placement-breadcrumb {
+        font-size: 9px;
+    }
+
+
+    /* Warning */
+
+    .placement-warning {
+        padding: 14px;
+
+        gap: 10px;
+    }
+
+    .warning-icon {
+        width: 30px;
+        height: 30px;
+
+        flex-basis: 30px;
+    }
+
+
+    /* Section */
+
+    .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 9px;
+
+        padding: 15px;
+    }
+
+    .selected-count {
+        align-self: flex-start;
+    }
+
+
+    /* Students */
+
+    .placement-student {
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+
+        padding: 15px;
+    }
+
+    .student-status {
+        grid-column: auto;
+
+        justify-content: flex-start;
+
+        padding-top: 0;
+    }
+
+    .internship-column {
+        padding-left: 54px;
+    }
+
+
+    /* Final */
+
+    .final-confirmation {
+        padding: 16px;
+    }
+
+    .final-message {
+        align-items: flex-start;
+    }
+
+    .placement-actions {
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .placement-actions form {
+        width: 100%;
+    }
+
+    .action-button {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .placement-header h1 {
+        font-size: 19px;
+    }
+
+    .student-avatar {
+        width: 38px;
+        height: 38px;
+
+        min-width: 38px;
+        min-height: 38px;
+
+        font-size: 12px;
+    }
+
+    .student-info h3 {
+        font-size: 12px;
+    }
+
+    .student-info > span,
+    .internship-column strong,
+    .internship-column > span:last-child {
+        font-size: 10px;
+    }
+
+    .student-status {
+        gap: 5px;
+    }
+
+    .status-badge {
+        min-height: 25px;
+
+        padding: 4px 7px;
+
+        font-size: 9px;
+    }
+
+    .status-arrow {
+        width: 18px;
+        height: 18px;
+    }
+
+    .status-arrow svg {
+        width: 11px;
+        height: 11px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .summary-card,
+    .placement-student,
+    .action-button {
+        transition: none;
+    }
+
+    .summary-card:hover,
+    .confirm-button:hover {
+        transform: none;
+    }
+}

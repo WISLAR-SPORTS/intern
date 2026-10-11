@@ -149,13 +149,14 @@ class Notification(models.Model):
     )
 
     ACTION_CHOICES = (
-        ("application_submitted", "Application Submitted"),
-        ("application_shortlisted", "Application Shortlisted"),
-        ("application_accepted", "Application Accepted"),
-        ("application_rejected", "Application Rejected"),
-        ("new_internship", "New Internship"),
-        ("system", "System"),
-    )
+    ("application_submitted", "Application Submitted"),
+    ("application_under_review", "Application Under Review"),
+    ("application_shortlisted", "Application Shortlisted"),
+    ("application_accepted", "Application Accepted"),
+    ("application_rejected", "Application Rejected"),
+    ("new_internship", "New Internship"),
+    ("system", "System"),
+)
 
     student = models.ForeignKey(
         Student,
