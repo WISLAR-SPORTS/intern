@@ -1,0 +1,219 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}
+    Internship Assistant
+{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{% static 'dashboard/css/ai.css' %}"
+>
+{% endblock %}
+
+{% block page_title %}
+     Internship Assistant
+{% endblock %}
+
+{% block page_subtitle %}
+    Your personal companion for finding internships and managing applications.
+{% endblock %}
+
+{% block content %}
+
+<div class="assistant-page">
+
+    <!-- Assistant introduction -->
+    <section class="assistant-hero">
+        <div class="assistant-hero-icon">
+            <i data-lucide="bot"></i>
+        </div>
+
+        <div>
+            <h2>
+                Hello, {{ request.user.first_name|default:request.user.username }}!
+            </h2>
+
+            <p>
+                Ask me about internships, application documents,
+                your applications, or opportunities matching your profile.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main chat layout -->
+    <section class="assistant-layout">
+
+        <div class="assistant-chat">
+
+            <div class="assistant-chat-header">
+                <div class="assistant-status-icon">
+                    <i data-lucide="sparkles"></i>
+                </div>
+
+                <div>
+                    <h3>Internship Assistant</h3>
+                    <span>Your internship companion</span>
+                </div>
+            </div>
+
+            <!-- Conversation -->
+            <div
+                id="ai-conversation"
+                class="assistant-conversation"
+                aria-live="polite"
+                aria-atomic="false"
+            >
+                <div class="assistant-message assistant-reply">
+                    <div class="message-avatar">
+                        <i data-lucide="bot"></i>
+                    </div>
+
+                    <div class="message-content">
+                        <strong>AI Assistant</strong>
+                        <p>
+                            Welcome! How can I help you with your
+                            internship journey today?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div
+    id="ai-chat-config"
+    data-chat-url="{% url 'ai_chat' %}"
+    hidden
+></div>
+
+            <!-- Quick actions -->
+            <div class="assistant-quick-actions">
+                <p>Try asking</p>
+
+                <button
+                    type="button"
+                    class="assistant-prompt"
+                    data-ai-message="Find internships suitable for me"
+                >
+                    <i data-lucide="search"></i>
+                    Find internships
+                </button>
+
+                <button
+                    type="button"
+                    class="assistant-prompt"
+                    data-ai-message="How can I improve my application documents?"
+                >
+                    <i data-lucide="file-text"></i>
+                    Improve my documents
+                </button>
+
+                <button
+                    type="button"
+                    class="assistant-prompt"
+                    data-ai-message="Show my applications"
+                >
+                    <i data-lucide="clipboard-list"></i>
+                    My applications
+                </button>
+
+                <button
+                    type="button"
+                    class="assistant-prompt"
+                    data-ai-message="How can I prepare for an internship interview?"
+                >
+                    <i data-lucide="messages-square"></i>
+                    Interview preparation
+                </button>
+            </div>
+
+            <!-- Message input -->
+            <form id="ai-form" class="assistant-input-area">
+                {% csrf_token %}
+
+                <input
+                    type="text"
+                    id="ai-input"
+                    name="message"
+                    placeholder="Ask about internships..."
+                    maxlength="2000"
+                    autocomplete="off"
+                    aria-label="Message the AI assistant"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    id="ai-send"
+                    aria-label="Send message"
+                >
+                    <i data-lucide="send"></i>
+                </button>
+            </form>
+
+            <p class="assistant-disclaimer">
+                AI-generated guidance may need verification.
+                Never share passwords or sensitive personal information.
+            </p>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="assistant-sidebar">
+
+            <div class="assistant-side-card">
+                <div class="side-card-icon">
+                    <i data-lucide="target"></i>
+                </div>
+
+                <h3>Find your match</h3>
+
+                <p>
+                    Explore internships aligned with your skills,
+                    interests, and career goals.
+                </p>
+
+                <a href="#">
+                    Browse internships
+                    <i data-lucide="arrow-up-right"></i>
+                </a>
+            </div>
+
+            <div class="assistant-side-card">
+                <div class="side-card-icon">
+                    <i data-lucide="file-check"></i>
+                </div>
+
+                <h3>Prepare your application</h3>
+
+                <p>
+                    Get guidance on CVs, cover letters,
+                    and preparing for interviews.
+                </p>
+            </div>
+
+            <div class="assistant-side-card assistant-tip">
+                <i data-lucide="lightbulb"></i>
+
+                <div>
+                    <strong>Tip</strong>
+                    <p>
+                        Tell the assistant about your field of study,
+                        skills, and preferred internship location
+                        to get more relevant guidance.
+                    </p>
+                </div>
+            </div>
+
+        </aside>
+
+    </section>
+
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>
+<script src="{% static 'dashboard/js/ai-assistant.js' %}"></script>
+
+{% endblock %}

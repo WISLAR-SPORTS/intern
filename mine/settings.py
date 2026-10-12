@@ -69,7 +69,7 @@ cloudinary.config(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
@@ -185,7 +185,7 @@ DATABASES = {
     "default": dj_database_url.config(
         conn_max_age=600
     )
-} 
+}
 
 
 # Password validation

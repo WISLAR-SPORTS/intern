@@ -19,6 +19,8 @@
           <link rel="stylesheet" href="{% static 'companies/css/feature.css' %}">
         <link rel="stylesheet" href="{% static 'companies/css/footer.css' %}">
 
+                <link rel="stylesheet" href="{% static 'companies/css/opportunities.css' %}">
+
     <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -188,6 +190,84 @@
                 <span>›</span>
             </div>
         {% endif %}
+    </div>
+</section>
+
+<!-- LATEST OPPORTUNITIES -->
+<section id="latest-opportunities" class="opportunities-section">
+    <div class="container">
+
+        <div class="opportunities-heading">
+            
+            <h2>Latest Internship Opportunities</h2>
+            
+        </div>
+        <div class="opportunities-marquee">
+
+            <div class="opportunities-track">
+
+                <!-- First set of opportunity cards -->
+                {% for opportunity in latest_opportunities %}
+                    <article class="opportunity-card">
+
+                        <div class="opportunity-top">
+                            <div class="opportunity-icon">
+                                <i data-lucide="briefcase-business"></i>
+                            </div>
+
+                            <span class="opportunity-badge">
+                                {{ opportunity.get_internship_type_display }}
+                            </span>
+                        </div>
+
+                        <h3>{{ opportunity.title }}</h3>
+
+                        <p class="opportunity-company">
+                            <i data-lucide="building-2"></i>
+                            {{ opportunity.company.company_name }}
+                        </p>
+
+                        <p class="opportunity-location">
+                            <i data-lucide="map-pin"></i>
+                            {{ opportunity.location|default:"Location not specified" }}
+                        </p>
+
+                        <p class="opportunity-description">
+                            {{ opportunity.description|truncatewords:20 }}
+                        </p>
+
+                        <div class="opportunity-footer">
+                            <span class="opportunity-deadline">
+                                <i data-lucide="calendar-days"></i>
+                                Deadline: {{ opportunity.deadline|date:"d M Y" }}
+                            </span>
+
+                            <a href="{% url 'login' %}"
+                               class="opportunity-apply">
+                                Apply Now <span>→</span>
+                            </a>
+                        </div>
+
+                    </article>
+                {% empty %}
+                    <div class="opportunities-empty">
+                        <i data-lucide="briefcase-business"></i>
+                        <h3>No opportunities available yet</h3>
+                        <p>Check back soon for new internship openings.</p>
+                    </div>
+                {% endfor %}
+
+
+
+            </div>
+        </div>
+
+        <div class="opportunities-bottom">
+            <a href="{% url 'login' %}" class="btn btn-primary">
+                Explore All Opportunities →
+            </a>
+        </div>
+
     </div>
 </section>
 <section id="features" class="features section">
@@ -755,5 +835,7 @@
     <script src="{% static 'companies/js/home.js' %}"></script>
      <script src="{% static 'companies/js/map.js' %}"></script>
      <script src="{% static 'companies/js/nav.js' %}"></script>
+     <script src="{% static 'companies/js/opportunity.js' %}"></script>
+    
 </body>
 </html>

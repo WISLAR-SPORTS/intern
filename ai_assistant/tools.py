@@ -6,103 +6,8 @@ from internships.models import (
     
 )
 from students.models import Student
-
-def get_my_profile(user):
-    """
-    Return information the AI needs about
-    the authenticated student.
-    """
-
-    # ==================================================
-    # AUTHENTICATION
-    # ==================================================
-
-    if not user.is_authenticated:
-        raise PermissionError(
-            "Authentication required."
-        )
-
-    # ==================================================
-    # ROLE CHECK
-    # ==================================================
-
-    if user.role != "student":
-        raise PermissionError(
-            "Student account required."
-        )
-
-    # ==================================================
-    # STUDENT PROFILE
-    # ==================================================
-
-    try:
-        student = user.student
-    except Student.DoesNotExist:
-        raise PermissionError(
-            "No student profile is associated "
-            "with this account."
-        )
-
-    # ==================================================
-    # RETURN PROFILE
-    # ==================================================
-
-    return {
-        # ----------------------------------------------
-        # Information from User model
-        # ----------------------------------------------
-
-        "user_id": user.id,
-        "name": user.get_full_name(),
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "email": user.email,
-
-        # ----------------------------------------------
-        # Information from Student model
-        # ----------------------------------------------
-
-        "student_id": student.id,
-
-        "university": (
-            student.university.name
-            if student.university
-            else None
-        ),
-
-        "registration_number": (
-            student.registration_number
-        ),
-
-        "course": student.course,
-
-        "year_of_study": (
-            student.year_of_study
-        ),
-
-        "phone": student.phone,
-
-        "skills": student.skills or "",
-
-        "profile_picture": (
-            student.profile_picture.url
-            if student.profile_picture
-            else None
-        ),
-    }
-
 from django.db.models import Q
-
-from internships.models import (
-    Internship,
-    Application,
-)
-
-from django.db.models import Q
-
-from internships.models import Internship
-
-
+from django.utils import timezone
 def search_internships(
     user,
     field=None,
@@ -110,10 +15,14 @@ def search_internships(
     skill=None,
 ):
     """
-    Search active internships.
+    Search active, non-expired internships.
 
-    Uses the actual fields available
-    in the Internship model.
+    Supports flexible matching across internship titles,
+    descriptions, company names, types, and custom fields.
+
+    Field and skill are combined using OR so that an
+    internship can match either criterion. An explicitly
+    supplied location remains a required filter.
     """
 
     # ==================================================
@@ -135,127 +44,193 @@ def search_internships(
         )
 
     # ==================================================
-    # START WITH ACTIVE INTERNSHIPS
+    # ACTIVE AND NON-EXPIRED INTERNSHIPS
     # ==================================================
+
+    today = timezone.localdate()
 
     queryset = (
         Internship.objects
         .filter(active=True)
+        .filter(
+            Q(deadline__isnull=True)
+            | Q(deadline__gte=today)
+        )
         .select_related("company")
         .prefetch_related("custom_fields")
     )
 
     # ==================================================
-    # SEARCH FIELD
+    # FLEXIBLE FIELD AND SKILL SEARCH
     # ==================================================
 
-    if field:
+    search_terms = []
 
-        queryset = queryset.filter(
-            Q(title__icontains=field)
-            | Q(description__icontains=field)
-            | Q(internship_type__icontains=field)
-            | Q(custom_fields__label__icontains=field)
-            | Q(custom_fields__options__icontains=field)
-        )
+    for term in (field, skill):
+        if term:
+            term = term.strip()
+
+            if term and term.casefold() not in {
+                existing.casefold()
+                for existing in search_terms
+            }:
+                search_terms.append(term)
+
+    if search_terms:
+        search_query = Q()
+
+        for term in search_terms:
+            term_query = (
+                Q(title__icontains=term)
+                | Q(description__icontains=term)
+                | Q(internship_type__icontains=term)
+                | Q(
+                    company__company_name__icontains=term
+                )
+                | Q(custom_fields__label__icontains=term)
+                | Q(custom_fields__options__icontains=term)
+            )
+
+            search_query |= term_query
+
+        queryset = queryset.filter(search_query)
 
     # ==================================================
-    # LOCATION
-    # ==================================================
-
-    if location:
-
-        queryset = queryset.filter(
-            location__icontains=location
-        )
-
-    # ==================================================
-    # SKILL
+    # LOCATION FILTER
     #
-    # Search description, custom field labels
-    # and custom field options.
+    # Only filter by location when explicitly supplied.
     # ==================================================
 
-    if skill:
-
+    if location and location.strip():
         queryset = queryset.filter(
-            Q(description__icontains=skill)
-            | Q(title__icontains=skill)
-            | Q(custom_fields__label__icontains=skill)
-            | Q(custom_fields__options__icontains=skill)
+            location__icontains=location.strip()
         )
 
     # ==================================================
-    # REMOVE DUPLICATES
-    #
-    # A single internship can have multiple matching
-    # custom fields.
+    # REMOVE DUPLICATES AND LIMIT DATABASE RESULTS
     # ==================================================
 
-    internships = (
+    internships = list(
         queryset
         .distinct()
-        .order_by("-created_at")[:20]
+        .order_by("-created_at")[:100]
     )
+
+    # ==================================================
+    # RANK RESULTS BY RELEVANCE
+    # ==================================================
+
+    def relevance_score(internship):
+        score = 0
+
+        title = (internship.title or "").casefold()
+        description = (
+            internship.description or ""
+        ).casefold()
+        internship_type = (
+            internship.internship_type or ""
+        ).casefold()
+        company_name = (
+            internship.company.company_name
+            if internship.company
+            else ""
+        ).casefold()
+
+        custom_text = " ".join(
+            str(value or "")
+            for custom_field in internship.custom_fields.all()
+            for value in (
+                custom_field.label,
+                custom_field.options,
+            )
+        ).casefold()
+
+        searchable_text = " ".join(
+            (
+                title,
+                description,
+                internship_type,
+                company_name,
+                custom_text,
+            )
+        )
+
+        for term in search_terms:
+            term = term.casefold()
+
+            if term == title:
+                score += 10
+            elif term in title:
+                score += 6
+
+            if term in description:
+                score += 3
+
+            if term in internship_type:
+                score += 3
+
+            if term in company_name:
+                score += 2
+
+            if term in custom_text:
+                score += 2
+
+            # Small bonus for related words that match
+            # independently. This helps broader searches.
+            words = [
+                word
+                for word in term.split()
+                if len(word) > 2
+            ]
+
+            for word in words:
+                if word in searchable_text:
+                    score += 1
+
+        return score
+
+    internships.sort(
+        key=lambda internship: (
+            relevance_score(internship),
+            internship.created_at,
+        ),
+        reverse=True,
+    )
+
+    # ==================================================
+    # BUILD RESPONSE
+    # ==================================================
 
     results = []
 
-    # ==================================================
-    # BUILD AI RESPONSE
-    # ==================================================
-
-    for internship in internships:
-
-        custom_fields = []
-
-        for custom_field in internship.custom_fields.all():
-
-            custom_fields.append(
-                {
-                    "id": custom_field.id,
-
-                    "label": custom_field.label,
-
-                    "field_type": (
-                        custom_field.field_type
-                    ),
-
-                    "required": (
-                        custom_field.required
-                    ),
-
-                    "options": (
-                        custom_field.options
-                    ),
-
-                    "order": (
-                        custom_field.order
-                    ),
-                }
-            )
+    for internship in internships[:20]:
+        custom_fields = [
+            {
+                "id": custom_field.id,
+                "label": custom_field.label,
+                "field_type": custom_field.field_type,
+                "required": custom_field.required,
+                "options": custom_field.options,
+                "order": custom_field.order,
+            }
+            for custom_field in internship.custom_fields.all()
+        ]
 
         results.append(
             {
                 "id": internship.id,
-
                 "title": internship.title,
-
                 "company": (
                     internship.company.company_name
                     if internship.company
                     else None
                 ),
-
                 "location": internship.location,
-
                 "internship_type": (
                     internship.internship_type
                 ),
-
                 "description": internship.description,
-
                 "custom_fields": custom_fields,
-
                 "deadline": (
                     internship.deadline.isoformat()
                     if internship.deadline
@@ -265,13 +240,17 @@ def search_internships(
         )
 
     return results
-def get_internship_details(
-    user,
-    internship_id,
-):
+
+
+
+from django.db.models import Q
+from django.utils import timezone
+
+
+def get_internship_details(user, internship_id):
     """
-    Get detailed information about
-    one active internship.
+    Get detailed information about an active,
+    non-expired internship.
     """
 
     # ==================================================
@@ -293,27 +272,31 @@ def get_internship_details(
         )
 
     # ==================================================
-    # FIND INTERNSHIP
+    # FIND ACTIVE, NON-EXPIRED INTERNSHIP
     # ==================================================
 
-    try:
+    today = timezone.localdate()
 
-        internship = (
-            Internship.objects
-            .select_related("company")
-            .prefetch_related("custom_fields")
-            .get(
-                id=internship_id,
-                active=True,
-            )
+    internship = (
+        Internship.objects
+        .filter(
+            id=internship_id,
+            active=True,
         )
+        .filter(
+            Q(deadline__isnull=True)
+            | Q(deadline__gte=today)
+        )
+        .select_related("company")
+        .prefetch_related("custom_fields")
+        .first()
+    )
 
-    except Internship.DoesNotExist:
-
+    if internship is None:
         return {
             "error": (
-                "Internship not found or "
-                "is no longer active."
+                "Internship not found, expired, "
+                "or no longer active."
             )
         }
 
@@ -321,33 +304,17 @@ def get_internship_details(
     # CUSTOM FIELDS
     # ==================================================
 
-    custom_fields = []
-
-    for custom_field in internship.custom_fields.all():
-
-        custom_fields.append(
-            {
-                "id": custom_field.id,
-
-                "label": custom_field.label,
-
-                "field_type": (
-                    custom_field.field_type
-                ),
-
-                "required": (
-                    custom_field.required
-                ),
-
-                "options": (
-                    custom_field.options
-                ),
-
-                "order": (
-                    custom_field.order
-                ),
-            }
-        )
+    custom_fields = [
+        {
+            "id": custom_field.id,
+            "label": custom_field.label,
+            "field_type": custom_field.field_type,
+            "required": custom_field.required,
+            "options": custom_field.options,
+            "order": custom_field.order,
+        }
+        for custom_field in internship.custom_fields.all()
+    ]
 
     # ==================================================
     # RETURN DETAILS
@@ -355,25 +322,16 @@ def get_internship_details(
 
     return {
         "id": internship.id,
-
         "title": internship.title,
-
         "company": (
             internship.company.company_name
             if internship.company
             else None
         ),
-
         "description": internship.description,
-
         "location": internship.location,
-
-        "internship_type": (
-            internship.internship_type
-        ),
-
+        "internship_type": internship.internship_type,
         "custom_fields": custom_fields,
-
         "deadline": (
             internship.deadline.isoformat()
             if internship.deadline
@@ -435,7 +393,7 @@ def get_application_status(
     return {
         "application_id": application.id,
         "internship": application.internship.title,
-        "company": application.internship.company.company_namename,
+        "company": application.internship.company.company_name,
         "status": application.status,
         "applied_date": (
             application.applied_date.isoformat()
@@ -480,3 +438,48 @@ def get_learning_resource(student, topic, level="beginner"):
             f"for {topic}."
         ),
     }
+def get_my_profile(user):
+    """
+    Retrieve the authenticated student's profile.
+    """
+
+    if not user.is_authenticated:
+        raise PermissionError(
+            "Authentication required."
+        )
+
+    if user.role != "student":
+        raise PermissionError(
+            "Student account required."
+        )
+
+    try:
+        student = Student.objects.get(user=user)
+    except Student.DoesNotExist:
+        return {
+            "error": "Student profile not found."
+        }
+
+    # Read actual fields available on the Student model.
+    profile = {}
+
+    for field in student._meta.concrete_fields:
+        if field.name == "user":
+            continue
+
+        value = getattr(student, field.name, None)
+
+        if value is None:
+            profile[field.name] = None
+        elif hasattr(value, "isoformat"):
+            profile[field.name] = value.isoformat()
+        elif isinstance(value, (str, int, float, bool)):
+            profile[field.name] = value
+        else:
+            profile[field.name] = str(value)
+
+    # Include relevant information from the user account.
+    profile["email"] = user.email
+    profile["username"] = user.get_username()
+
+    return profile

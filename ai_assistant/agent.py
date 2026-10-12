@@ -195,10 +195,10 @@ TOOL_FUNCTIONS = {
     "get_learning_resource": get_learning_resource,
 }
 
-
 # ============================================================
 # RUN AGENT
 # ============================================================
+
 def run_agent(user, message):
 
     messages = [
@@ -212,14 +212,15 @@ def run_agent(user, message):
         },
     ]
 
-    # Store URL returned by learning-resource tool
     learning_url = None
 
     # --------------------------------------------------------
-    # Allow several tool calls / conversation turns
+    # TOOL-CALL LOOP
     # --------------------------------------------------------
 
-    for _ in range(5):
+    for iteration in range(5):
+
+        print(f"\nAGENT ITERATION {iteration + 1}/5")
 
         response = client.chat.completions.create(
             model="openrouter/free",
@@ -228,12 +229,17 @@ def run_agent(user, message):
         )
 
         assistant_message = response.choices[0].message
+        tool_calls = assistant_message.tool_calls or []
+
+        print("FINISH REASON:", response.choices[0].finish_reason)
+        print("AI CONTENT:", assistant_message.content)
+        print("TOOL CALL COUNT:", len(tool_calls))
 
         # ----------------------------------------------------
-        # No tool call
+        # MODEL HAS FINISHED
         # ----------------------------------------------------
 
-        if not assistant_message.tool_calls:
+        if not tool_calls:
 
             return {
                 "message": (
@@ -244,7 +250,7 @@ def run_agent(user, message):
             }
 
         # ----------------------------------------------------
-        # Add assistant tool-call message
+        # SAVE ASSISTANT TOOL CALLS
         # ----------------------------------------------------
 
         messages.append(
@@ -253,37 +259,31 @@ def run_agent(user, message):
                 "content": assistant_message.content,
                 "tool_calls": [
                     {
-                        "id": tool_call.id,
+                        "id": call.id,
                         "type": "function",
                         "function": {
-                            "name": tool_call.function.name,
-                            "arguments": tool_call.function.arguments,
+                            "name": call.function.name,
+                            "arguments": call.function.arguments,
                         },
                     }
-                    for tool_call in assistant_message.tool_calls
+                    for call in tool_calls
                 ],
             }
         )
 
         # ----------------------------------------------------
-        # Execute requested tools
+        # EXECUTE TOOLS
         # ----------------------------------------------------
 
-        for tool_call in assistant_message.tool_calls:
+        for tool_call in tool_calls:
 
             tool_name = tool_call.function.name
+            raw_arguments = tool_call.function.arguments
 
-            tool_arguments_raw = (
-                tool_call.function.arguments
-            )
+            print("EXECUTING TOOL:", tool_name)
+            print("RAW ARGUMENTS:", raw_arguments)
 
-            # -----------------------------------------------
-            # Check that tool exists
-            # -----------------------------------------------
-
-            tool_function = TOOL_FUNCTIONS.get(
-                tool_name
-            )
+            tool_function = TOOL_FUNCTIONS.get(tool_name)
 
             if tool_function is None:
 
@@ -293,36 +293,25 @@ def run_agent(user, message):
 
             else:
 
-                # -------------------------------------------
-                # Parse arguments
-                # -------------------------------------------
-
                 try:
+                    arguments = json.loads(raw_arguments or "{}")
 
-                    arguments = json.loads(
-                        tool_arguments_raw or "{}"
-                    )
+                    if not isinstance(arguments, dict):
+                        raise ValueError(
+                            "Tool arguments must be a JSON object."
+                        )
 
-                except (
-                    json.JSONDecodeError,
-                    TypeError,
-                ):
+                except (json.JSONDecodeError, TypeError, ValueError) as e:
+
+                    print("ARGUMENT ERROR:", str(e))
 
                     tool_result = {
-                        "error": (
-                            "The AI provided invalid "
-                            "tool arguments."
-                        )
+                        "error": "Invalid tool arguments."
                     }
 
                 else:
 
-                    # ---------------------------------------
-                    # Execute Django tool
-                    # ---------------------------------------
-
                     try:
-
                         tool_result = tool_function(
                             user,
                             **arguments,
@@ -330,59 +319,26 @@ def run_agent(user, message):
 
                     except Exception as e:
 
-                        print(
-                            "============================================"
-                        )
-
-                        print("AI TOOL ERROR")
-
-                        print(
-                            "Tool:",
-                            tool_name
-                        )
-
-                        print(
-                            "Error:",
-                            e
-                        )
-
-                        print(
-                            "Type:",
-                            type(e).__name__
-                        )
-
-                        print(
-                            "============================================"
-                        )
-
                         import traceback
 
+                        print("TOOL ERROR:", tool_name, str(e))
                         traceback.print_exc()
 
                         tool_result = {
                             "error": str(e)
                         }
 
-            # ------------------------------------------------
-            # Capture learning-resource URL
-            # ------------------------------------------------
+            print("TOOL RESULT:", repr(tool_result))
 
+            # Capture learning resource URL
             if tool_name == "get_learning_resource":
-
-                if isinstance(
-                    tool_result,
-                    dict
-                ):
-
+                if isinstance(tool_result, dict):
                     learning_url = (
                         tool_result.get("url")
                         or tool_result.get("learning_url")
                     )
 
-            # ------------------------------------------------
-            # Send tool result back to AI
-            # ------------------------------------------------
-
+            # Send tool result back to model
             messages.append(
                 {
                     "role": "tool",
@@ -395,13 +351,62 @@ def run_agent(user, message):
             )
 
     # --------------------------------------------------------
-    # Prevent infinite tool loops
+    # FINAL ANSWER: DO NOT ALLOW MORE TOOL CALLS
+    # --------------------------------------------------------
+
+    print("TOOL LIMIT REACHED. REQUESTING FINAL ANSWER.")
+
+    final_messages = messages + [
+        {
+            "role": "system",
+            "content": (
+                "You must now provide your final response to the user. "
+                "Do not request or call any tools. Review all tool results "
+                "in the conversation. Summarize the relevant internships, "
+                "explain when no results matched a search, and be honest "
+                "about missing information. Do not claim you performed "
+                "actions that are not shown in the tool results."
+            ),
+        }
+    ]
+
+    try:
+
+        final_response = client.chat.completions.create(
+            model="openrouter/free",
+            messages=final_messages,
+        )
+
+        final_message = (
+            final_response.choices[0].message.content
+        )
+
+        print("FINAL FINISH REASON:",
+              final_response.choices[0].finish_reason)
+        print("FINAL AI RESPONSE:", final_message)
+
+        if final_message and final_message.strip():
+
+            return {
+                "message": final_message,
+                "learning_url": learning_url,
+            }
+
+    except Exception as e:
+
+        import traceback
+
+        print("FINAL RESPONSE ERROR:", str(e))
+        traceback.print_exc()
+
+    # --------------------------------------------------------
+    # LAST RESORT
     # --------------------------------------------------------
 
     return {
         "message": (
-            "I wasn't able to complete the request. "
-            "Please try again."
+            "I found some information, but couldn't prepare a final "
+            "answer. Please try again."
         ),
         "learning_url": learning_url,
     }

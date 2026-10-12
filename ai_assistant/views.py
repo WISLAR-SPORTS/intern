@@ -1,157 +1,95 @@
 import json
-import traceback
+import logging
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views.decorators.http import require_POST
 
 from .agent import run_agent
 
+logger = logging.getLogger(__name__)
+
+
 @login_required
 @require_POST
 def chat(request):
-
-    # ============================================
-    # CHECK USER ROLE
-    # ============================================
-
-    if request.user.role != "student":
-
+    # Check student role
+    if getattr(request.user, "role", None) != "student":
         return JsonResponse(
-            {
-                "error": (
-                    "The AI assistant is available "
-                    "to students only."
-                )
-            },
+            {"error": "The AI assistant is available to students only."},
             status=403,
         )
 
-
-    # ============================================
-    # READ REQUEST DATA
-    # ============================================
-
+    # Parse request
     try:
-
-        data = json.loads(
-            request.body
-        )
-
-    except json.JSONDecodeError:
-
+        data = json.loads(request.body)
+    except (json.JSONDecodeError, UnicodeDecodeError):
         return JsonResponse(
-            {
-                "error": "Invalid request."
-            },
+            {"error": "Invalid request."},
             status=400,
         )
 
+    # Validate message
+    message = data.get("message", "")
 
-    # ============================================
-    # GET STUDENT MESSAGE
-    # ============================================
+    if not isinstance(message, str):
+        return JsonResponse(
+            {"error": "Message must be text."},
+            status=400,
+        )
 
-    message = data.get(
-        "message",
-        ""
-    ).strip()
-
+    message = message.strip()
 
     if not message:
-
         return JsonResponse(
-            {
-                "error": "Message cannot be empty."
-            },
+            {"error": "Message cannot be empty."},
             status=400,
         )
 
+    if len(message) > 2000:
+        return JsonResponse(
+            {"error": "Message is too long."},
+            status=400,
+        )
 
-    # ============================================
-    # RUN AI AGENT
-    # ============================================
-
+    # Run your existing AI agent
     try:
-
         response = run_agent(
             user=request.user,
             message=message,
         )
-
-
-    except Exception as e:
-
-        print(
-            "============================================"
-        )
-
-        print(
-            "AI ASSISTANT ERROR"
-        )
-
-        print(
-            "============================================"
-        )
-
-        print(
-            "Error:",
-            e
-        )
-
-        print(
-            "Type:",
-            type(e).__name__
-        )
-
-        traceback.print_exc()
-
-        print(
-            "============================================"
-        )
-
-
+    except Exception:
+        logger.exception("AI assistant error")
         return JsonResponse(
-            {
-                "error": (
-                    "The AI assistant is "
-                    "temporarily unavailable."
-                )
-            },
+            {"error": "The AI assistant is temporarily unavailable."},
             status=500,
         )
 
-
-    # ============================================
-    # PREPARE RESPONSE
-    # ============================================
-
+    # Normalize the response
     if isinstance(response, dict):
-
-        ai_message = response.get(
-            "message",
-            ""
-        )
-
-        learning_url = response.get(
-            "learning_url"
-        )
-
+        ai_message = response.get("message", "")
+        learning_url = response.get("learning_url")
     else:
-
         ai_message = response
-
         learning_url = None
 
+    if not isinstance(ai_message, str):
+        ai_message = str(ai_message) if ai_message is not None else ""
 
-    # ============================================
-    # RETURN AI RESPONSE
-    # ============================================
+    return JsonResponse({
+        "message": ai_message,
+        "learning_url": learning_url,
+    })
 
-    return JsonResponse(
-        {
-            "message": ai_message,
 
-            "learning_url": learning_url,
-        }
+@login_required
+def ai_assistant(request):
+    if getattr(request.user, "role", None) != "student":
+        from django.shortcuts import redirect
+        return redirect("dashboard")
+
+    return render(
+        request,
+        "dashboard/ai-assistant.html",
     )

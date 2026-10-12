@@ -1,0 +1,712 @@
+/* =========================================
+   INTERCONNECT — OPPORTUNITIES THEME
+   Terracotta + Purple + Gold
+   Responsive Light/Dark Theme
+   ========================================= */
+
+/* ---------- LIGHT THEME ---------- */
+
+:root {
+    color-scheme: light;
+
+    --primary-blue: #E85D3F;
+    --primary-blue-dark: #C7462F;
+    --primary-blue-light: #FFF0EB;
+
+    --secondary-green: #7C3AED;
+    --secondary-green-dark: #6324C5;
+    --secondary-green-light: #F3EEFF;
+
+    --teal: #D69E2E;
+    --teal-light: #FFF7DF;
+
+    --text-dark: #241A24;
+    --text-primary: #3B2A3D;
+    --text-secondary: #766A78;
+    --text-muted: #9B919D;
+    --text-white: #FFFFFF;
+
+    --bg-white: #FFFFFF;
+    --bg-light: #FCF9F7;
+    --bg-blue-light: #FFF3EF;
+    --bg-green-light: #F7F2FF;
+    --footer-bg: #241A24;
+
+    --border-light: #EDE5E1;
+    --border-blue: #F2C8BE;
+    --border-green: #DDD0F4;
+
+    --card-bg: #FFFFFF;
+    --badge-bg: #F3EEFF;
+    --badge-text: #6324C5;
+    --input-bg: #FFFFFF;
+
+    --shadow-sm: 0 2px 10px rgba(74, 48, 58, .06);
+    --shadow-md: 0 8px 25px rgba(74, 48, 58, .10);
+    --shadow-lg: 0 15px 40px rgba(74, 48, 58, .14);
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-pill: 999px;
+
+    --container-width: 1100px;
+    --section-padding: 70px;
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    --transition-fast: .2s ease;
+    --transition-normal: .3s ease;
+}
+
+/* ---------- DARK THEME ---------- */
+
+[data-theme="dark"] {
+    color-scheme: dark;
+
+    --primary-blue: #F07155;
+    --primary-blue-dark: #FF866D;
+    --primary-blue-light: #3A211D;
+
+    --secondary-green: #A78BFA;
+    --secondary-green-dark: #C4B5FD;
+    --secondary-green-light: #241C38;
+
+    --teal: #E2B84A;
+    --teal-light: #332A16;
+
+    --text-dark: #F8F1F3;
+    --text-primary: #E9DDE3;
+    --text-secondary: #B8AAB3;
+    --text-muted: #8D7F89;
+    --text-white: #FFFFFF;
+
+    --bg-white: #19151A;
+    --bg-light: #141115;
+    --bg-blue-light: #2B1A18;
+    --bg-green-light: #211A2E;
+    --footer-bg: #0E0B0F;
+
+    --border-light: #382E36;
+    --border-blue: #5A332D;
+    --border-green: #40335A;
+
+    --card-bg: #211B21;
+    --badge-bg: #2D2142;
+    --badge-text: #C4B5FD;
+    --input-bg: #211B21;
+
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, .28);
+    --shadow-md: 0 8px 25px rgba(0, 0, 0, .36);
+    --shadow-lg: 0 15px 40px rgba(0, 0, 0, .48);
+}
+
+/* ---------- SECTION ---------- */
+
+.opportunities-section {
+    --opp-gap: 22px;
+    --opp-card-width: 340px;
+
+    position: relative;
+    padding: clamp(55px, 8vw, 100px) 0;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at 5% 5%,
+            color-mix(in srgb, var(--secondary-green) 7%, transparent),
+            transparent 35%
+        ),
+        var(--bg-light);
+    color: var(--text-primary);
+    transition: background var(--transition-normal),
+                color var(--transition-normal);
+}
+
+.opportunities-section *,
+.opportunities-section *::before,
+.opportunities-section *::after {
+    box-sizing: border-box;
+}
+
+.opportunities-section .container {
+    width: min(var(--container-width), calc(100% - 40px));
+    margin-inline: auto;
+}
+
+/* ---------- HEADING ---------- */
+
+.opportunities-heading {
+    max-width: 680px;
+    margin: 0 auto 34px;
+    text-align: center;
+}
+
+.opportunities-heading .section-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    margin-bottom: 17px;
+    border: 1px solid var(--border-green);
+    border-radius: var(--radius-pill);
+    background: var(--secondary-green-light);
+    color: var(--secondary-green-dark);
+    font-size: .76rem;
+    font-weight: 750;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.opportunities-heading h2 {
+    margin: 0 0 14px;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -.035em;
+    line-height: 1.2;
+}
+
+.opportunities-heading p {
+    max-width: 550px;
+    margin: 0 auto;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* ---------- CONTROLS ---------- */
+
+.opportunities-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.opportunities-control {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    flex-shrink: 0;
+    border: 1px solid var(--border-light);
+    border-radius: 50%;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.opportunities-control svg {
+    width: 19px;
+    height: 19px;
+}
+
+.opportunities-control:hover:not(:disabled) {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.opportunities-control:active:not(:disabled) {
+    transform: scale(.95);
+}
+
+.opportunities-control:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.opportunities-control:focus-visible,
+.opportunity-apply:focus-visible,
+.opportunities-bottom .btn:focus-visible {
+    outline: 3px solid var(--secondary-green);
+    outline-offset: 4px;
+}
+
+/* ---------- HORIZONTAL TRACK ---------- */
+
+.opportunities-marquee {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 5px 3px 24px;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scroll-behavior: smooth;
+    cursor: grab;
+    touch-action: pan-x pan-y;
+}
+
+.opportunities-marquee::-webkit-scrollbar {
+    display: none;
+}
+
+.opportunities-marquee.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+    user-select: none;
+}
+
+.opportunities-track {
+    display: flex;
+    align-items: stretch;
+    gap: var(--opp-gap);
+    width: max-content;
+    min-width: 100%;
+}
+
+/* ---------- OPPORTUNITY CARDS ---------- */
+
+.opportunity-card {
+    position: relative;
+    display: flex;
+    flex: 0 0 var(--opp-card-width);
+    flex-direction: column;
+    min-width: 0;
+    padding: 25px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    background: var(--card-bg);
+    box-shadow: var(--shadow-md);
+    scroll-snap-align: start;
+    transition: transform var(--transition-normal),
+                border-color var(--transition-normal),
+                box-shadow var(--transition-normal),
+                background var(--transition-normal);
+}
+
+.opportunity-card::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(
+        90deg,
+        var(--primary-blue),
+        var(--secondary-green),
+        var(--teal)
+    );
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-normal);
+}
+
+.opportunity-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--border-green);
+    box-shadow: var(--shadow-lg);
+}
+
+.opportunity-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* ---------- CARD HEADER ---------- */
+
+.opportunity-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.opportunity-icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border: 1px solid var(--border-blue);
+    border-radius: 15px;
+    background: var(--primary-blue-light);
+    color: var(--primary-blue);
+    transition: transform var(--transition-normal),
+                background var(--transition-normal);
+}
+
+.opportunity-icon svg {
+    width: 25px;
+    height: 25px;
+}
+
+.opportunity-card:hover .opportunity-icon {
+    transform: rotate(-4deg);
+}
+
+.opportunity-badge {
+    max-width: 65%;
+    padding: 7px 11px;
+    overflow: hidden;
+    border: 1px solid var(--border-green);
+    border-radius: var(--radius-pill);
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    font-size: .72rem;
+    font-weight: 750;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ---------- CARD TEXT ---------- */
+
+.opportunity-card h3 {
+    display: -webkit-box;
+    min-height: 3.2rem;
+    margin: 0 0 19px;
+    overflow: hidden;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.opportunity-company,
+.opportunity-location {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 0 12px;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: .88rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.opportunity-company {
+    color: var(--text-primary);
+    font-weight: 650;
+}
+
+.opportunity-company svg,
+.opportunity-location svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--secondary-green);
+}
+
+.opportunity-description {
+    display: -webkit-box;
+    min-height: 5.1em;
+    margin: 12px 0 24px;
+    overflow: hidden;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: .9rem;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+/* ---------- FOOTER ---------- */
+
+.opportunity-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 17px;
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-light);
+}
+
+.opportunity-deadline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.opportunity-deadline svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    color: var(--teal);
+}
+
+.opportunity-apply {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 45px;
+    padding: 11px 16px;
+    border: 1px solid var(--primary-blue);
+    border-radius: var(--radius-md);
+    background: var(--primary-blue);
+    color: #FFFFFF;
+    font-family: var(--font-body);
+    font-size: .88rem;
+    font-weight: 750;
+    text-align: center;
+    text-decoration: none;
+    transition: background var(--transition-fast),
+                border-color var(--transition-fast),
+                transform var(--transition-fast);
+}
+
+.opportunity-apply span {
+    transition: transform var(--transition-fast);
+}
+
+.opportunity-apply:hover {
+    background: var(--primary-blue-dark);
+    border-color: var(--primary-blue-dark);
+    color: #FFFFFF;
+}
+
+.opportunity-apply:hover span {
+    transform: translateX(4px);
+}
+
+/* ---------- EMPTY STATE ---------- */
+
+.opportunities-empty {
+    display: flex;
+    flex: 0 0 min(100%, 500px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    padding: 30px;
+    border: 1px dashed var(--border-green);
+    border-radius: var(--radius-lg);
+    background: var(--card-bg);
+    text-align: center;
+}
+
+.opportunities-empty > svg {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 15px;
+    color: var(--secondary-green);
+}
+
+.opportunities-empty h3 {
+    margin: 0 0 8px;
+    color: var(--text-primary);
+}
+
+.opportunities-empty p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* ---------- BOTTOM BUTTON ---------- */
+
+.opportunities-bottom {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.opportunities-bottom .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 48px;
+    padding: 13px 24px;
+    border: 1px solid var(--primary-blue);
+    border-radius: var(--radius-md);
+    background: var(--primary-blue);
+    color: #FFFFFF;
+    font-family: var(--font-body);
+    font-size: .9rem;
+    font-weight: 750;
+    text-align: center;
+    text-decoration: none;
+    transition: background var(--transition-fast),
+                transform var(--transition-fast),
+                box-shadow var(--transition-fast);
+}
+
+.opportunities-bottom .btn:hover {
+    background: var(--primary-blue-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ---------- DARK THEME ---------- */
+
+[data-theme="dark"] .opportunities-section {
+    background:
+        radial-gradient(
+            circle at 5% 5%,
+            rgba(167, 139, 250, .09),
+            transparent 35%
+        ),
+        var(--bg-light);
+}
+
+[data-theme="dark"] .opportunity-card {
+    background: var(--card-bg);
+    border-color: var(--border-light);
+}
+
+[data-theme="dark"] .opportunity-card:hover {
+    border-color: var(--secondary-green);
+}
+
+[data-theme="dark"] .opportunity-icon {
+    background: var(--primary-blue-light);
+    border-color: var(--border-blue);
+    color: var(--primary-blue);
+}
+
+[data-theme="dark"] .opportunity-badge {
+    background: var(--badge-bg);
+    color: var(--badge-text);
+}
+
+[data-theme="dark"] .opportunities-control {
+    background: var(--card-bg);
+    border-color: var(--border-light);
+    color: var(--text-primary);
+}
+
+/* ---------- CONTINUOUS OPPORTUNITIES MARQUEE ---------- */
+
+.opportunities-marquee {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+/* Animate only when JavaScript enables the marquee */
+.opportunities-track.is-auto-scrolling {
+    animation: opportunities-scroll 35s linear infinite;
+    will-change: transform;
+}
+/* Hide decorative copies when the original set fits in the viewport */
+.opportunities-marquee.has-no-loop
+.opportunity-card[aria-hidden="true"] {
+    display: none;
+}
+
+/* Move the first set out of view, revealing its identical copy */
+@keyframes opportunities-scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Pause when users hover or focus the opportunity cards */
+.opportunities-marquee:hover .opportunities-track.is-auto-scrolling,
+.opportunities-marquee:focus-within .opportunities-track.is-auto-scrolling {
+    animation-play-state: paused;
+}
+/* ---------- TABLET ---------- */
+
+@media (max-width: 900px) {
+    .opportunities-section {
+        --opp-card-width: 310px;
+        --opp-gap: 18px;
+    }
+
+    .opportunity-card {
+        padding: 22px;
+    }
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 600px) {
+    .opportunities-section {
+        --opp-card-width: min(84vw, 330px);
+        --opp-gap: 14px;
+        padding: 58px 0;
+    }
+
+    .opportunities-section .container {
+        width: calc(100% - 28px);
+    }
+
+    .opportunities-heading {
+        margin-bottom: 28px;
+    }
+
+    .opportunities-heading p {
+        font-size: .92rem;
+    }
+
+    .opportunities-controls {
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .opportunities-control {
+        width: 40px;
+        height: 40px;
+    }
+
+    .opportunity-card {
+        padding: 20px;
+        border-radius: 14px;
+    }
+
+    .opportunity-top {
+        margin-bottom: 20px;
+    }
+
+    .opportunity-card h3 {
+        font-size: 1.12rem;
+    }
+
+    .opportunities-bottom .btn {
+        width: 100%;
+    }
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .opportunities-section *,
+    .opportunities-section *::before,
+    .opportunities-section *::after {
+        scroll-behavior: auto !important;
+        animation: none !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .opportunities-track.is-auto-scrolling {
+        animation: none !important;
+        transform: none !important;
+    }
+}

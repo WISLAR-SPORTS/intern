@@ -8,6 +8,16 @@ from internships.models import Company
 from django.utils import timezone
 from django.shortcuts import render
 from .models import LandingPageSettings, Company
+
+from django.shortcuts import render
+from django.utils import timezone
+
+from internships.models import Internship
+from companies.models import Company
+from students.models import University
+
+
+
 def landing_page(request):
     settings = LandingPageSettings.objects.first()
 
@@ -35,6 +45,17 @@ def landing_page(request):
         )
     )
 
+    # Get the 8 most recently posted active internships
+    # whose application deadlines have not passed.
+    latest_opportunities = Internship.objects.filter(
+        active=True,
+        deadline__gte=timezone.localdate(),
+    ).select_related(
+        "company"
+    ).order_by(
+        "-created_at"
+    )[:8]
+
     context = {
         "settings": settings,
         "universities": universities,
@@ -42,7 +63,11 @@ def landing_page(request):
         "university_count": University.objects.count(),
         "company_count": Company.objects.count(),
         "student_count": 0,
-        "internship_count": 0,
+        "internship_count": Internship.objects.filter(
+            active=True,
+            deadline__gte=timezone.localdate(),
+        ).count(),
+        "latest_opportunities": latest_opportunities,
     }
 
     return render(request, "home.html", context)

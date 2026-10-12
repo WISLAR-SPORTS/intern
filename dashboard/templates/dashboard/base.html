@@ -60,6 +60,10 @@
     rel="stylesheet"
     href="{% static 'internships/css/apply.css' %}"
 >
+<link
+    rel="stylesheet"
+    href="{% static 'dashboard/css/ai.css' %}"
+>
 
 
 
@@ -105,7 +109,7 @@
         <div class="brand-text">
 
             <h1>
-                Intern<span>Connect</span>
+                InternUg<span>Connect</span>
             </h1>
 
             <span>
@@ -220,20 +224,15 @@
 
         <!-- AI -->
 
-        <a
-            href="{% url 'ai_chat' %}"
-            class="nav-link"
-        >
+       <!-- AI Assistant -->
 
-            <span class="nav-icon">
+<a href="{% url 'ai_assistant' %}" class="nav-link">
+    <span class="nav-icon">
+        <i data-lucide="bot"></i>
+    </span>
+    AI Assistant
+</a>
 
-                <i data-lucide="bot"></i>
-
-            </span>
-
-            AI Assistant
-
-        </a>
 
     </nav>
 
@@ -470,10 +469,9 @@
 
             <!-- AI -->
 
-            <a
-                href="{% url 'ai_chat' %}"
-                class="dropdown-link"
-            >
+          <a href="{% url 'ai_assistant' %}" class="dropdown-link">
+                
+            
 
                 <span class="dropdown-icon">
 
@@ -792,7 +790,7 @@
 
             </a>
 
-            <a href="{% url 'ai_chat' %}">
+            <a href="{% url 'ai_assistant' %}">
 
                 <i data-lucide="bot"></i>
 
@@ -885,28 +883,7 @@
 
 </main>
 
-<!-- =====================================================
-     AI FLOATING ASSISTANT
-====================================================== -->
 
-<div class="ai-floating-container">
-
-    <span class="ai-floating-label">
-        AI Assistant
-    </span>
-
-    <button
-        type="button"
-        id="ai-toggle"
-        class="ai-toggle"
-        aria-label="Open Internship Assistant"
-    >
-
-        <i data-lucide="bot"></i>
-
-    </button>
-
-</div>
 
 <!-- =====================================================
      PROFILE MODAL
@@ -1121,5 +1098,6 @@
 
 
 <script src="{% static 'dashboard/js/base.js' %}"></script>
+<script src="{% static 'dashboard/js/ai-assistant.js' %}"></script>
 
 </body> </html> 

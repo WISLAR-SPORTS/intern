@@ -1,629 +1,127 @@
-/* =========================================================
-   INTERNSHIP CONNECT
-   AI ASSISTANT
-   dashboard/static/dashboard/js/ai-assistant.js
-========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("ai-form");
+    const input = document.getElementById("ai-input");
+    const conversation = document.getElementById("ai-conversation");
+    const sendButton = document.getElementById("ai-send");
+    const config = document.getElementById("ai-chat-config");
 
-document.addEventListener("DOMContentLoaded", function () {
-
-    console.log("AI Assistant JS loaded");
-
-
-    /* =====================================================
-       ELEMENTS
-    ===================================================== */
-
-    const aiInput =
-        document.getElementById("ai-input");
-
-    const aiSend =
-        document.getElementById("ai-send");
-
-    const aiConversation =
-        document.getElementById("ai-conversation");
-
-    const aiAssistant =
-        document.getElementById("ai-assistant");
-
-    const aiToggle =
-        document.getElementById("ai-toggle");
-
-    const closeAi =
-        document.getElementById("close-ai");
-
-
-    /* =====================================================
-       CHECK REQUIRED ELEMENTS
-    ===================================================== */
-
-    if (!aiToggle) {
-        console.error("AI ERROR: #ai-toggle was not found.");
+    if (!form || !input || !conversation || !sendButton || !config) {
+        console.error("AI chat elements are missing from the page.");
         return;
     }
 
-    if (!aiAssistant) {
-        console.error("AI ERROR: #ai-assistant was not found.");
-        return;
+    const chatUrl = config.dataset.chatUrl;
+
+    function getCsrfToken() {
+        return document.querySelector(
+            '[name="csrfmiddlewaretoken"]'
+        )?.value || "";
     }
 
-    if (!closeAi) {
-        console.error("AI ERROR: #close-ai was not found.");
-        return;
-    }
+    function addMessage(text, sender = "assistant") {
+        const wrapper = document.createElement("div");
 
-    if (!aiInput) {
-        console.error("AI ERROR: #ai-input was not found.");
-        return;
-    }
+        wrapper.className = sender === "user"
+            ? "assistant-message user-message"
+            : "assistant-message assistant-reply";
 
-    if (!aiSend) {
-        console.error("AI ERROR: #ai-send was not found.");
-        return;
-    }
+        const avatar = document.createElement("div");
+        avatar.className = "message-avatar";
 
-    if (!aiConversation) {
-        console.error(
-            "AI ERROR: #ai-conversation was not found."
+        const icon = document.createElement("i");
+        icon.setAttribute(
+            "data-lucide",
+            sender === "user" ? "user-round" : "bot"
         );
-        return;
-    }
+        avatar.appendChild(icon);
 
+        const content = document.createElement("div");
+        content.className = "message-content";
 
-    /* =====================================================
-       LUCIDE ICONS
-    ===================================================== */
+        const heading = document.createElement("strong");
+        heading.textContent = sender === "user" ? "You" : "AI Assistant";
 
-    if (typeof lucide !== "undefined") {
-        lucide.createIcons();
-    }
+        const paragraph = document.createElement("p");
+        paragraph.textContent = text;
 
+        content.append(heading, paragraph);
+        wrapper.append(avatar, content);
+        conversation.appendChild(wrapper);
 
-    /* =====================================================
-       CSRF TOKEN
-    ===================================================== */
-
-    function getCSRFToken() {
-
-        const cookie = document.cookie
-            .split("; ")
-            .find(
-                row => row.startsWith("csrftoken=")
-            );
-
-        if (!cookie) {
-            return null;
+        if (window.lucide) {
+            window.lucide.createIcons({ root: wrapper });
         }
 
-        return decodeURIComponent(
-            cookie.split("=")[1]
-        );
+        conversation.scrollTop = conversation.scrollHeight;
+
+        return wrapper;
     }
-
-
-    /* =====================================================
-       OPEN AI ASSISTANT
-    ===================================================== */
-
-    function openAI() {
-
-        console.log("Opening AI Assistant");
-
-        aiAssistant.classList.add("active");
-
-        document.body.classList.add("ai-open");
-
-        setTimeout(function () {
-
-            aiInput.focus();
-
-        }, 100);
-
-        if (typeof lucide !== "undefined") {
-            lucide.createIcons();
-        }
-    }
-
-
-    /* =====================================================
-       CLOSE AI ASSISTANT
-    ===================================================== */
-
-    function closeAI() {
-
-        console.log("Closing AI Assistant");
-
-        aiAssistant.classList.remove("active");
-
-        document.body.classList.remove("ai-open");
-    }
-
-
-    /* =====================================================
-       TOGGLE BUTTON
-    ===================================================== */
-
-    aiToggle.addEventListener(
-        "click",
-        function (event) {
-
-            event.preventDefault();
-            event.stopPropagation();
-
-            console.log("AI button clicked");
-
-            if (
-                aiAssistant.classList.contains("active")
-            ) {
-
-                closeAI();
-
-            } else {
-
-                openAI();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       CLOSE BUTTON
-    ===================================================== */
-
-    closeAi.addEventListener(
-        "click",
-        function (event) {
-
-            event.preventDefault();
-
-            closeAI();
-
-        }
-    );
-
-
-    /* =====================================================
-       ESCAPE KEY
-    ===================================================== */
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key === "Escape" &&
-                aiAssistant.classList.contains("active")
-            ) {
-
-                closeAI();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       ADD MESSAGE
-    ===================================================== */
-
-    function addMessage(
-        message,
-        role,
-        learningUrl = null
-    ) {
-
-        const messageElement =
-            document.createElement("div");
-
-        messageElement.classList.add(
-            "ai-message",
-            role
-        );
-
-
-        const textElement =
-            document.createElement("div");
-
-        textElement.textContent =
-            message || "";
-
-        messageElement.appendChild(
-            textElement
-        );
-
-
-        /* =============================================
-           LEARNING RESOURCE
-        ============================================= */
-
-        if (
-            learningUrl &&
-            role === "assistant"
-        ) {
-
-            try {
-
-                const url =
-                    new URL(learningUrl);
-
-
-                const allowedHost =
-                    url.hostname === "youtube.com" ||
-                    url.hostname === "www.youtube.com" ||
-                    url.hostname === "m.youtube.com";
-
-
-                if (
-                    url.protocol === "https:" &&
-                    allowedHost
-                ) {
-
-                    const resourceCard =
-                        document.createElement("div");
-
-                    resourceCard.classList.add(
-                        "ai-learning-resource"
-                    );
-
-
-                    const icon =
-                        document.createElement("div");
-
-                    icon.className =
-                        "learning-resource-icon";
-
-                    icon.textContent =
-                        "▶";
-
-
-                    const content =
-                        document.createElement("div");
-
-                    content.className =
-                        "learning-resource-content";
-
-
-                    const title =
-                        document.createElement("strong");
-
-                    title.textContent =
-                        "Learning Resource";
-
-
-                    const description =
-                        document.createElement("span");
-
-                    description.textContent =
-                        "Watch tutorials and lessons on YouTube";
-
-
-                    content.appendChild(title);
-                    content.appendChild(description);
-
-
-                    const link =
-                        document.createElement("a");
-
-                    link.href =
-                        url.href;
-
-                    link.target =
-                        "_blank";
-
-                    link.rel =
-                        "noopener noreferrer";
-
-                    link.className =
-                        "learning-resource-button";
-
-                    link.textContent =
-                        "Watch Tutorials ↗";
-
-
-                    resourceCard.appendChild(icon);
-                    resourceCard.appendChild(content);
-                    resourceCard.appendChild(link);
-
-
-                    messageElement.appendChild(
-                        resourceCard
-                    );
-                }
-
-            } catch (error) {
-
-                console.error(
-                    "Invalid learning URL:",
-                    error
-                );
-
-            }
-
-        }
-
-
-        aiConversation.appendChild(
-            messageElement
-        );
-
-
-        scrollConversation();
-    }
-
-
-    /* =====================================================
-       SCROLL
-    ===================================================== */
-
-    function scrollConversation() {
-
-        const messages =
-            document.getElementById("ai-messages");
-
-        if (!messages) {
-            return;
-        }
-
-        messages.scrollTop =
-            messages.scrollHeight;
-    }
-
-
-    /* =====================================================
-       LOADING
-    ===================================================== */
-
-    function setLoading(loading) {
-
-        aiSend.disabled =
-            loading;
-
-        aiInput.disabled =
-            loading;
-
-
-        if (loading) {
-
-            aiSend.innerHTML =
-                "⏳";
-
-        } else {
-
-            aiSend.innerHTML =
-                '<i data-lucide="send"></i>';
-
-            if (typeof lucide !== "undefined") {
-                lucide.createIcons();
-            }
-
-        }
-    }
-
-
-    /* =====================================================
-       SEND MESSAGE
-    ===================================================== */
 
     async function sendMessage(message) {
+        const cleanMessage = message.trim();
 
-        if (
-            !message ||
-            !message.trim()
-        ) {
+        if (!cleanMessage || sendButton.disabled) return;
 
-            return;
-        }
+        addMessage(cleanMessage, "user");
+        input.value = "";
+        input.disabled = true;
+        sendButton.disabled = true;
 
-
-        message =
-            message.trim();
-
-
-        /* User message */
-
-        addMessage(
-            message,
-            "user"
-        );
-
-
-        aiInput.value = "";
-
-
-        setLoading(true);
-
+        const pending = addMessage("Thinking...");
 
         try {
+            const response = await fetch(chatUrl, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCsrfToken(),
+                },
+                body: JSON.stringify({
+                    message: cleanMessage,
+                }),
+            });
 
-            console.log(
-                "Sending AI request..."
-            );
-
-
-            const csrfToken =
-                getCSRFToken();
-
-
-            if (!csrfToken) {
-
-                throw new Error(
-                    "CSRF token not found."
-                );
-
-            }
-
-
-            const response =
-                await fetch(
-                    "/ai/chat/",
-                    {
-                        method: "POST",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json",
-
-                            "X-CSRFToken":
-                                csrfToken,
-
-                            "X-Requested-With":
-                                "XMLHttpRequest"
-
-                        },
-
-                        body:
-                            JSON.stringify({
-                                message: message
-                            })
-                    }
-                );
-
-
-            console.log(
-                "AI HTTP status:",
-                response.status
-            );
-
-
-            const contentType =
-                response.headers.get(
-                    "content-type"
-                ) || "";
-
-
-            if (
-                !contentType.includes(
-                    "application/json"
-                )
-            ) {
-
-                throw new Error(
-                    "Server returned a non-JSON response."
-                );
-
-            }
-
-
-            const data =
-                await response.json();
-
-
-            console.log(
-                "AI DATA:",
-                data
-            );
-
+            const data = await response.json();
 
             if (!response.ok) {
-
                 throw new Error(
-                    data.error ||
-                    "AI request failed."
+                    data.error || "Unable to get an AI response."
                 );
-
             }
 
+            pending.querySelector("p").textContent =
+                data.message || "The assistant returned an empty response.";
 
-            addMessage(
-                data.message ||
-                "I received your message, but no response was returned.",
-                "assistant",
-                data.learning_url ||
-                null
-            );
+            // Show a learning resource link when supplied.
+            if (data.learning_url) {
+                const link = document.createElement("a");
+                link.href = data.learning_url;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = "Open learning resources";
+                link.className = "assistant-resource-link";
 
-
+                pending.querySelector(".message-content").appendChild(link);
+            }
         } catch (error) {
-
-            console.error(
-                "AI Assistant Error:",
-                error
-            );
-
-
-            addMessage(
-                "Sorry, I couldn't process your request. Please try again.",
-                "assistant"
-            );
-
-
+            pending.querySelector("p").textContent = error.message;
         } finally {
-
-            setLoading(false);
-
-            aiInput.focus();
-
+            input.disabled = false;
+            sendButton.disabled = false;
+            input.focus();
+            conversation.scrollTop = conversation.scrollHeight;
         }
-
     }
 
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        sendMessage(input.value);
+    });
 
-    /* =====================================================
-       QUICK ACTIONS
-    ===================================================== */
-
-    window.sendQuickMessage =
-        function (message) {
-
-            openAI();
-
-            sendMessage(message);
-
-        };
-
-
-    /* =====================================================
-       SEND BUTTON
-    ===================================================== */
-
-    aiSend.addEventListener(
-        "click",
-        function (event) {
-
-            event.preventDefault();
-
-            sendMessage(
-                aiInput.value
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       ENTER KEY
-    ===================================================== */
-
-    aiInput.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key === "Enter" &&
-                !event.shiftKey
-            ) {
-
-                event.preventDefault();
-
-                sendMessage(
-                    aiInput.value
-                );
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
-
-    console.log(
-        "AI Assistant initialized successfully"
-    );
-
+    document.querySelectorAll(".assistant-prompt").forEach((button) => {
+        button.addEventListener("click", () => {
+            sendMessage(button.dataset.aiMessage || "");
+        });
+    });
 });
