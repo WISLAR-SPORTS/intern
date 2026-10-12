@@ -31,7 +31,7 @@ BREVO_SENDER_EMAIL = os.getenv(
 
 BREVO_SENDER_NAME = os.getenv(
     "BREVO_SENDER_NAME",
-    "InternLink Ug",
+    "InternUgConnect",
 )
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
