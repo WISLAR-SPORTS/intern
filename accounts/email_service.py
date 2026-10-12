@@ -22,7 +22,7 @@ def send_otp_email(
     )
 
     result = client.transactional_emails.send_transac_email(
-        subject="Your InternLink Ug Login Code",
+        subject="Your InternUgConnect Login Code",
 
         html_content=f"""
         <!DOCTYPE html>
@@ -52,7 +52,7 @@ def send_otp_email(
                     color: #1e293b;
                     margin-bottom: 10px;
                 ">
-                    InternLink Ug
+                    InternUgConnect
                 </h1>
 
                 <p style="
