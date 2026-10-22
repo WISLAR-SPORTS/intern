@@ -32,13 +32,16 @@ urlpatterns = [
         "dashboard/",
         include("dashboard.urls"),
     ),
+    path("_nested_admin/", include("nested_admin.urls")),
 
      path("internships/", include("internships.urls")),
 path(
         "ai/",
         include("ai_assistant.urls"),
     ),
+path("assessments/", include("assessments.urls")),
     
+ 
 
 ]
 if settings.DEBUG:

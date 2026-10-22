@@ -26,6 +26,14 @@ class Internship(models.Model):
     )
 
     description = models.TextField()
+    required_skills = models.TextField(
+        help_text=(
+            "Enter the skills required for this internship, "
+            "separated by commas."
+        ),
+        blank=True,
+        default="",
+    )
 
 
     location = models.CharField(
@@ -150,6 +158,24 @@ class Application(models.Model):
         null=True,
         blank=True
     )
+    
+    ai_score = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        help_text="AI-generated match score from 0 to 100.",
+    )
+
+    ai_feedback = models.JSONField(
+        null=True,
+        blank=True,
+        help_text="AI evaluation breakdown and explanation.",
+    )
+
+    ai_evaluated_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
 
     reviewer_notes = models.TextField(
         blank=True

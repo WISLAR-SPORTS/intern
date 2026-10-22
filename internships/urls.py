@@ -2,10 +2,17 @@ from django.urls import path
 from . import views
 from dashboard.views import student_dashboard
 
+
+
 app_name = "internships"
 
 urlpatterns = [
-
+        path(
+        "ai-evaluation/",
+        views.ai_evaluation,
+        name="ai_evaluation",
+    ),
+       
    
    
         path(

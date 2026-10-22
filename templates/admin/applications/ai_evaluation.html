@@ -1,0 +1,422 @@
+
+
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link
+        rel="stylesheet"
+        href="{% static 'admin/css/ai_evaluation.css' %}"
+    >
+{% endblock %}
+
+{% block content %}
+
+<div class="ai-evaluation-page">
+
+    <!-- Page heading -->
+    <header class="ae-page-header">
+        <div class="ae-heading-content">
+            <h1 class="ae-page-title">AI Evaluation &amp; Human Review</h1>
+            <p class="ae-page-description">
+                Review AI assessments and make informed decisions.
+            </p>
+        </div>
+    </header>
+
+    <!-- Summary cards -->
+    <section class="ae-summary-grid" aria-label="Application statistics">
+
+        <article class="ae-summary-card ae-summary-total">
+            <div class="ae-summary-content">
+                <p class="ae-summary-label">Total Applications</p>
+                <h2 class="ae-summary-value">{{ total_applications }}</h2>
+            </div>
+        </article>
+
+        <article class="ae-summary-card ae-summary-evaluated">
+            <div class="ae-summary-content">
+                <p class="ae-summary-label">AI Evaluated</p>
+                <h2 class="ae-summary-value">{{ evaluated_count }}</h2>
+            </div>
+        </article>
+
+        <article class="ae-summary-card ae-summary-pending">
+            <div class="ae-summary-content">
+                <p class="ae-summary-label">Awaiting Evaluation</p>
+                <h2 class="ae-summary-value">{{ not_evaluated_count }}</h2>
+            </div>
+        </article>
+
+        <article class="ae-summary-card ae-summary-review">
+            <div class="ae-summary-content">
+                <p class="ae-summary-label">Awaiting Human Review</p>
+                <h2 class="ae-summary-value">{{ pending_review_count }}</h2>
+            </div>
+        </article>
+
+    </section>
+
+    <!-- Filters -->
+    <section class="ae-panel ae-filter-panel">
+
+        <div class="ae-panel-header">
+            <div>
+                <h2 class="ae-panel-title">Filter Applications</h2>
+                <p class="ae-panel-description">
+                    Find applications by student, status, or AI score.
+                </p>
+            </div>
+        </div>
+
+        <div class="ae-panel-body">
+
+            <form method="get" class="ae-filter-form">
+
+                <div class="ae-filter-field ae-search-field">
+                    <label for="ae-search" class="ae-label">Search</label>
+                    <input
+                        id="ae-search"
+                        type="text"
+                        name="q"
+                        class="ae-input"
+                        value="{{ filters.q }}"
+                        placeholder="Application, student or internship ID"
+                    >
+                </div>
+
+                <div class="ae-filter-field">
+                    <label for="ae-status" class="ae-label">
+                        Application Status
+                    </label>
+                    <select
+                        id="ae-status"
+                        name="status"
+                        class="ae-select"
+                    >
+                        <option value="">All statuses</option>
+                        {% for value, label in status_choices %}
+                            <option
+                                value="{{ value }}"
+                                {% if filters.status == value %}selected{% endif %}
+                            >
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+       
+<!-- Internship filter -->
+<div class="ae-filter-field">
+    <label for="ae-internship" class="ae-label">
+        Internship
+    </label>
+
+    <select
+        id="ae-internship"
+        name="internship"
+        class="ae-select"
+    >
+        <option value="">All internships</option>
+
+        {% for internship in internships %}
+            <option
+                value="{{ internship.id }}"
+                {% if filters.internship == internship.id|stringformat:"s" %}
+                    selected
+                {% endif %}
+            >
+                {{ internship }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<!-- Application start date -->
+<div class="ae-filter-field">
+    <label for="ae-start-date" class="ae-label">
+        Applied From
+    </label>
+
+    <input
+        id="ae-start-date"
+        type="date"
+        name="start_date"
+        class="ae-input"
+        value="{{ filters.start_date }}"
+    >
+</div>
+
+<!-- Application end date -->
+<div class="ae-filter-field">
+    <label for="ae-end-date" class="ae-label">
+        Applied Until
+    </label>
+
+    <input
+        id="ae-end-date"
+        type="date"
+        name="end_date"
+        class="ae-input"
+        value="{{ filters.end_date }}"
+    >
+</div>
+
+
+
+                <div class="ae-filter-field">
+                    <label for="ae-evaluation" class="ae-label">
+                        AI Evaluation
+                    </label>
+                    <select
+                        id="ae-evaluation"
+                        name="evaluation"
+                        class="ae-select"
+                    >
+                        <option value="">All</option>
+                        <option
+                            value="evaluated"
+                            {% if filters.evaluation == "evaluated" %}selected{% endif %}
+                        >
+                            Evaluated
+                        </option>
+                        <option
+                            value="not_evaluated"
+                            {% if filters.evaluation == "not_evaluated" %}selected{% endif %}
+                        >
+                            Not evaluated
+                        </option>
+                    </select>
+                </div>
+
+                <div class="ae-filter-field">
+                    <label for="ae-min-score" class="ae-label">
+                        Minimum AI Score
+                    </label>
+                    <input
+                        id="ae-min-score"
+                        type="number"
+                        name="min_score"
+                        min="0"
+                        max="100"
+                        class="ae-input"
+                        value="{{ filters.min_score }}"
+                        placeholder="0"
+                    >
+                </div>
+
+                <div class="ae-filter-field">
+                    <label for="ae-max-score" class="ae-label">
+                        Maximum AI Score
+                    </label>
+                    <input
+                        id="ae-max-score"
+                        type="number"
+                        name="max_score"
+                        min="0"
+                        max="100"
+                        class="ae-input"
+                        value="{{ filters.max_score }}"
+                        placeholder="100"
+                    >
+                </div>
+
+                <div class="ae-filter-actions">
+                    <button type="submit" class="ae-button ae-button-primary">
+                        Apply Filters
+                    </button>
+
+                    <a
+                        href="{% url 'internships:ai_evaluation' %}"
+                        class="ae-button ae-button-secondary"
+                    >
+                        Clear Filters
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </section>
+
+    <!-- Applications table -->
+    <section class="ae-panel ae-applications-panel">
+
+        <div class="ae-panel-header ae-applications-header">
+            <div>
+                <h2 class="ae-panel-title">Internship Applications</h2>
+                <p class="ae-panel-description">
+                    Review AI scores and application statuses.
+                </p>
+            </div>
+        </div>
+
+        <div class="ae-table-wrapper">
+
+            <table class="ae-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Application ID</th>
+                        <th scope="col">Student</th>
+                        <th scope="col">Internship</th>
+                        <th scope="col">Applied Date</th>
+                        <th scope="col">AI Score</th>
+                        <th scope="col">Evaluation</th>
+                        <th scope="col">Application Status</th>
+                        <th scope="col">Human Review</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for app in applications %}
+
+                    <tr>
+                        <td class="ae-application-id">
+                            #{{ app.id }}
+                        </td>
+
+                        <td class="ae-student-cell">
+                            {{ app.student }}
+                        </td>
+
+                        <td class="ae-internship-cell">
+                            {{ app.internship }}
+                        </td>
+
+                        <td class="ae-date-cell">
+                            {{ app.applied_date|date:"d M Y" }}
+                        </td>
+
+                        <td>
+                            {% if app.ai_score != None %}
+
+                                <span class="ae-badge
+                                    {% if app.ai_score >= 75 %}
+                                        ae-score-high
+                                    {% elif app.ai_score >= 50 %}
+                                        ae-score-medium
+                                    {% else %}
+                                        ae-score-low
+                                    {% endif %}
+                                ">
+                                    {{ app.ai_score }}/100
+                                </span>
+
+                            {% else %}
+
+                                <span class="ae-muted-text">
+                                    Not scored
+                                </span>
+
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if app.ai_evaluated_at %}
+                                <span class="ae-badge ae-status-success">
+                                    Evaluated
+                                </span>
+                            {% else %}
+                                <span class="ae-badge ae-status-neutral">
+                                    Not evaluated
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <span class="ae-badge ae-status-neutral">
+                                {{ app.get_status_display }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if app.reviewed_at %}
+                                <span class="ae-badge ae-status-success">
+                                    Reviewed
+                                </span>
+                            {% else %}
+                                <span class="ae-badge ae-status-warning">
+                                    Awaiting review
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="ae-action-cell">
+                            <a
+                                href="/admin/internships/application/{{ app.id }}/review/"
+                                class="ae-button ae-button-review"
+                            >
+                               Human Review
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="9" class="ae-empty-cell">
+                            <div class="ae-empty-state">
+                                <h3>No applications found</h3>
+                                <p>
+                                    Try changing your filters or search terms.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- Pagination -->
+        {% if applications.has_other_pages %}
+
+        <nav class="ae-pagination" aria-label="Application pages">
+
+            <div class="ae-pagination-info">
+                Page {{ applications.number }} of
+                {{ applications.paginator.num_pages }}
+            </div>
+
+            <div class="ae-pagination-controls">
+
+                {% if applications.has_previous %}
+                    <a
+                        class="ae-page-link"
+                        href="?{{ query_string }}&page={{ applications.previous_page_number }}"
+                    >
+                        &larr; Previous
+                    </a>
+                {% endif %}
+
+                <span class="ae-page-current">
+                    {{ applications.number }}
+                </span>
+
+                {% if applications.has_next %}
+                    <a
+                        class="ae-page-link"
+                        href="?{{ query_string }}&page={{ applications.next_page_number }}"
+                    >
+                        Next &rarr;
+                    </a>
+                {% endif %}
+
+            </div>
+
+        </nav>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+{% endblock %}

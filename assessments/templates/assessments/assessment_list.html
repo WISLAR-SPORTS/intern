@@ -1,0 +1,58 @@
+
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet"
+      href="{% static 'assessments/css/assessment.css' %}">
+
+<div class="assessment-container">
+    <h1>My Assessments</h1>
+    <p>Assessments available for your shortlisted internships.</p>
+
+    {% for row in rows %}
+        <article class="assessment-card">
+            <h2>{{ row.assessment.title }}</h2>
+
+            <p>{{ row.assessment.description }}</p>
+            <p>
+                <strong>Company:</strong>
+                {{ row.assessment.internship.company.company_name }}
+            </p>
+            <p>
+                <strong>Internship:</strong>
+                {{ row.assessment.internship.title }}
+            </p>
+            <p>
+                <strong>Duration:</strong>
+                {{ row.assessment.duration_minutes }} minutes
+            </p>
+            <p>
+                <strong>Closes:</strong>
+                {{ row.assessment.closes_at }}
+            </p>
+
+            {% if row.attempt %}
+                {% if row.attempt.status == "in_progress" %}
+                    <a class="assessment-button"
+                       href="{% url 'assessments:take_assessment' row.attempt.pk %}">
+                        Continue assessment
+                    </a>
+                {% else %}
+                    <span class="status-label">
+                        Attempt completed
+                    </span>
+                {% endif %}
+            {% else %}
+                <a class="assessment-button"
+                   href="{% url 'assessments:start_assessment' row.assessment.pk %}">
+                    Start assessment
+                </a>
+            {% endif %}
+        </article>
+    {% empty %}
+        <p>No assessments are currently available for your shortlisted applications.</p>
+    {% endfor %}
+</div>
+{% endblock %}

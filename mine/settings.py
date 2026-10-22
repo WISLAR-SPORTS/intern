@@ -48,6 +48,12 @@ OPENROUTER_MODEL = os.getenv(
     "OPENROUTER_MODEL",
     "openrouter/free",
 )
+
+
+OPENROUTER_EVALUATION_MODEL = os.getenv(
+    "OPENROUTER_EVALUATION_MODEL",
+    "openrouter/free",
+)
 TURNSTILE_SITE_KEY = os.getenv("TURNSTILE_SITE_KEY", "")
 TURNSTILE_SECRET_KEY = os.getenv("TURNSTILE_SECRET_KEY", "")
 # ==========================================
@@ -69,7 +75,7 @@ cloudinary.config(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
@@ -110,6 +116,8 @@ INSTALLED_APPS = [
    
       "dashboard",
       "ai_assistant",
+      "nested_admin",
+    "assessments",
 
      "rest_framework",
     "corsheaders",
@@ -172,13 +180,18 @@ WSGI_APPLICATION = 'mine.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+
+
 """
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+        "OPTIONS": {
+            "timeout": 30,
+        },
     }
-} """
+}"""
 
 
 DATABASES = {
@@ -214,23 +227,29 @@ JAZZMIN_SETTINGS = {
 
     "show_sidebar": True,
     "navigation_expanded": True,
-
-    "topmenu_links": [
-        {
-            "name": "University Dashboard",
-            "url": "/students/university/",
-            "permissions": [
-                "accounts.view_university_dashboard",
-            ],
-        },
-        {
-            "name": "Company Dashboard",
-            "url": "/companies/dashboard/",
-            "permissions": [
-                "accounts.view_company_dashboard",
-            ],
-        },
-    ],
+"topmenu_links": [
+    {
+        "name": "University Dashboard",
+        "url": "/students/university/",
+        "permissions": [
+            "accounts.view_university_dashboard",
+        ],
+    },
+    {
+        "name": "Company Dashboard",
+        "url": "/companies/dashboard/",
+        "permissions": [
+            "accounts.view_company_dashboard",
+        ],
+    },
+    {
+        "name": "AI Evaluation",
+        "url": "/internships/ai-evaluation/",
+        "permissions": [
+            "accounts.view_company_dashboard",
+        ],
+    },
+],
 
     "icons": {
         "auth": "fas fa-users-cog",

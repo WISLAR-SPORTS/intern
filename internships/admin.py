@@ -4,6 +4,7 @@ from .models import Internship, InternshipField, Application, ApplicationAnswer
 from django.urls import path, reverse
 from django.utils.html import format_html
 from students.models import Notification
+from .brevo_email import send_shortlist_email
 
 class InternshipFieldInline(admin.TabularInline):
     model = InternshipField
@@ -39,6 +40,7 @@ class InternshipAdmin(admin.ModelAdmin):
         "title",
         "company__name",
         "location",
+        "required_skills",
     )
 
     inlines = [
@@ -468,6 +470,11 @@ class ApplicationAdmin(admin.ModelAdmin):
             # SHORTLIST
             # ==================================================
 
+            
+            # ==================================================
+            # SHORTLIST
+            # ==================================================
+
             elif action == "shortlist":
 
                 if application.status == "under_review":
@@ -483,6 +490,33 @@ class ApplicationAdmin(admin.ModelAdmin):
                             "reviewed_at",
                         ]
                     )
+
+                    # ------------------------------------------
+                    # SEND BREVO EMAIL
+                    # ------------------------------------------
+
+                    email_sent = send_shortlist_email(
+                        application
+                    )
+
+                    if email_sent:
+                        messages.success(
+                            request,
+                            "Shortlist email sent successfully "
+                            "to the student.",
+                        )
+                    else:
+                        messages.warning(
+                            request,
+                            "The application was shortlisted, "
+                            "but the email could not be sent. "
+                            "Check your Brevo configuration "
+                            "and application logs.",
+                        )
+
+                    # ------------------------------------------
+                    # IN-APP NOTIFICATION
+                    # ------------------------------------------
 
                     create_application_notification(
                         application=application,

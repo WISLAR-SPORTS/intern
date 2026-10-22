@@ -1,0 +1,31 @@
+
+{% extends "dashboard/base.html" %}
+{% block content %}
+<div class="assessment-container">
+    <h1>Assessment submitted</h1>
+    <p>Your assessment attempt has been recorded.</p>
+
+    <p><strong>Status:</strong> {{ attempt.get_status_display }}</p>
+    <p><strong>Submitted:</strong> {{ attempt.submitted_at }}</p>
+
+    {% if show_results %}
+        <p><strong>Score:</strong> {{ attempt.score }} / {{ attempt.total_marks }}</p>
+        <p><strong>Percentage:</strong> {{ attempt.percentage }}%</p>
+        <p>
+            <strong>Outcome:</strong>
+            {% if attempt.percentage >= attempt.assignment.assessment.pass_mark %}
+                Passed
+            {% else %}
+                Not passed
+            {% endif %}
+        </p>
+    {% else %}
+        <p>Your results will be available when the employer releases them.</p>
+    {% endif %}
+
+    <a class="assessment-button"
+       href="{% url 'assessments:assessment_list' %}">
+        Back to assessments
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,214 @@
+/* ========================================================= ASSESSMENT RESULT PAGE ========================================================= */
+
+.assessment-container { width: min(100% - 40px, 780px); margin: 48px auto; padding: clamp(24px, 5vw, 48px);
+
+background: var(--color-surface);
+color: var(--color-text-primary);
+
+border: 1px solid var(--color-border);
+border-radius: var(--radius-large);
+
+box-shadow: var(--shadow-card);
+
+font-family: 'Times New Roman', Times, serif;
+
+position: relative;
+overflow: hidden;
+
+animation: resultFadeIn 0.45s ease both;
+
+
+}
+
+/* Top accent */
+
+.assessment-container::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+
+background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    #f5a184
+);
+
+
+}
+
+/* ========================================================= HEADING ========================================================= */
+
+.assessment-container h1 { margin: 0 0 12px;
+
+color: var(--color-text-primary);
+
+font-size: clamp(1.8rem, 4vw, 2.5rem);
+line-height: 1.2;
+font-weight: 700;
+letter-spacing: -0.6px;
+
+
+}
+
+.assessment-container > p:first-of-type { margin-bottom: 30px;
+
+color: var(--color-text-secondary);
+
+font-size: 1.05rem;
+line-height: 1.7;
+
+
+}
+
+/* ========================================================= RESULT DETAILS ========================================================= */
+
+.assessment-container > p:not(:first-of-type) { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
+
+margin: 0;
+padding: 17px 18px;
+
+color: var(--color-text-secondary);
+
+font-size: 1rem;
+line-height: 1.6;
+
+background: var(--color-background);
+
+border: 1px solid var(--color-border);
+border-radius: var(--radius-medium);
+
+overflow-wrap: anywhere;
+
+transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+
+
+}
+
+.assessment-container > p:not(:first-of-type) + p { margin-top: 12px; }
+
+.assessment-container > p strong { flex-shrink: 0; color: var(--color-text-primary); font-weight: 700; }
+
+/* ========================================================= SCORE AND PERCENTAGE ========================================================= */
+
+.assessment-container > p strong + span { color: var(--color-primary); }
+
+.assessment-container > p:nth-of-type(3), .assessment-container > p:nth-of-type(4) { border-left: 3px solid var(--color-primary); }
+
+/* ========================================================= OUTCOME ========================================================= */
+
+.assessment-container > p:has(strong) { gap: 16px; }
+
+.assessment-container > p strong { line-height: inherit; }
+
+/* ========================================================= ACTION BUTTON ========================================================= */
+
+.assessment-button { display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+
+min-height: 48px;
+margin-top: 28px;
+padding: 13px 24px;
+
+border: 1px solid transparent;
+border-radius: var(--radius-medium);
+
+background: var(--color-primary);
+color: #ffffff;
+
+font-family: inherit;
+font-size: 1rem;
+font-weight: 700;
+line-height: 1.4;
+text-align: center;
+text-decoration: none;
+
+cursor: pointer;
+
+box-shadow: 0 4px 12px rgba(232, 93, 63, 0.18);
+
+transition:
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+
+
+}
+
+.assessment-button:hover { background: var(--color-primary-hover); color: #ffffff;
+
+box-shadow: 0 7px 18px rgba(232, 93, 63, 0.25);
+
+transform: translateY(-2px);
+
+
+}
+
+.assessment-button:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 4px; }
+
+.assessment-button:active { transform: translateY(0); }
+
+/* ========================================================= DARK THEME ========================================================= */
+
+[data-theme="dark"] .assessment-container { box-shadow: var(--shadow-card); }
+
+[data-theme="dark"] .assessment-container::before { background: linear-gradient( 90deg, var(--color-primary), #b86c5b ); }
+
+[data-theme="dark"] .assessment-container > p:not(:first-of-type) { background: var(--color-background); border-color: var(--color-border); }
+
+[data-theme="dark"] .assessment-button { color: #ffffff; }
+
+/* ========================================================= RESPONSIVE DESIGN ========================================================= */
+
+@media (max-width: 600px) { .assessment-container { width: calc(100% - 24px); margin: 24px auto; padding: 28px 18px; border-radius: var(--radius-medium); }
+
+.assessment-container h1 {
+    font-size: 1.8rem;
+}
+
+.assessment-container > p:first-of-type {
+    margin-bottom: 22px;
+    font-size: 0.98rem;
+}
+
+.assessment-container > p:not(:first-of-type) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+
+    padding: 15px;
+    font-size: 0.95rem;
+}
+
+.assessment-container > p strong {
+    flex-shrink: 1;
+}
+
+.assessment-button {
+    display: flex;
+    width: 100%;
+    min-height: 48px;
+    margin-top: 24px;
+}
+
+
+}
+
+@media (prefers-reduced-motion: reduce) { .assessment-container { animation: none; }
+
+.assessment-button,
+.assessment-container > p:not(:first-of-type) {
+    transition: none;
+}
+
+
+}
+
+/* ========================================================= ANIMATION ========================================================= */
+
+@keyframes resultFadeIn { from { opacity: 0; transform: translateY(12px); }
+
+to {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+}

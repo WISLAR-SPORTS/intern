@@ -64,6 +64,12 @@
     rel="stylesheet"
     href="{% static 'dashboard/css/ai.css' %}"
 >
+<link
+    rel="stylesheet"
+    href="{% static 'assessments/css/assessment_result.css' %}"
+>
+
+
 
 
 
@@ -197,6 +203,18 @@
 
     Applications
 </a>
+      <a
+    href="{% url 'assessments:assessment_list' %}"
+    class="nav-link"
+>
+    <span class="nav-icon">
+        <i data-lucide="clipboard-list"></i>
+    </span>
+
+    Assessments
+</a>
+
+
 
 
         <!-- SAVED -->
@@ -408,6 +426,32 @@
 
             </a>
 
+
+
+    <a
+                href="{%  url 'assessments:assessment_list' %}"
+                class="dropdown-link"
+            >
+
+                <span class="dropdown-icon">
+
+                    <i data-lucide="clipboard-list"></i>
+
+                </span>
+
+                <div>
+
+                    <strong>
+                        My assessments
+                    </strong>
+
+                    <small>
+                        Track your internship assessments
+                    </small>
+
+                </div>
+
+            </a>
             <!-- SAVED -->
 <a
     href="{% url 'internships:notifications' %}"
@@ -597,6 +641,7 @@
         </small>
 
     </a>
+    
 
     <!-- APPLICATIONS -->
 
@@ -1099,5 +1144,6 @@
 
 <script src="{% static 'dashboard/js/base.js' %}"></script>
 <script src="{% static 'dashboard/js/ai-assistant.js' %}"></script>
+<script src="{% static 'assessments/js/assessment.js' %}"></script>
 
 </body> </html> 

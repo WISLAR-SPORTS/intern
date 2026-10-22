@@ -318,3 +318,147 @@ def delete_notification(request, notification_id):
     return redirect(
         "internships:notifications"
     )
+
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.shortcuts import render
+from django.core.paginator import Paginator
+
+from django.utils.dateparse import parse_date
+
+from .models import Application    
+@staff_member_required
+
+
+def ai_evaluation(request):
+    # Base queryset
+    queryset = Application.objects.select_related(
+        "student",
+        "internship",
+    ).order_by("-applied_date")
+
+    # Summary counts (all applications, independent of filters)
+    total_applications = queryset.count()
+    evaluated_count = queryset.filter(
+        ai_evaluated_at__isnull=False
+    ).count()
+    not_evaluated_count = total_applications - evaluated_count
+    pending_review_count = queryset.filter(
+        reviewed_at__isnull=True
+    ).count()
+
+    # Search
+    search = request.GET.get("q", "").strip()
+
+    if search:
+        if search.isdigit():
+            queryset = queryset.filter(
+                Q(pk=int(search))
+                | Q(student_id=int(search))
+                | Q(internship_id=int(search))
+            )
+        else:
+            queryset = queryset.none()
+
+    # Application status
+    status = request.GET.get("status", "")
+    valid_statuses = dict(Application.STATUS)
+
+    if status in valid_statuses:
+        queryset = queryset.filter(status=status)
+
+    # Internship filter
+    internship_id = request.GET.get("internship", "").strip()
+    internships = Internship.objects.all().order_by("id")
+
+    if internship_id.isdigit():
+        queryset = queryset.filter(
+            internship_id=int(internship_id)
+        )
+    else:
+        internship_id = ""
+
+    # Application date range
+    start_date = request.GET.get("start_date", "").strip()
+    end_date = request.GET.get("end_date", "").strip()
+
+    parsed_start_date = parse_date(start_date) if start_date else None
+    parsed_end_date = parse_date(end_date) if end_date else None
+
+    if parsed_start_date:
+        queryset = queryset.filter(
+            applied_date__date__gte=parsed_start_date
+        )
+
+    if parsed_end_date:
+        queryset = queryset.filter(
+            applied_date__date__lte=parsed_end_date
+        )
+
+    # AI evaluation filter
+    evaluation = request.GET.get("evaluation", "")
+
+    if evaluation == "evaluated":
+        queryset = queryset.filter(
+            ai_evaluated_at__isnull=False
+        )
+    elif evaluation == "not_evaluated":
+        queryset = queryset.filter(
+            ai_evaluated_at__isnull=True
+        )
+
+    # AI score filters
+    min_score = request.GET.get("min_score", "").strip()
+    max_score = request.GET.get("max_score", "").strip()
+
+    if min_score:
+        try:
+            value = int(min_score)
+            if 0 <= value <= 100:
+                queryset = queryset.filter(ai_score__gte=value)
+        except ValueError:
+            pass
+
+    if max_score:
+        try:
+            value = int(max_score)
+            if 0 <= value <= 100:
+                queryset = queryset.filter(ai_score__lte=value)
+        except ValueError:
+            pass
+
+    # Preserve active filters during pagination
+    query_params = request.GET.copy()
+    query_params.pop("page", None)
+    query_string = query_params.urlencode()
+
+    paginator = Paginator(queryset, 20)
+    applications = paginator.get_page(request.GET.get("page"))
+
+    context = {
+        "applications": applications,
+        "internships": internships,
+        "total_applications": total_applications,
+        "evaluated_count": evaluated_count,
+        "not_evaluated_count": not_evaluated_count,
+        "pending_review_count": pending_review_count,
+        "status_choices": Application.STATUS,
+        "filters": {
+            "q": search,
+            "status": status,
+            "internship": internship_id,
+            "start_date": start_date,
+            "end_date": end_date,
+            "evaluation": evaluation,
+            "min_score": min_score,
+            "max_score": max_score,
+        },
+        "query_string": query_string,
+    }
+
+    return render(
+        request,
+        "admin/applications/ai_evaluation.html",
+        context,
+    )
