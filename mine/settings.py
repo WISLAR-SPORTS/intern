@@ -1,6 +1,8 @@
 
 
 import os
+import logging
+
 import dj_database_url
 
 from pathlib import Path
@@ -38,6 +40,16 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 BREVO_API_KEY = os.getenv("BREVO_API_KEY")
 BREVO_SENDER_EMAIL = os.getenv("BREVO_SENDER_EMAIL")
 BREVO_SENDER_NAME = os.getenv("BREVO_SENDER_NAME")
+
+
+
+logger = logging.getLogger(__name__)
+
+logger.info(
+    "AI evaluation config: api_key_present=%s, model=%s",
+    bool(os.getenv("OPENROUTER_API_KEY")),
+    os.getenv("OPENROUTER_EVALUATION_MODEL", "openrouter/free"),
+)
  
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_BASE_URL = os.getenv(
