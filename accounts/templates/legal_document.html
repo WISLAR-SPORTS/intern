@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}{{ document.title }} | InternConnect{% endblock %}
+
+{% block content %}
+<div class="legal-page">
+    <div class="legal-header">
+        <a href="{% url 'register' %}" class="back-link">
+            &larr; Back to Registration
+        </a>
+
+        <h1>{{ document.title }}</h1>
+
+        <div class="legal-meta">
+            <span class="version-badge">
+                Version {{ document.version }}
+            </span>
+
+            <span>
+                Last updated:
+                {{ document.updated_at|date:"F j, Y" }}
+            </span>
+        </div>
+    </div>
+
+    <div class="legal-content">
+        {{ document.content|linebreaks }}
+    </div>
+
+    <div class="legal-footer">
+        <p>
+            Please read this document carefully before using InternConnect.
+        </p>
+
+        <div class="legal-links">
+            <a href="{% url 'legal_document' 'terms' %}">
+                Terms and Conditions
+            </a>
+
+            <span>|</span>
+
+            <a href="{% url 'legal_document' 'privacy' %}">
+                Privacy Policy
+            </a>
+        </div>
+
+        <a href="{% url 'register' %}" class="back-button">
+            Return to Registration
+        </a>
+    </div>
+</div>
+
+<style>
+    .legal-page {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 32px;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+        color: #263238;
+        font-family: Arial, sans-serif;
+        line-height: 1.8; 
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    .legal-header {
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 24px;
+        margin-bottom: 28px;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #2563eb;
+        text-decoration: none;
+    }
+
+    .legal-header h1 {
+        margin: 0 0 14px;
+        color: #172554;
+        font-size: 32px;
+    }
+
+    .legal-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    .version-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-weight: 600;
+    }
+
+    .legal-content {
+        overflow-wrap: anywhere;
+        font-size: 16px;
+    }
+
+    .legal-content h2,
+    .legal-content h3 {
+        margin-top: 28px;
+        color: #172554;
+    }
+
+    .legal-footer {
+        border-top: 1px solid #e5e7eb;
+        margin-top: 36px;
+        padding-top: 24px;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    .legal-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 18px 0;
+    }
+
+    .legal-links a {
+        color: #2563eb;
+        text-decoration: none;
+    }
+
+    .back-button {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 11px 20px;
+        border-radius: 7px;
+        background: #1d4ed8;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .back-button:hover {
+        background: #1e40af;
+    }
+
+    @media (max-width: 600px) {
+        .legal-page {
+            margin: 16px;
+            padding: 20px;
+        }
+
+        .legal-header h1 {
+            font-size: 26px;
+        }
+    }
+</style>
+{% endblock %}

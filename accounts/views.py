@@ -548,339 +548,261 @@ def web_logout(request):
     logout(request)
 
     return redirect("login")
+from .legal import get_active_legal_documents
+from django.db import transaction
 
 
 def register(request):
+    documents = get_active_legal_documents()
 
     student_form = StudentRegistrationForm()
     company_form = CompanyRegistrationForm()
     university_form = UniversityRegistrationForm()
 
-
     if request.method == "POST":
+        registration_type = request.POST.get("registration_type")
 
-        registration_type = request.POST.get(
-            "registration_type"
-        )
+        # Require acceptance of both legal documents.
+        accepted_terms = request.POST.get("accept_terms") == "on"
+        accepted_privacy = request.POST.get("accept_privacy") == "on"
 
-        # ==========================================
-        # STUDENT
-        # ==========================================
-
-        if registration_type == "student":
-
-            student_form = StudentRegistrationForm(
-                request.POST
+        if not accepted_terms or not accepted_privacy:
+            messages.error(
+                request,
+                "You must accept the Terms and Conditions and "
+                "acknowledge the Privacy Policy before registering.",
             )
 
-            if student_form.is_valid():
+        else:
+            # STUDENT REGISTRATION
+            if registration_type == "student":
+                student_form = StudentRegistrationForm(request.POST)
 
-                try:
-                    register_student(
-                        student_form.cleaned_data
-                    )
+                if student_form.is_valid():
+                    try:
+                        with transaction.atomic():
+                            user = register_student(
+                                student_form.cleaned_data
+                            )
 
-                    messages.success(
-                        request,
-                        "Student account created successfully. "
-                        "You can now log in."
-                    )
+                            # Assumes register_student returns the created user.
+                            if user is None:
+                                raise ValueError(
+                                    "Student registration did not return "
+                                    "the created user."
+                                )
 
-                    return redirect("login")
+                            # Confirm the active versions have not changed.
+                            current_documents = get_active_legal_documents()
 
-                except ValueError as error:
-                    student_form.add_error(
-                        "registration_number",
-                        str(error),
-                    )
+                            if (
+                                current_documents["terms"].version
+                                != documents["terms"].version
+                                or current_documents["privacy"].version
+                                != documents["privacy"].version
+                            ):
+                                raise ValueError(
+                                    "Our legal documents have changed. "
+                                    "Please review and accept the latest versions."
+                                )
 
+                            UserConsent.objects.update_or_create(
+                                user=user,
+                                defaults={
+                                    "terms_version": documents["terms"].version,
+                                    "privacy_version": documents["privacy"].version,
+                                    "accepted_at": timezone.now(),
+                                    "ip_address": request.META.get(
+                                        "REMOTE_ADDR"
+                                    ),
+                                    "user_agent": request.META.get(
+                                        "HTTP_USER_AGENT", ""
+                                    )[:5000],
+                                },
+                            )
 
-        # ==========================================
-        # COMPANY
-        # ==========================================
+                        messages.success(
+                            request,
+                            "Student account created successfully. "
+                            "You can now log in.",
+                        )
+                        return redirect("login")
 
-        elif registration_type == "company":
+                    except ValueError as error:
+                        student_form.add_error(
+                            None,
+                            str(error),
+                        )
 
-            company_form = CompanyRegistrationForm(
-                request.POST
-            )
+            # COMPANY REGISTRATION
+            elif registration_type == "company":
+                company_form = CompanyRegistrationForm(request.POST)
 
-            if company_form.is_valid():
+                if company_form.is_valid():
+                    try:
+                        with transaction.atomic():
+                            user = register_company(
+                                company_form.cleaned_data
+                            )
 
-                register_company(
-                    company_form.cleaned_data
-                )
+                            if user is None:
+                                raise ValueError(
+                                    "Company registration did not return "
+                                    "the created user."
+                                )
 
-                messages.success(
-                    request,
-                    "Company registration submitted successfully. "
-                    "Please wait for administrator verification."
-                )
+                            current_documents = get_active_legal_documents()
 
-                return redirect("login")
-            
-            
-            """university registration """
-        elif registration_type == "university":
+                            if (
+                                current_documents["terms"].version
+                                != documents["terms"].version
+                                or current_documents["privacy"].version
+                                != documents["privacy"].version
+                            ):
+                                raise ValueError(
+                                    "Our legal documents have changed. "
+                                    "Please review and accept the latest versions."
+                                )
+
+                            UserConsent.objects.update_or_create(
+                                user=user,
+                                defaults={
+                                    "terms_version": documents["terms"].version,
+                                    "privacy_version": documents["privacy"].version,
+                                    "accepted_at": timezone.now(),
+                                    "ip_address": request.META.get(
+                                        "REMOTE_ADDR"
+                                    ),
+                                    "user_agent": request.META.get(
+                                        "HTTP_USER_AGENT", ""
+                                    )[:5000],
+                                },
+                            )
+
+                        messages.success(
+                            request,
+                            "Company registration submitted successfully. "
+                            "Please wait for administrator verification.",
+                        )
+                        return redirect("login")
+
+                    except ValueError as error:
+                        messages.error(request, str(error))
+
+            # UNIVERSITY REGISTRATION
+            elif registration_type == "university":
                 university_form = UniversityRegistrationForm(
-                     request.POST,
-                     request.FILES,
-    )
+                    request.POST,
+                    request.FILES,
+                )
 
                 if university_form.is_valid():
-                 register_university(
-                    university_form.cleaned_data
-                )
+                    try:
+                        with transaction.atomic():
+                            user = register_university(
+                                university_form.cleaned_data
+                            )
 
-                messages.success(
+                            if user is None:
+                                raise ValueError(
+                                    "University registration did not return "
+                                    "the created user."
+                                )
+
+                            current_documents = get_active_legal_documents()
+
+                            if (
+                                current_documents["terms"].version
+                                != documents["terms"].version
+                                or current_documents["privacy"].version
+                                != documents["privacy"].version
+                            ):
+                                raise ValueError(
+                                    "Our legal documents have changed. "
+                                    "Please review and accept the latest versions."
+                                )
+
+                            UserConsent.objects.update_or_create(
+                                user=user,
+                                defaults={
+                                    "terms_version": documents["terms"].version,
+                                    "privacy_version": documents["privacy"].version,
+                                    "accepted_at": timezone.now(),
+                                    "ip_address": request.META.get(
+                                        "REMOTE_ADDR"
+                                    ),
+                                    "user_agent": request.META.get(
+                                        "HTTP_USER_AGENT", ""
+                                    )[:5000],
+                                },
+                            )
+
+                        messages.success(
+                            request,
+                            "University registration submitted successfully. "
+                            "Your account is pending administrator verification.",
+                        )
+                        return redirect("login")
+
+                    except ValueError as error:
+                        messages.error(request, str(error))
+
+            else:
+                messages.error(
                     request,
-                    "University registration submitted successfully. "
-                    "Your account is pending administrator verification.",
+                    "Please select a valid registration type.",
                 )
-
-                return redirect("login")
 
     site_settings = LandingPageSettings.objects.first()
+
     return render(
         request,
         "register.html",
-       
         {
             "student_form": student_form,
             "company_form": company_form,
-             "university_form": university_form,
-             "site_settings": site_settings,
-        }
+            "university_form": university_form,
+            "site_settings": site_settings,
+            "terms": documents["terms"],
+            "privacy": documents["privacy"],
+        },
     )
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.views.decorators.http import require_GET, require_POST
+
 from .models import  UserConsent
 
-
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.views.decorators.http import require_GET, require_POST
-
-from django.contrib.auth.decorators import login_required
 
 from django.utils import timezone
 from .models import UserConsent, LegalDocument
 
+from django.http import Http404
+from django.shortcuts import render
 
-# ============================================================
-# GET CURRENT TERMS
-# ============================================================
-
-def get_current_terms():
-    return LegalDocument.objects.filter(
-        document_type="terms",
-        is_active=True,
-    ).first()
+from .models import LegalDocument
 
 
-# ============================================================
-# GET CURRENT PRIVACY POLICY
-# ============================================================
+def legal_document(request, document_type):
+    if document_type not in ("terms", "privacy"):
+        raise Http404("Legal document not found.")
 
-def get_current_privacy():
-    return LegalDocument.objects.filter(
-        document_type="privacy",
-        is_active=True,
-    ).first()
-
-
-# ============================================================
-# CONSENT PAGE
-# ============================================================
-
-@login_required
-@require_GET
-def consent_view(request):
-
-    terms_document = get_current_terms()
-    privacy_document = get_current_privacy()
-
-    if not terms_document or not privacy_document:
-        return render(
-            request,
-            "consent_error.html",
-            {
-                "message": (
-                    "The Terms and Conditions or Privacy Policy "
-                    "has not been configured yet."
-                )
-            },
-            status=503,
+    document = (
+        LegalDocument.objects
+        .filter(
+            document_type=document_type,
+            is_active=True,
         )
-
-    consent = getattr(
-        request.user,
-        "consent",
-        None,
+        .order_by("-updated_at")
+        .first()
     )
 
-    # User already accepted the current versions
-    if (
-        consent
-        and consent.terms_version == terms_document.version
-        and consent.privacy_version == privacy_document.version
-    ):
-        return redirect("student_dashboard")
-
-    next_url = request.GET.get(
-        "next",
-        "",
-    )
+    if document is None:
+        raise Http404("Legal document not found.")
 
     return render(
         request,
-        "consent.html",
-        {
-            "next_url": next_url,
-            "terms_document": terms_document,
-            "privacy_document": privacy_document,
-        },
-    )
-
-
-# ============================================================
-# ACCEPT CONSENT
-# ============================================================
-
-@login_required
-@require_POST
-def accept_consent(request):
-
-    accepted = request.POST.get("accepted")
-
-    if accepted != "true":
-        return JsonResponse(
-            {
-                "success": False,
-                "error": (
-                    "You must accept the Terms and Conditions "
-                    "and Privacy Policy."
-                ),
-            },
-            status=400,
-        )
-
-    terms_document = get_current_terms()
-    privacy_document = get_current_privacy()
-
-    if not terms_document or not privacy_document:
-        return JsonResponse(
-            {
-                "success": False,
-                "error": (
-                    "The current legal documents are "
-                    "not available."
-                ),
-            },
-            status=503,
-        )
-
-    ip_address = request.META.get(
-        "REMOTE_ADDR"
-    )
-
-    user_agent = request.META.get(
-        "HTTP_USER_AGENT",
-        "",
-    )
-
-    UserConsent.objects.update_or_create(
-        user=request.user,
-        defaults={
-            "terms_version": terms_document.version,
-            "privacy_version": privacy_document.version,
-            "accepted_at": timezone.now(),
-            "ip_address": ip_address,
-            "user_agent": user_agent,
-        },
-    )
-
-    next_url = request.POST.get(
-        "next",
-        "",
-    )
-
-    # Prevent open redirects
-    if (
-        not next_url
-        or not next_url.startswith("/")
-        or next_url.startswith("//")
-    ):
-        next_url = "/studentdashboard/"
-
-    return JsonResponse(
-        {
-            "success": True,
-            "redirect_url": next_url,
-        }
-    )
-
-
-# ============================================================
-# TERMS
-# ============================================================
-
-@require_GET
-def terms(request):
-
-    document = get_current_terms()
-
-    if not document:
-        return render(
-            request,
-            "legal_error.html",
-            {
-                "message": (
-                    "The Terms and Conditions are "
-                    "currently unavailable."
-                )
-            },
-            status=503,
-        )
-
-    return render(
-        request,
-        "terms.html",
-        {
-            "document": document,
-        },
-    )
-
-
-# ============================================================
-# PRIVACY
-# ============================================================
-
-@require_GET
-def privacy(request):
-
-    document = get_current_privacy()
-
-    if not document:
-        return render(
-            request,
-            "legal_error.html",
-            {
-                "message": (
-                    "The Privacy Policy is "
-                    "currently unavailable."
-                )
-            },
-            status=503,
-        )
-
-    return render(
-        request,
-        "aprivacy.html",
-        {
-            "document": document,
-        },
+        "legal_document.html",
+        {"document": document},
     )

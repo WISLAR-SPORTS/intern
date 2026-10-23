@@ -5,6 +5,14 @@ from dashboard.views import student_dashboard
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
+
+
+    path(
+        "legal/<str:document_type>/",
+        views.legal_document,
+        name="legal_document",
+    ),
+
     path(
         "register/",
         views.register,
@@ -61,30 +69,10 @@ urlpatterns = [
     path(
         "login/otp/verify/",
         views.verify_otp,
-        name="verify_otp",
-    ),
-      path(
-        "consent/",
-        views.consent_view,
-        name="consent",
-    ),
+        name="verify_otp", ),
+  
 
-    path(
-        "consent/accept/",
-        views.accept_consent,
-        name="accept_consent",
-    ),
 
-    path(
-        "terms/",
-        views.terms,
-        name="terms",
-    ),
-
-    path(
-        "privacy/",
-        views.privacy,
-        name="privacy",
-    ),
+   
 
 ]
