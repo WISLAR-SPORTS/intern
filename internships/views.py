@@ -326,12 +326,40 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 
 from django.utils.dateparse import parse_date
+from .ai_evaluation import evaluate_application
+import logging
+
+logger = logging.getLogger(__name__)
 
 from .models import Application    
 @staff_member_required
 
 
 def ai_evaluation(request):
+
+    # Automatically evaluate applications that have not been scored.
+    pending_applications = (
+        Application.objects
+        .filter(ai_evaluated_at__isnull=True)
+        .select_related("student", "internship")
+        .order_by("applied_date", "pk")
+    )
+
+    for application in pending_applications.iterator():
+        result = evaluate_application(application)
+
+        if result.get("success"):
+            logger.info(
+                "AI evaluation succeeded for application ID %s: %s/100",
+                application.pk,
+                result["ai_score"],
+            )
+        else:
+            logger.error(
+                "AI evaluation failed for application ID %s",
+                application.pk,
+            )
+
     # Base queryset
     queryset = Application.objects.select_related(
         "student",
