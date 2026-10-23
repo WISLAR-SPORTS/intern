@@ -11,8 +11,6 @@ logger = logging.getLogger(__name__)
 
 
 # Only include relevant academic and application fields.
-# This avoids accidentally sending emails, phone numbers, or other
-# unrelated personal information to the evaluation model.
 STUDENT_FIELDS = (
     "skills",
     "course",
@@ -52,7 +50,6 @@ def _get_relevant_fields(obj, allowed_fields):
         if value is None or callable(value):
             continue
 
-        # Avoid exposing unrelated related-model objects.
         if hasattr(value, "_meta"):
             value = str(value)
 
@@ -85,9 +82,7 @@ def _get_openrouter_client():
     )
 
     if not api_key:
-        raise ValueError(
-            "OPENROUTER_API_KEY is not configured."
-        )
+        raise ValueError("OPENROUTER_API_KEY is not configured.")
 
     return OpenAI(
         api_key=api_key,
@@ -223,7 +218,7 @@ def _validate_evaluation(data):
     if not isinstance(feedback.get("overall_feedback"), str):
         raise ValueError("Overall feedback must be a string.")
 
-    # Prevent the model from turning its assessment into a hiring decision.
+    # AI assessments must never make a hiring decision.
     feedback["recommendation"] = "human_review"
 
     return score, feedback
@@ -233,8 +228,8 @@ def evaluate_application(application):
     """
     Evaluate an internship application and save the AI fields.
 
-    Returns a result dictionary. On failure, existing evaluation values
-    are preserved and human-review fields are never modified.
+    On failure, preserve existing evaluation values and do not modify
+    human-review fields.
     """
     try:
         model = (
@@ -268,16 +263,21 @@ def evaluate_application(application):
         content = response.choices[0].message.content
 
         if not content:
-            raise ValueError("The evaluation model returned an empty response.")
+            raise ValueError(
+                "The evaluation model returned an empty response."
+            )
 
-        # Handle JSON enclosed in Markdown fences, if a model adds them.
+        # Handle JSON enclosed in Markdown fences.
         content = content.strip()
+
         if content.startswith("```"):
             lines = content.splitlines()
+
             if lines and lines[-1].strip() == "```":
                 lines = lines[1:-1]
             elif lines:
                 lines = lines[1:]
+
             content = "\n".join(lines).strip()
 
         data = json.loads(content)
@@ -302,16 +302,16 @@ def evaluate_application(application):
             "ai_feedback": feedback,
         }
 
-    
-        except Exception as exc:
-            logger.exception(
-                "AI evaluation failed: application_id=%s, error_type=%s",
-                getattr(application, "pk", None),
-                type(exc).__name__,
-            )
-    
-            return {
-                "success": False,
-                "error": "Application evaluation failed. Please try again later.",
-            }
+    except Exception as exc:
+        logger.exception(
+            "AI evaluation failed: application_id=%s, error_type=%s",
+            getattr(application, "pk", None),
+            type(exc).__name__,
+        )
 
+        return {
+            "success": False,
+            "error": (
+                "Application evaluation failed. Please try again later."
+            ),
+        }
