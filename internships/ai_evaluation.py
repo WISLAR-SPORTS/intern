@@ -302,13 +302,16 @@ def evaluate_application(application):
             "ai_feedback": feedback,
         }
 
-    except Exception:
-        logger.exception(
-            "AI evaluation failed for application ID %s",
-            getattr(application, "pk", None),
-        )
+    
+        except Exception as exc:
+            logger.exception(
+                "AI evaluation failed: application_id=%s, error_type=%s",
+                getattr(application, "pk", None),
+                type(exc).__name__,
+            )
+    
+            return {
+                "success": False,
+                "error": "Application evaluation failed. Please try again later.",
+            }
 
-        return {
-            "success": False,
-            "error": "Application evaluation failed.",
-        }
